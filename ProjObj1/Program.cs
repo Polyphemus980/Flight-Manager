@@ -14,7 +14,7 @@ public class Program
         if (args.Length == 0)
         {
             Console.WriteLine("Argumenty: [string] input file path, [string] output file path");
-            return -1;
+            
         }
         else
         {

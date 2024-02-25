@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Text.Json;
-using System.Text.Json.Nodes;
+
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+
 
 namespace PROJOBJ1
 {
