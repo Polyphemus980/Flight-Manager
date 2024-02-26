@@ -1,0 +1,32 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PROJOBJ1
+{
+    public class CargoPlane : AbstractProduct
+    {
+        public UInt64 ID { get; set; }
+        public string Serial { get; set; }
+        public string Country { get; set; }
+        public string Model { get; set; }
+        public Single MaxLoad { get; set; }
+
+        public CargoPlane(UInt64 ID_, string Serial_, string Country_, string Model_, Single MaxLoad_)
+        {
+            ID = ID_; Serial = Serial_; Country = Country_; Model = Model_; MaxLoad = MaxLoad_;
+        }
+    }
+    public class CargoPlaneFactory : Factory
+    {
+        public AbstractProduct createClass(string[] list)
+        {
+            UInt64 ID = UInt64.Parse(list[0]);
+            Single MaxLoad = Single.Parse(list[list.Length - 1], CultureInfo.InvariantCulture);
+            return new CargoPlane(ID, list[1], list[2], list[3], MaxLoad);
+        }
+    }
+}

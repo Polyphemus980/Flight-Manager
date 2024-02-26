@@ -10,7 +10,7 @@ public class Program
     {
         
         string InPath = "example_data.ftr";
-        string OutPath = "kokskoks.json";
+        string OutPath = "kokskokskoks.json";
         if (args.Length == 0)
         {
             Console.WriteLine("Argumenty: [string] input file path, [string] output file path");
