@@ -21,11 +21,6 @@ namespace PROJOBJ1
             Code = Code_;
             Description = Description_;
         }
-
-        public override string ToString()
-        {
-            return $"Cargo ID: {ID}, Weight: {Weight}, Code: {Code}, Description: {Description}";
-        }
     }
     public class CargoFactory : IFactory
     {
@@ -33,7 +28,9 @@ namespace PROJOBJ1
         {
             UInt64 ID = UInt64.Parse(list[0]);
             Single Weigth = Single.Parse(list[1], CultureInfo.InvariantCulture);
-            return new Cargo(ID, Weigth, list[2], list[3]);
+            string Code = list[2];
+            string Description = list[3];
+            return new Cargo(ID, Weigth, Code,Description);
         }
     }
 }

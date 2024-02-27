@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PROJOBJ1
 {
-    public class Person
+    public abstract class Person
     {
         public UInt64 ID { get; set; }
         public string Name { get; set; }

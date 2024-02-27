@@ -8,7 +8,6 @@ namespace PROJOBJ1
 {
     public class Passenger :Person,IEntity
     {
-
         public string Class { get; set; }
         public UInt64 Role { get; set; }
 
@@ -23,9 +22,13 @@ namespace PROJOBJ1
         public IEntity createClass(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
+            string Name = list[1];
             UInt64 Age = UInt64.Parse(list[2]);
-            UInt64 Role = UInt64.Parse(list[list.Length - 1]);
-            return new Passenger(ID, list[1], Age, list[3], list[4], list[5], Role);
+            string Phone = list[3];
+            string Email = list[4];
+            string Class = list[5];
+            UInt64 Role = UInt64.Parse(list[6]);
+            return new Passenger(ID, Name, Age, Phone, Email, Class, Role);
         }
     }
 }

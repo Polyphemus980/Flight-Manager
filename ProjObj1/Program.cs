@@ -1,5 +1,4 @@
 ﻿
-
 using PROJOBJ1;
 using System.Text.Json;
 
@@ -20,8 +19,9 @@ public class Program
             InPath= args[0];
             OutPath= args[1];
         }
-        DataHandler util=new DataHandler();
-        List<IEntity> list=util.LoadObjects(InPath);
+
+        DataHandler DataHandler=new DataHandler();
+        List<IEntity> list=DataHandler.LoadObjects(InPath);
         DataHandler.SerializeObjects(list, OutPath);
         return 0;
         

@@ -27,11 +27,13 @@ namespace PROJOBJ1
         public IEntity createClass(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
+            string Name = list[1];
+            string Code = list[2];
             Single Longitude = Single.Parse(list[3], CultureInfo.InvariantCulture);
             Single Latitude = Single.Parse(list[4], CultureInfo.InvariantCulture);
             Single AMSL = Single.Parse(list[5], CultureInfo.InvariantCulture);
-            return new Airport(ID, list[1], list[2], Longitude, Latitude, AMSL, list[list.Length - 1]);
-
+            string Country = list[6];
+            return new Airport(ID, Name, Code, Longitude, Latitude, AMSL, Country);
         }
     }
 }

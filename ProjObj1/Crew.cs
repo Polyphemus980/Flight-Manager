@@ -23,9 +23,13 @@ namespace PROJOBJ1
         public IEntity createClass(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
+            string Name = list[1];
             UInt64 Age = UInt64.Parse(list[2]);
+            string Phone = list[3];
+            string Email = list[4];
             UInt16 Practice = UInt16.Parse(list[5]);
-            return new Crew(ID, list[1], Age, list[3], list[4], Practice, list[6]);
+            string Role = list[6];
+            return new Crew(ID, Name, Age, Phone, Email, Practice, Role);
         }
     }
 }

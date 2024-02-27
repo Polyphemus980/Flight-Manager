@@ -23,10 +23,13 @@ namespace PROJOBJ1
         public IEntity createClass(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
+            string Serial = list[1];
+            string Country = list[2];
+            string Model = list[3];
             UInt16 FirstClassSize = UInt16.Parse(list[4]);
             UInt16 EconomicClassSize = UInt16.Parse(list[5]);
             UInt16 BusinessClassSize = UInt16.Parse(list[6]);
-            return new PassengerPlane(ID, list[1], list[2], list[3], FirstClassSize, EconomicClassSize, BusinessClassSize);
+            return new PassengerPlane(ID, Serial, Country, Model, FirstClassSize, EconomicClassSize, BusinessClassSize);
         }
     }
 }

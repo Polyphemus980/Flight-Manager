@@ -35,12 +35,14 @@ namespace PROJOBJ1
             UInt64 ID = UInt64.Parse(list[0]);
             UInt64 Origin = UInt64.Parse(list[1]);
             UInt64 Target = UInt64.Parse(list[2]);
+            string TakeoffTime = list[3];
+            string LandingTime = list[4];
             Single Longitude = Single.Parse(list[5], CultureInfo.InvariantCulture);
             Single Latitude = Single.Parse(list[6], CultureInfo.InvariantCulture);
             Single AMSL = Single.Parse(list[7], CultureInfo.InvariantCulture);
             UInt64 PlaneID = UInt64.Parse(list[8]);
+            
             string[] CrewIDs = list[9].Trim('[', ']').Split(';');
-
             UInt64[] Crew = new UInt64[CrewIDs.Length];
             for (int i = 0; i < CrewIDs.Length; i++)
             {
@@ -54,7 +56,7 @@ namespace PROJOBJ1
                 Load[i] = UInt64.Parse(LoadIDs[i]);
             }
 
-            return new Flight(ID, Origin, Target, list[3], list[4], Longitude, Latitude, AMSL, PlaneID, Crew, Load);
+            return new Flight(ID, Origin, Target, TakeoffTime, LandingTime, Longitude, Latitude, AMSL, PlaneID, Crew, Load);
         }
     }
 }

@@ -30,43 +30,43 @@ namespace PROJOBJ1
         
         public List<IEntity> LoadObjects(string path)
         {
-            List < IEntity > list= new List<IEntity>();
-            List<string[]> objects = ParseFromFile(path);
-            foreach (string[] obj in objects)
+            List < IEntity > objects = new List<IEntity>();
+            List<string[]> properties_list = ParseFromFile(path);
+            foreach (string[] properties in properties_list)
             {
-                string name = obj[0];
-                IEntity prod =  Factories[name].createClass(obj[1..obj.Length]);
-                list.Add(prod);
+                string name = properties[0];
+                IEntity object_instance =  Factories[name].createClass(properties[1..properties.Length]);
+                objects.Add(object_instance);
             }              
-            return list;
+            return objects;
         }
-        public static void SerializeObjects(List<IEntity> list, string savepath) 
+        public static void SerializeObjects(List<IEntity> objects, string savepath) 
         {
             using (StreamWriter writer = new StreamWriter(savepath))
             {
-                foreach (IEntity prod in list)
+                foreach (IEntity object_instance in objects)
                 {
-                    writer.WriteLine(JsonSerializer.Serialize<IEntity>(prod));
+                    writer.WriteLine(JsonSerializer.Serialize<IEntity>(object_instance));
                 }
             }
         }
 
         public static List<string[]> ParseFromFile(string path)
         {
-            List<string[]> list = new List<string[]>();
+            List<string[]> line_list = new List<string[]>();
             if (!File.Exists(path))
             {
-                return list; 
+                return line_list; 
             }
             using (StreamReader linereader = new StreamReader(path))
             {
-                while(! linereader.EndOfStream)
+                while(!linereader.EndOfStream)
                 {
                     string[] line = linereader.ReadLine().Split(',');
-                    list.Add(line);
+                    line_list.Add(line);
                 }    
             }
-            return list;
+            return line_list;
             
 
         }
