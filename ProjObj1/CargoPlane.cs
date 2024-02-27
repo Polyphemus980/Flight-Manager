@@ -17,7 +17,7 @@ namespace PROJOBJ1
     }
     public class CargoPlaneFactory : IFactory
     {
-        public IEntity createClass(string[] list)
+        public IEntity CreateInstance(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
             string Serial = list[1];

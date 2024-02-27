@@ -31,11 +31,11 @@ namespace PROJOBJ1
         public List<IEntity> LoadObjects(string path)
         {
             List < IEntity > objects = new List<IEntity>();
-            List<string[]> properties_list = ParseFromFile(path);
-            foreach (string[] properties in properties_list)
+            List<string[]> propertiesList = ParseFromFile(path);
+            foreach (string[] properties in propertiesList)
             {
                 string name = properties[0];
-                IEntity object_instance =  Factories[name].createClass(properties[1..properties.Length]);
+                IEntity object_instance =  Factories[name].CreateInstance(properties[1..properties.Length]);
                 objects.Add(object_instance);
             }              
             return objects;
@@ -44,29 +44,29 @@ namespace PROJOBJ1
         {
             using (StreamWriter writer = new StreamWriter(savepath))
             {
-                foreach (IEntity object_instance in objects)
+                foreach (IEntity objectInstance in objects)
                 {
-                    writer.WriteLine(JsonSerializer.Serialize<IEntity>(object_instance));
+                    writer.WriteLine(JsonSerializer.Serialize<IEntity>(objectInstance));
                 }
             }
         }
 
         public static List<string[]> ParseFromFile(string path)
         {
-            List<string[]> line_list = new List<string[]>();
+            List<string[]> lineList = new List<string[]>();
             if (!File.Exists(path))
             {
-                return line_list; 
+                return lineList; 
             }
-            using (StreamReader linereader = new StreamReader(path))
+            using (StreamReader lineReader = new StreamReader(path))
             {
-                while(!linereader.EndOfStream)
+                while(!lineReader.EndOfStream)
                 {
-                    string[] line = linereader.ReadLine().Split(',');
-                    line_list.Add(line);
+                    string[] line = lineReader.ReadLine().Split(',');
+                    lineList.Add(line);
                 }    
             }
-            return line_list;
+            return lineList;
             
 
         }

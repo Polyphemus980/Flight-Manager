@@ -8,6 +8,6 @@ namespace PROJOBJ1
 {
     public interface IFactory
     {
-        IEntity createClass(string[] list);
+        IEntity CreateInstance(string[] list);
     }
 }

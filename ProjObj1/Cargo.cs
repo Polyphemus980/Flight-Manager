@@ -24,7 +24,7 @@ namespace PROJOBJ1
     }
     public class CargoFactory : IFactory
     {
-        public IEntity createClass(string[] list)
+        public IEntity CreateInstance(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
             Single Weigth = Single.Parse(list[1], CultureInfo.InvariantCulture);

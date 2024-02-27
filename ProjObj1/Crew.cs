@@ -20,7 +20,7 @@ namespace PROJOBJ1
     }
     public class CrewFactory : IFactory
     {
-        public IEntity createClass(string[] list)
+        public IEntity CreateInstance(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
             string Name = list[1];

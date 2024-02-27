@@ -30,7 +30,7 @@ namespace PROJOBJ1
     }
     public class FlightFactory : IFactory
     {
-        public IEntity createClass(string[] list)
+        public IEntity CreateInstance(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
             UInt64 Origin = UInt64.Parse(list[1]);
