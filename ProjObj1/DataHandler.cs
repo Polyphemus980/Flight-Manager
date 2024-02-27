@@ -42,6 +42,10 @@ namespace PROJOBJ1
         }
         public static void SerializeObjects(List<IEntity> objects, string savepath) 
         {
+            if (!File.Exists(savepath))
+            {
+                return;
+            }
             using (StreamWriter writer = new StreamWriter(savepath))
             {
                 foreach (IEntity objectInstance in objects)
