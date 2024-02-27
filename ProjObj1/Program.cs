@@ -23,6 +23,5 @@ public class Program
         List<IEntity> list=DataHandler.LoadObjects(InPath);
         DataHandler.SerializeObjects(list, OutPath);
         return 0;
-        
     }
 }
