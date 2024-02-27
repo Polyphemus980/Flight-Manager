@@ -35,8 +35,8 @@ namespace PROJOBJ1
             foreach (string[] properties in propertiesList)
             {
                 string name = properties[0];
-                IEntity object_instance =  Factories[name].CreateInstance(properties[1..properties.Length]);
-                objects.Add(object_instance);
+                IEntity objectInstance =  Factories[name].CreateInstance(properties[1..properties.Length]);
+                objects.Add(objectInstance);
             }              
             return objects;
         }
@@ -50,6 +50,7 @@ namespace PROJOBJ1
                 }
             }
         }
+        
 
         public static List<string[]> ParseFromFile(string path)
         {
@@ -67,8 +68,7 @@ namespace PROJOBJ1
                 }    
             }
             return lineList;
-            
-
         }
+
     }
 }

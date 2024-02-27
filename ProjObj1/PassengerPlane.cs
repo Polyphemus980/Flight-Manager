@@ -13,9 +13,11 @@ namespace PROJOBJ1
         public UInt16 EconomicClassSize { get; set; }
         public UInt16 BusinessClassSize { get; set; }
 
-        public PassengerPlane(UInt64 ID_, string Serial_, string Country_, string Model_, UInt16 FirstClassSize_, UInt16 EconomicClassSize_, UInt16 BusinessClassSize_): base(ID_, Serial_, Country_, Model_)
+        public PassengerPlane(UInt64 ID, string Serial, string Country, string Model, UInt16 FirstClassSize, UInt16 EconomicClassSize, UInt16 BusinessClassSize): base(ID, Serial, Country, Model)
         {
-           FirstClassSize = FirstClassSize_; EconomicClassSize = EconomicClassSize_; BusinessClassSize = BusinessClassSize_;
+           this.FirstClassSize = FirstClassSize; 
+            this.EconomicClassSize = EconomicClassSize; 
+            this.BusinessClassSize = BusinessClassSize;
         }
     }
     public class PassengerPlaneFactory : IFactory

@@ -14,9 +14,13 @@ namespace PROJOBJ1
         public string Phone { get; set; }
         public string Email { get; set; }
 
-        public Person(UInt64 ID_,string Name_,UInt64 Age_,string Phone_,string Email_)
+        public Person(UInt64 ID, string Name, UInt64 Age, string Phone, string Email)
         {
-            ID = ID_;Name= Name_;Age = Age_;Phone=Phone_;Email = Email_;
+            this.ID = ID;
+            this.Name= Name;
+            this.Age = Age;
+            this.Phone = Phone; 
+            this.Email = Email;
         }
     }
 }

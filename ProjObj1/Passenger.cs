@@ -11,9 +11,10 @@ namespace PROJOBJ1
         public string Class { get; set; }
         public UInt64 Role { get; set; }
 
-        public Passenger(UInt64 ID_, string Name_, UInt64 Age_, string Phone_, string Email_, string Class_, UInt64 Role_):base(ID_,Name_,Age_,Phone_,Email_)
+        public Passenger(UInt64 ID, string Name, UInt64 Age, string Phone, string Email, string Class, UInt64 Role):base(ID,Name,Age,Phone,Email)
         {
-         Class = Class_; Role = Role_;
+         this.Class = Class;
+            this.Role = Role;
         }
     }
 

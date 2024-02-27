@@ -14,12 +14,12 @@ namespace PROJOBJ1
         public string Code { get; set; }
         public string Description { get; set; }
 
-        public Cargo(ulong ID_, float Weight_, string Code_, string Description_)
+        public Cargo(ulong ID, float Weight, string Code, string Description)
         {
-            ID = ID_;
-            Weight = Weight_;
-            Code = Code_;
-            Description = Description_;
+            this.ID = ID;
+            this.Weight = Weight;
+            this.Code = Code;
+            this.Description = Description;
         }
     }
     public class CargoFactory : IFactory

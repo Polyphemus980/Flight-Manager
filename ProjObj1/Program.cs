@@ -7,12 +7,12 @@ public class Program
 {
     public static int Main(string[] args)
     {
-        string InPath = "";
-        string OutPath = "";
+        string InPath = "example_data.ftr";
+        string OutPath = "koks11.json";
         if (args.Length != 2)
         {
             Console.WriteLine("Argumenty: [string] input file path, [string] output file path");
-            return 1;
+            //return 1;
         }
         else
         {
@@ -23,7 +23,19 @@ public class Program
         DataHandler DataHandler=new DataHandler();
         List<IEntity> list=DataHandler.LoadObjects(InPath);
         DataHandler.SerializeObjects(list, OutPath);
-        return 0;
+        List<IEntity> l=new List<IEntity>();
+        using (StreamReader s = new StreamReader(OutPath))
+        {
+            while (!s.EndOfStream) 
+            {
+                string sLine = s.ReadLine();
+                IEntity m=JsonSerializer.Deserialize<IEntity>(sLine);
+                l.Add(m);
+            }
+        }
+        Console.WriteLine(l.Count);
+                
+            return 0;
         
     }
 }

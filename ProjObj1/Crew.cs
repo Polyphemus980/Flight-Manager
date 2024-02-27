@@ -12,9 +12,10 @@ namespace PROJOBJ1
         public UInt16 Practice { get; set; }
         public string Role { get; set; }
 
-        public Crew(UInt64 ID_, string Name_, UInt64 Age_, string Phone_, string Email_, UInt16 Practice_, string Role_):base(ID_,Name_,Age_,Phone_,Email_)
+        public Crew(UInt64 ID, string Name, UInt64 Age, string Phone, string Email, UInt16 Practice, string Role):base(ID,Name,Age,Phone,Email)
         {
-            Practice = Practice_; Role = Role_;
+            this.Practice = Practice;
+            this.Role = Role;
         }
 
     }

@@ -21,11 +21,20 @@ namespace PROJOBJ1
         public UInt64[] CrewIDs { get; set; }
         public UInt64[] LoadIDs { get; set; }
 
-        public Flight(UInt64 ID_, UInt64 Origin_, UInt64 Target_, string TakeoffTime_, string LandingTime_, Single Longitude_,
-        Single Latitude_, Single AMSL_, UInt64 PlaneID_, UInt64[] CrewIDs_, UInt64[] LoadIDs_)
+        public Flight(UInt64 ID, UInt64 Origin, UInt64 Target, string TakeoffTime, string LandingTime, Single Longitude,
+        Single Latitude, Single AMSL, UInt64 PlaneID, UInt64[] CrewIDs, UInt64[] LoadIDs)
         {
-            ID = ID_; Origin = Origin_; Target = Target_; TakeoffTime = TakeoffTime_; LandingTime = LandingTime_; Longitude = Longitude_;
-            Latitude = Latitude_; AMSL = AMSL_; PlaneID = PlaneID_; CrewIDs = CrewIDs_; LoadIDs = LoadIDs_;
+            this.ID = ID; 
+            this.Origin = Origin; 
+            this.Target = Target;
+            this.TakeoffTime = TakeoffTime; 
+            this.LandingTime = LandingTime; 
+            this.Longitude = Longitude;
+            this.Latitude = Latitude;
+            this.AMSL = AMSL;
+            this.PlaneID = PlaneID; 
+            this.CrewIDs = CrewIDs;
+            this.LoadIDs = LoadIDs;
         }
     }
     public class FlightFactory : IFactory

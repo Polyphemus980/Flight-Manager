@@ -17,9 +17,15 @@ namespace PROJOBJ1
         public Single AMSL { get; set; }
         public string Country { get; set; }
 
-        public Airport(UInt64 ID_, string Name_, string Code_, Single Longitude_, Single Latitude_, Single AMSL_, string Country_)
+        public Airport(UInt64 ID, string Name, string Code, Single Longitude, Single Latitude, Single AMSL, string Country)
         {
-            ID = ID_; Name = Name_; Code = Code_; Longitude = Longitude_; Latitude = Latitude_; AMSL = AMSL_; Country = Country_;
+            this.ID = ID;
+            this.Name = Name;
+            this.Code = Code;
+            this.Longitude = Longitude;
+            this.Latitude = Latitude;
+            this.AMSL = AMSL;
+            this.Country = Country;
         }
     }
     public class AirportFactory : IFactory

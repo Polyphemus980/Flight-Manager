@@ -13,9 +13,12 @@ namespace PROJOBJ1
         public string Country { get; set; }
         public string Model { get; set; }
         
-        public Airplane(UInt64 ID_, string Serial_,string Country_,string Model_)
+        public Airplane(UInt64 ID, string Serial,string Country,string Model)
         {
-            ID = ID_;Serial= Serial_;Country = Country_;Model = Model_;
+            this.ID = ID;
+            this.Serial= Serial;
+            this.Country = Country;
+            this.Model = Model;
         }
     }
 }

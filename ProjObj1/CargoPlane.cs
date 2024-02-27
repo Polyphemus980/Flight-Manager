@@ -10,9 +10,9 @@ namespace PROJOBJ1
     public class CargoPlane : Airplane,IEntity
     {
         public Single MaxLoad { get; set; }
-        public CargoPlane(UInt64 ID_, string Serial_, string Country_, string Model_, Single MaxLoad_):base(ID_,Serial_,Country_,Model_)
+        public CargoPlane(UInt64 ID, string Serial, string Country, string Model, Single MaxLoad):base(ID,Serial,Country,Model)
         {
-            MaxLoad = MaxLoad_;
+            this.MaxLoad = MaxLoad;
         }
     }
     public class CargoPlaneFactory : IFactory
