@@ -7,9 +7,9 @@ using System.Text.Json.Serialization;
 
 namespace PROJOBJ1
 {
-    public interface Factory
+    public interface IFactory
     {
-        AbstractProduct createClass(string[] list);
+        IEntity createClass(string[] list);
     }
 
     [JsonDerivedType(typeof(Airport),typeDiscriminator:nameof(Airport))]
@@ -19,57 +19,51 @@ namespace PROJOBJ1
     [JsonDerivedType(typeof(CargoPlane), typeDiscriminator: nameof(CargoPlane))]
     [JsonDerivedType(typeof(PassengerPlane), typeDiscriminator: nameof(PassengerPlane))]
     [JsonDerivedType(typeof(Passenger), typeDiscriminator: nameof(Passenger))]
-    public interface AbstractProduct
+    public interface IEntity
     {
         public UInt64 ID { get; set; }
     }
 
-    public class LoadUtil
+    public class DataHandler
     {
-        private Dictionary<string, Factory> Factories = new Dictionary<string, Factory>();
-        public LoadUtil()
+        private readonly Dictionary<string, IFactory> Factories = new Dictionary<string, IFactory>();
+        public DataHandler()
         {
-            Factories=new Dictionary<string,Factory>();
-            Factories.Add("CA", new CargoFactory());
-            Factories.Add("C", new CrewFactory());
-            Factories.Add("P", new PassengerFactory());
-            Factories.Add("CP", new CargoPlaneFactory());
-            Factories.Add("PP", new PassengerPlaneFactory());
-            Factories.Add("AI", new AirportFactory());
-            Factories.Add("FL", new FlightFactory());
-        }
-        public LoadUtil(Dictionary<string, Factory> factories)
-        {
-            foreach (var fact in factories)
+            Factories = new Dictionary<string, IFactory>
             {
-                Factories.Add(fact.Key, fact.Value);
-            }
+                { "CA", new CargoFactory() },
+                { "C", new CrewFactory() },
+                { "P", new PassengerFactory() },
+                { "CP", new CargoPlaneFactory() },
+                { "PP", new PassengerPlaneFactory() },
+                { "AI", new AirportFactory() },
+                { "FL", new FlightFactory() }
+            };
         }
-        //Dictionary<string, Factory> FactoryDict
-        public  List<AbstractProduct> LoadObjects(string path)
+        public DataHandler(Dictionary<string,IFactory> factories)
         {
-            List < AbstractProduct > list= new List<AbstractProduct>();
+            Factories = factories;
+        }
+        
+        public List<IEntity> LoadObjects(string path)
+        {
+            List < IEntity > list= new List<IEntity>();
             List<string[]> objects = ParseFromFile(path);
-            if (objects==null)
-            {
-                return null;
-            }
             foreach (string[] obj in objects)
             {
                 string name = obj[0];
-                AbstractProduct prod =  Factories[name].createClass(obj[1..obj.Length]);
+                IEntity prod =  Factories[name].createClass(obj[1..obj.Length]);
                 list.Add(prod);
             }              
             return list;
         }
-        public static void SerializeList(List<AbstractProduct> list, string savepath) 
+        public static void SerializeObjects(List<IEntity> list, string savepath) 
         {
             using (StreamWriter writer = new StreamWriter(savepath))
             {
-                foreach (AbstractProduct prod in list)
+                foreach (IEntity prod in list)
                 {
-                    //writer.WriteLine(JsonSerializer.Serialize(prod, typeof(Object)));
-                    writer.WriteLine(JsonSerializer.Serialize<AbstractProduct>(prod));
+                    writer.WriteLine(JsonSerializer.Serialize<IEntity>(prod));
                 }
             }
         }

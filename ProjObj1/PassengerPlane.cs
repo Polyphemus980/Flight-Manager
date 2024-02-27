@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PROJOBJ1
 {
-    public class PassengerPlane : AbstractProduct
+    public class PassengerPlane : IEntity
     {
         public UInt64 ID { get; set; }
         public string Serial { get; set; }
@@ -21,9 +21,9 @@ namespace PROJOBJ1
             ID = ID_; Serial = Serial_; Country = Country_; Model = Model_; FirstClassSize = FirstClassSize_; EconomicClassSize = EconomicClassSize_; BusinessClassSize = BusinessClassSize_;
         }
     }
-    public class PassengerPlaneFactory : Factory
+    public class PassengerPlaneFactory : IFactory
     {
-        public AbstractProduct createClass(string[] list)
+        public IEntity createClass(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
             UInt16 FirstClassSize = UInt16.Parse(list[4]);

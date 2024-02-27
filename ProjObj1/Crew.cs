@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PROJOBJ1
 {
-    public class Crew : AbstractProduct
+    public class Crew : IEntity
     {
         public UInt64 ID { get; set; }
         public string Name { get; set; }
@@ -22,9 +22,9 @@ namespace PROJOBJ1
         }
 
     }
-    public class CrewFactory : Factory
+    public class CrewFactory : IFactory
     {
-        public AbstractProduct createClass(string[] list)
+        public IEntity createClass(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
             UInt64 Age = UInt64.Parse(list[2]);

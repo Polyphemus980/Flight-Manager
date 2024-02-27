@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PROJOBJ1
 {
-    public class Flight : AbstractProduct
+    public class Flight : IEntity
     {
         public UInt64 ID { get; set; }
         public UInt64 Origin { get; set; }
@@ -28,9 +28,9 @@ namespace PROJOBJ1
             Latitude = Latitude_; AMSL = AMSL_; PlaneID = PlaneID_; CrewIDs = CrewIDs_; LoadIDs = LoadIDs_;
         }
     }
-    public class FlightFactory : Factory
+    public class FlightFactory : IFactory
     {
-        public AbstractProduct createClass(string[] list)
+        public IEntity createClass(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
             UInt64 Origin = UInt64.Parse(list[1]);

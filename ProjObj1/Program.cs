@@ -11,7 +11,7 @@ public class Program
         
         string InPath = "example_data.ftr";
         string OutPath = "kokskokskoks.json";
-        if (args.Length == 0)
+        if (args.Length != 2)
         {
             Console.WriteLine("Argumenty: [string] input file path, [string] output file path");
             
@@ -21,17 +21,9 @@ public class Program
             InPath= args[0];
             OutPath= args[1];
         }
-        //Dictionary<string,Factory> dic = new Dictionary<string, Factory>();
-        //dic.Add("CA", new CargoFactory());
-        //dic.Add("C", new CrewFactory());
-        //dic.Add("P", new PassengerFactory());
-        //dic.Add("CP", new CargoPlaneFactory());
-        //dic.Add("PP", new PassengerPlaneFactory());
-        //dic.Add("AI", new AirportFactory());
-        //dic.Add("FL",new FlightFactory());
-        LoadUtil util=new LoadUtil();
-        List<AbstractProduct> list=util.LoadObjects(InPath);
-        LoadUtil.SerializeList(list, OutPath);
+        DataHandler util=new DataHandler();
+        List<IEntity> list=util.LoadObjects(InPath);
+        DataHandler.SerializeObjects(list, OutPath);
         return 0;
         
     }

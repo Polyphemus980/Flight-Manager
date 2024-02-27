@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PROJOBJ1
 {
-    public class CargoPlane : AbstractProduct
+    public class CargoPlane : IEntity
     {
         public UInt64 ID { get; set; }
         public string Serial { get; set; }
@@ -20,9 +20,9 @@ namespace PROJOBJ1
             ID = ID_; Serial = Serial_; Country = Country_; Model = Model_; MaxLoad = MaxLoad_;
         }
     }
-    public class CargoPlaneFactory : Factory
+    public class CargoPlaneFactory : IFactory
     {
-        public AbstractProduct createClass(string[] list)
+        public IEntity createClass(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
             Single MaxLoad = Single.Parse(list[list.Length - 1], CultureInfo.InvariantCulture);

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PROJOBJ1
 {
-    public class Cargo : AbstractProduct
+    public class Cargo : IEntity
     {
         public UInt64 ID { get; set; }
         public float Weight { get; set; }
@@ -27,9 +27,9 @@ namespace PROJOBJ1
             return $"Cargo ID: {ID}, Weight: {Weight}, Code: {Code}, Description: {Description}";
         }
     }
-    public class CargoFactory : Factory
+    public class CargoFactory : IFactory
     {
-        public AbstractProduct createClass(string[] list)
+        public IEntity createClass(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
             Single Weigth = Single.Parse(list[1], CultureInfo.InvariantCulture);

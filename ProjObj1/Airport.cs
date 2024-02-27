@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace PROJOBJ1
 {
-    public class Airport : AbstractProduct
+    public class Airport : IEntity
     {
-
         public UInt64 ID { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
@@ -23,9 +22,9 @@ namespace PROJOBJ1
             ID = ID_; Name = Name_; Code = Code_; Longitude = Longitude_; Latitude = Latitude_; AMSL = AMSL_; Country = Country_;
         }
     }
-    public class AirportFactory : Factory
+    public class AirportFactory : IFactory
     {
-        public AbstractProduct createClass(string[] list)
+        public IEntity createClass(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
             Single Longitude = Single.Parse(list[3], CultureInfo.InvariantCulture);
