@@ -7,17 +7,13 @@ using System.Threading.Tasks;
 
 namespace PROJOBJ1
 {
-    public class CargoPlane : IEntity
+    public class CargoPlane : Airplane,IEntity
     {
-        public UInt64 ID { get; set; }
-        public string Serial { get; set; }
-        public string Country { get; set; }
-        public string Model { get; set; }
         public Single MaxLoad { get; set; }
 
-        public CargoPlane(UInt64 ID_, string Serial_, string Country_, string Model_, Single MaxLoad_)
+        public CargoPlane(UInt64 ID_, string Serial_, string Country_, string Model_, Single MaxLoad_):base(ID_,Serial_,Country_,Model_)
         {
-            ID = ID_; Serial = Serial_; Country = Country_; Model = Model_; MaxLoad = MaxLoad_;
+            MaxLoad = MaxLoad_;
         }
     }
     public class CargoPlaneFactory : IFactory

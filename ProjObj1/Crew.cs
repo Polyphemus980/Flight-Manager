@@ -6,19 +6,15 @@ using System.Threading.Tasks;
 
 namespace PROJOBJ1
 {
-    public class Crew : IEntity
+    public class Crew :Person, IEntity
     {
-        public UInt64 ID { get; set; }
-        public string Name { get; set; }
-        public UInt64 Age { get; set; }
-        public string Phone { get; set; }
-        public string Email { get; set; }
+
         public UInt16 Practice { get; set; }
         public string Role { get; set; }
 
-        public Crew(UInt64 ID_, string Name_, UInt64 Age_, string Phone_, string Email_, UInt16 Practice_, string Role_)
+        public Crew(UInt64 ID_, string Name_, UInt64 Age_, string Phone_, string Email_, UInt16 Practice_, string Role_):base(ID_,Name_,Age_,Phone_,Email_)
         {
-            ID = ID_; Name = Name_; Age = Age_; Phone = Phone_; Email = Email_; Practice = Practice_; Role = Role_;
+            Practice = Practice_; Role = Role_;
         }
 
     }

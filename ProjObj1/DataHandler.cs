@@ -7,23 +7,6 @@ using System.Text.Json.Serialization;
 
 namespace PROJOBJ1
 {
-    public interface IFactory
-    {
-        IEntity createClass(string[] list);
-    }
-
-    [JsonDerivedType(typeof(Airport),typeDiscriminator:nameof(Airport))]
-    [JsonDerivedType(typeof(Cargo),typeDiscriminator:nameof(Cargo))]
-    [JsonDerivedType(typeof(Flight),typeDiscriminator:nameof(Flight))]
-    [JsonDerivedType(typeof(Crew),typeDiscriminator:nameof(Crew))]
-    [JsonDerivedType(typeof(CargoPlane), typeDiscriminator: nameof(CargoPlane))]
-    [JsonDerivedType(typeof(PassengerPlane), typeDiscriminator: nameof(PassengerPlane))]
-    [JsonDerivedType(typeof(Passenger), typeDiscriminator: nameof(Passenger))]
-    public interface IEntity
-    {
-        public UInt64 ID { get; set; }
-    }
-
     public class DataHandler
     {
         private readonly Dictionary<string, IFactory> Factories = new Dictionary<string, IFactory>();
@@ -70,11 +53,11 @@ namespace PROJOBJ1
 
         public static List<string[]> ParseFromFile(string path)
         {
+            List<string[]> list = new List<string[]>();
             if (!File.Exists(path))
             {
-                return null;
+                return list; 
             }
-            List<string[]> list= new List<string[]>();
             using (StreamReader linereader = new StreamReader(path))
             {
                 while(! linereader.EndOfStream)
