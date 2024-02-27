@@ -8,13 +8,12 @@ public class Program
 {
     public static int Main(string[] args)
     {
-        
-        string InPath = "example_data.ftr";
-        string OutPath = "kokskokskoks.json";
+        string InPath = "";
+        string OutPath = "";
         if (args.Length != 2)
         {
             Console.WriteLine("Argumenty: [string] input file path, [string] output file path");
-            
+            return 1;
         }
         else
         {
