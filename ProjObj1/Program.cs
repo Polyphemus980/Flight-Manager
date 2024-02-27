@@ -19,7 +19,6 @@ public class Program
             InPath= args[0];
             OutPath= args[1];
         }
-
         DataHandler DataHandler=new DataHandler();
         List<IEntity> list=DataHandler.LoadObjects(InPath);
         DataHandler.SerializeObjects(list, OutPath);

@@ -15,7 +15,7 @@ namespace PROJOBJ1
 
         public PassengerPlane(UInt64 ID, string Serial, string Country, string Model, UInt16 FirstClassSize, UInt16 EconomicClassSize, UInt16 BusinessClassSize): base(ID, Serial, Country, Model)
         {
-           this.FirstClassSize = FirstClassSize; 
+            this.FirstClassSize = FirstClassSize; 
             this.EconomicClassSize = EconomicClassSize; 
             this.BusinessClassSize = BusinessClassSize;
         }

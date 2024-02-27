@@ -58,7 +58,7 @@ namespace PROJOBJ1
                 Crew[i] = UInt64.Parse(CrewIDs[i]);
             }
 
-            string[] LoadIDs = list[10].Trim('[', ']').Split(";");
+            string[] LoadIDs = list[10].Trim('[',']').Split(";");
             UInt64[] Load = new UInt64[LoadIDs.Length];
             for (int i = 0; i < LoadIDs.Length; i++)
             {

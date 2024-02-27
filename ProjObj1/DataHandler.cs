@@ -10,6 +10,7 @@ namespace PROJOBJ1
     public class DataHandler
     {
         private readonly Dictionary<string, IFactory> Factories = new Dictionary<string, IFactory>();
+
         public DataHandler()
         {
             Factories = new Dictionary<string, IFactory>
@@ -23,6 +24,7 @@ namespace PROJOBJ1
                 { "FL", new FlightFactory() }
             };
         }
+
         public DataHandler(Dictionary<string,IFactory> factories)
         {
             Factories = factories;
@@ -40,12 +42,9 @@ namespace PROJOBJ1
             }              
             return objects;
         }
+
         public static void SerializeObjects(List<IEntity> objects, string savepath) 
         {
-            if (!File.Exists(savepath))
-            {
-                return;
-            }
             using (StreamWriter writer = new StreamWriter(savepath))
             {
                 foreach (IEntity objectInstance in objects)
@@ -55,7 +54,6 @@ namespace PROJOBJ1
             }
         }
         
-
         public static List<string[]> ParseFromFile(string path)
         {
             List<string[]> lineList = new List<string[]>();

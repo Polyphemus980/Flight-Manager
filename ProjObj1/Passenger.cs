@@ -13,7 +13,7 @@ namespace PROJOBJ1
 
         public Passenger(UInt64 ID, string Name, UInt64 Age, string Phone, string Email, string Class, UInt64 Role):base(ID,Name,Age,Phone,Email)
         {
-         this.Class = Class;
+            this.Class = Class;
             this.Role = Role;
         }
     }

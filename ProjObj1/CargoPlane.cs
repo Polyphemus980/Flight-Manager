@@ -23,7 +23,7 @@ namespace PROJOBJ1
             string Serial = list[1];
             string Country = list[2];
             string Model = list[3];
-            Single MaxLoad = Single.Parse(list[list.Length - 1], CultureInfo.InvariantCulture);
+            Single MaxLoad = Single.Parse(list[4], CultureInfo.InvariantCulture);
             return new CargoPlane(ID, Serial, Country, Model, MaxLoad);
         }
     }
