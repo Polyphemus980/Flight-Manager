@@ -1,5 +1,6 @@
 ﻿
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 
 using System.Text.Json.Serialization;
@@ -39,35 +40,57 @@ namespace PROJOBJ1
                 string name = properties[0];
                 IEntity objectInstance =  Factories[name].CreateInstance(properties[1..properties.Length]);
                 objects.Add(objectInstance);
-            }              
+            }
             return objects;
         }
 
-        public static void SerializeObjects(List<IEntity> objects, string savepath) 
+        private static List<string> SerializeObjects(List<IEntity> objects) 
         {
-            using (StreamWriter writer = new StreamWriter(savepath))
+            List<string> serializedObjects=new List<string>();
+            foreach(IEntity objectInstance in objects)
             {
-                foreach (IEntity objectInstance in objects)
+                serializedObjects.Add(JsonSerializer.Serialize<IEntity>(objectInstance));
+            }
+            return serializedObjects;
+        }
+        public static void SaveToPath(string path,List<IEntity> objects)
+        {
+            List<string> serializedObjects = SerializeObjects(objects);
+            Console.WriteLine(serializedObjects.Count());
+            using (StreamWriter writer = new StreamWriter(path)) 
+            {
+                foreach(string objectInstance in serializedObjects)
                 {
-                    writer.WriteLine(JsonSerializer.Serialize<IEntity>(objectInstance));
+                    writer.WriteLine(objectInstance);
                 }
             }
         }
+
         
         public static List<string[]> ParseFromFile(string path)
         {
-            List<string[]> lineList = new List<string[]>();
+            List<string[]> parsedLines = new List<string[]>();
+            List<string> lines = ReadFromFile(path);
+            foreach (string line in lines)
+            {
+                parsedLines.Add(line.Split(','));
+            }
+            return parsedLines;
+        }
+        private static List<string> ReadFromFile(string path)
+        {
+            List<string> lineList = new List<string>();
             if (!File.Exists(path))
             {
-                return lineList; 
+                return lineList;
             }
             using (StreamReader lineReader = new StreamReader(path))
             {
-                while(!lineReader.EndOfStream)
+                while (!lineReader.EndOfStream)
                 {
-                    string[] line = lineReader.ReadLine().Split(',');
+                    string line = lineReader.ReadLine();
                     lineList.Add(line);
-                }    
+                }
             }
             return lineList;
         }

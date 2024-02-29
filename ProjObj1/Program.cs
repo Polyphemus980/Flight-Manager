@@ -7,8 +7,8 @@ public class Program
 {
     public static int Main(string[] args)
     {
-        string InPath = "";
-        string OutPath = "";
+        string inPath = "";
+        string outPath = "";
         if (args.Length != 2)
         {
             Console.WriteLine("Usage: [string] input file path, [string] output file path");
@@ -16,12 +16,12 @@ public class Program
         }
         else
         {
-            InPath= args[0];
-            OutPath= args[1];
+            inPath= args[0];
+            outPath= args[1];
         }
         DataHandler DataHandler=new DataHandler();
-        List<IEntity> list=DataHandler.LoadObjects(InPath);
-        DataHandler.SerializeObjects(list, OutPath);
+        List<IEntity> list=DataHandler.LoadObjects(inPath);
+        DataHandler.SaveToPath(outPath,list);
         return 0;
     }
 }
