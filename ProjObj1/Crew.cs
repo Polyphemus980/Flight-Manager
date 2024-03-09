@@ -26,6 +26,12 @@ namespace PROJOBJ1
             (UInt64 ID, string Name, UInt64 Age,string Phone,string Email, UInt16 Practice, string Role)=CrewParser.StringParser(list);
             return new Crew(ID, Name, Age, Phone, Email, Practice, Role);
         }
+
+        public IEntity CreateInstance(byte[] bytes)
+        {
+            (UInt64 ID, string Name, UInt64 Age, string Phone, string Email, UInt16 Practice, string Role) = CrewParser.CrewParserBytes(bytes);
+            return new Crew(ID, Name, Age, Phone, Email, Practice, Role);
+        }
     }
     public static class CrewParser
     {

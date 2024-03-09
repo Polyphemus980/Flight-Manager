@@ -9,6 +9,6 @@ namespace PROJOBJ1
     public interface IFactory
     {
         IEntity CreateInstance(string[] list);
-        //IEntity CreateInstance(byte[] bytes);
+        IEntity CreateInstance(byte[] bytes);
     }
 }

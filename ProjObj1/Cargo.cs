@@ -31,6 +31,11 @@ namespace PROJOBJ1
             return new Cargo(ID, Weigth, Code, Description);
         }
 
+        public IEntity CreateInstance(byte[] bytes)
+        {
+            (UInt64 ID, Single Weigth, string Code, string Description) = CargoParser.CargoParserBytes(bytes);
+            return new Cargo(ID , Weigth, Code, Description);
+        }
     }
     public static class CargoParser
     {

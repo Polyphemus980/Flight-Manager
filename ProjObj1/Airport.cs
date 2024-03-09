@@ -36,23 +36,8 @@ namespace PROJOBJ1
             return new Airport(ID, Name, Code, Longitude, Latitude, AMSL, Country);
         }
         public IEntity CreateInstance(byte[] bytes)
-        {  
-            
-            MemoryStream stream = new MemoryStream(bytes);
-            BinaryReader reader= new BinaryReader(stream);
-            UInt64 ID = reader.ReadUInt64();
-            UInt16 NameLength=reader.ReadUInt16();
-            byte[] NameBytes = reader.ReadBytes(NameLength);
-            string Name = Encoding.UTF8.GetString(NameBytes);
-            int CodeLength = 3;
-            byte[] CodeBytes = reader.ReadBytes(CodeLength);
-            string Code= Encoding.UTF8.GetString(CodeBytes);
-            Single Longitude = reader.ReadSingle();
-            Single Latitude = reader.ReadSingle();
-            Single AMSL = reader.ReadSingle();
-            int CountryLength = 3;
-            byte[] CountryBytes= reader.ReadBytes(CountryLength);
-            string Country = Encoding.UTF8.GetString(CountryBytes);
+        {
+            (UInt64 ID, string Name, string Code, Single Longitude, Single Latitude, Single AMSL, string Country) = AirportParser.AirportParserByte(bytes);
             return new Airport(ID, Name, Code, Longitude, Latitude, AMSL, Country);
 
             

@@ -23,6 +23,12 @@ namespace PROJOBJ1
             (UInt64 ID, string Serial, string Country, string Model, Single MaxLoad) = CargoPlaneParser.CargoPlaneParserString(list);         
             return new CargoPlane(ID, Serial, Country, Model, MaxLoad);
         }
+
+        public IEntity CreateInstance(byte[] bytes)
+        {
+            (UInt64 ID, string Serial, string Country, string Model, Single MaxLoad) = CargoPlaneParser.CargoPlaneParserBytes(bytes);
+            return new CargoPlane(ID, Serial, Country, Model, MaxLoad);
+        }
     }
     public static class CargoPlaneParser
     {

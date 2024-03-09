@@ -27,6 +27,12 @@ namespace PROJOBJ1
             (UInt64 ID, string Name, UInt64 Age, string Phone, string Email, string Class, UInt64 Role) = PassengerParser.StringParse(list);
             return new Passenger(ID, Name, Age, Phone, Email, Class, Role);
         }
+
+        public IEntity CreateInstance(byte[] bytes)
+        {
+            (UInt64 ID, string Name, UInt64 Age, string Phone, string Email, string Class, UInt64 Role) = PassengerParser.CrewParserBytes(bytes);
+            return new Passenger(ID, Name, Age, Phone, Email, Class, Role);
+        }
     }
     public static class PassengerParser
     {

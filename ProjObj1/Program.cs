@@ -21,9 +21,25 @@ public class Program
             inPath= args[0];
             outPath= args[1];
         }
-        DataHandler dataHandler = new DataHandler(inPath,outPath);
-        dataHandler.LoadObjects();
-        dataHandler.SaveToPath();
+        DataHandler dataHandler = new DataHandler();
+        string command;
+        string serializePath;
+        NetworkSourceSimulator.NetworkSourceSimulator s = new NetworkSourceSimulator.NetworkSourceSimulator(inPath, 1, 2);
+        Task.Run(s.Run);
+        s.OnNewDataReady += dataHandler.EventHandler;
+        while ((command=Console.ReadLine())!= "exit")
+        {
+            if (command=="print")
+            {
+                DateTime t= DateTime.Now;
+                serializePath = "snapshot_" + t.Hour + "_" + t.Minute + "_" + t.Second + ".json";
+                lock (dataHandler.objects)
+                {
+                    dataHandler.SaveToPath(serializePath);
+                }
+                serializePath = "";
+            }
+        }
         return 0;
 
     }

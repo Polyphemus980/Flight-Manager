@@ -27,6 +27,13 @@ namespace PROJOBJ1
             (UInt64 ID, string Serial, string Country, string Model, UInt16 FirstClassSize, UInt16 EconomicClassSize, UInt16 BusinessClassSize) = PassengerPlaneParser.StringParser(list);
             return new PassengerPlane(ID, Serial, Country, Model, FirstClassSize, EconomicClassSize, BusinessClassSize);
         }
+
+        public IEntity CreateInstance(byte[] bytes)
+        {
+
+            (UInt64 ID, string Serial, string Country, string Model, UInt16 FirstClassSize, UInt16 EconomicClassSize, UInt16 BusinessClassSize) = PassengerPlaneParser.CargoPlaneParserBytes(bytes);
+            return new PassengerPlane(ID, Serial, Country, Model, FirstClassSize, EconomicClassSize, BusinessClassSize);
+        }
     }
     public static class PassengerPlaneParser
     {
