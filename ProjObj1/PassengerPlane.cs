@@ -24,6 +24,14 @@ namespace PROJOBJ1
     {
         public IEntity CreateInstance(string[] list)
         {
+            (UInt64 ID, string Serial, string Country, string Model, UInt16 FirstClassSize, UInt16 EconomicClassSize, UInt16 BusinessClassSize) = PassengerPlaneParser.StringParser(list);
+            return new PassengerPlane(ID, Serial, Country, Model, FirstClassSize, EconomicClassSize, BusinessClassSize);
+        }
+    }
+    public static class PassengerPlaneParser
+    {
+        public static (UInt64,string,string,string,UInt16,UInt16,UInt16) StringParser(string[] list)
+        {
             UInt64 ID = UInt64.Parse(list[0]);
             string Serial = list[1];
             string Country = list[2];
@@ -31,7 +39,38 @@ namespace PROJOBJ1
             UInt16 FirstClassSize = UInt16.Parse(list[4]);
             UInt16 EconomicClassSize = UInt16.Parse(list[5]);
             UInt16 BusinessClassSize = UInt16.Parse(list[6]);
-            return new PassengerPlane(ID, Serial, Country, Model, FirstClassSize, EconomicClassSize, BusinessClassSize);
+            return (ID, Serial, Country, Model, FirstClassSize, EconomicClassSize, BusinessClassSize);
+        }
+        public static (UInt64, string, string, string, UInt16,UInt16,UInt16) CargoPlaneParserBytes(Byte[] bytes)
+        {
+            UInt64 ID;
+            UInt16 FirstClassSize,EconomicClassSize,BusinessClassSize;
+            string Serial, Country, Model;
+            using (MemoryStream stream = new MemoryStream(bytes))
+            {
+                using (BinaryReader reader = new BinaryReader(stream))
+                {
+                    ID = reader.ReadUInt64();
+
+                    int SerialLength = 10;
+                    byte[] SerialBytes = reader.ReadBytes(SerialLength);
+                    Serial = Encoding.UTF8.GetString(SerialBytes);
+
+                    int CountryLength = 3;
+                    byte[] CountryBytes = reader.ReadBytes(CountryLength);
+                    Country = Encoding.UTF8.GetString(CountryBytes);
+
+                    UInt16 ModelLength = reader.ReadUInt16();
+                    byte[] ModelBytes = reader.ReadBytes(ModelLength);
+                    Model = Encoding.UTF8.GetString(ModelBytes);
+
+                    FirstClassSize = reader.ReadUInt16();
+                    BusinessClassSize = reader.ReadUInt16();
+                    EconomicClassSize = reader.ReadUInt16();
+
+                }
+            }
+            return (ID, Serial, Country, Model, FirstClassSize, EconomicClassSize, BusinessClassSize);
         }
     }
 }

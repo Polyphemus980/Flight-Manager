@@ -1,4 +1,5 @@
 ﻿
+using NetworkSourceSimulator;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
@@ -10,10 +11,19 @@ namespace PROJOBJ1
 {
     public class DataHandler
     {
+        private List<IEntity> objects = new List<IEntity>();
+        public string in_path { get; set; }
+        public string out_path { get; set; }
+        public void EventHandler(object sender, NewDataReadyArgs args)
+        {
+
+        }
         private readonly Dictionary<string, IFactory> Factories = new Dictionary<string, IFactory>();
 
-        public DataHandler()
+        public DataHandler(string in_path, string out_path)
         {
+            this.in_path = in_path;
+            this.out_path = out_path;
             Factories = new Dictionary<string, IFactory>
             {
                 { "CA", new CargoFactory() },
@@ -24,76 +34,79 @@ namespace PROJOBJ1
                 { "AI", new AirportFactory() },
                 { "FL", new FlightFactory() }
             };
+            objects = new List<IEntity>();
         }
 
-        public DataHandler(Dictionary<string,IFactory> factories)
+        public DataHandler(Dictionary<string, IFactory> factories, string in_path, string out_path)
         {
+            this.in_path = in_path;
+            this.out_path = out_path;
+            objects = new List<IEntity>();
             Factories = factories;
         }
-        
-        public List<IEntity> LoadObjects(string path)
+
+        public void LoadObjects()
         {
-            List < IEntity > objects = new List<IEntity>();
-            List<string[]> propertiesList = ParseFromFile(path);
+            List<string[]> propertiesList = ParseFromFile();
             foreach (string[] properties in propertiesList)
             {
                 string name = properties[0];
-                IEntity objectInstance =  Factories[name].CreateInstance(properties[1..properties.Length]);
+                IEntity objectInstance = Factories[name].CreateInstance(properties[1..properties.Length]);
                 objects.Add(objectInstance);
             }
-            return objects;
         }
 
-        private static List<string> SerializeObjects(List<IEntity> objects) 
+        private List<string> SerializeObjects()
         {
-            List<string> serializedObjects=new List<string>();
-            foreach(IEntity objectInstance in objects)
+            List<string> serializedObjects = new List<string>();
+            foreach (IEntity objectInstance in objects)
             {
                 serializedObjects.Add(JsonSerializer.Serialize<IEntity>(objectInstance));
             }
             return serializedObjects;
         }
-        public static void SaveToPath(string path,List<IEntity> objects)
+        public void SaveToPath()
         {
-            List<string> serializedObjects = SerializeObjects(objects);
-            Console.WriteLine(serializedObjects.Count());
-            using (StreamWriter writer = new StreamWriter(path)) 
+            List<string> serializedObjects = SerializeObjects();
+            using (StreamWriter writer = new StreamWriter(out_path))
             {
-                foreach(string objectInstance in serializedObjects)
+                foreach (string objectInstance in serializedObjects)
                 {
                     writer.WriteLine(objectInstance);
                 }
             }
         }
 
-        
-        public static List<string[]> ParseFromFile(string path)
+
+        public List<string[]> ParseFromFile()
         {
-            List<string[]> parsedLines = new List<string[]>();
-            List<string> lines = ReadFromFile(path);
-            foreach (string line in lines)
-            {
-                parsedLines.Add(line.Split(','));
-            }
-            return parsedLines;
-        }
-        private static List<string> ReadFromFile(string path)
-        {
-            List<string> lineList = new List<string>();
-            if (!File.Exists(path))
-            {
-                return lineList;
-            }
-            using (StreamReader lineReader = new StreamReader(path))
-            {
-                while (!lineReader.EndOfStream)
+                List<string[]> parsedLines = new List<string[]>();
+                List<string> lines = ReadFromFile();
+                foreach (string line in lines)
                 {
-                    string line = lineReader.ReadLine();
-                    lineList.Add(line);
+                    parsedLines.Add(line.Split(','));
                 }
-            }
-            return lineList;
+                return parsedLines;
         }
 
-    }
-}
+        private List<string> ReadFromFile()
+        {
+               List<string> lineList = new List<string>();
+                if (!File.Exists(in_path))
+                {
+                    return lineList;
+                }
+                using (StreamReader lineReader = new StreamReader(in_path))
+                {
+                    while (!lineReader.EndOfStream)
+                    {
+                        string line = lineReader.ReadLine();
+                        lineList.Add(line);
+                    }
+                }
+                return lineList;
+        }
+
+
+        }
+    } 

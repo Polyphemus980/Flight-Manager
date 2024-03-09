@@ -17,9 +17,9 @@ namespace PROJOBJ1
         public Person(UInt64 ID, string Name, UInt64 Age, string Phone, string Email)
         {
             this.ID = ID;
-            this.Name= Name;
+            this.Name = Name;
             this.Age = Age;
-            this.Phone = Phone; 
+            this.Phone = Phone;
             this.Email = Email;
         }
     }

@@ -32,6 +32,37 @@ namespace PROJOBJ1
     {
         public IEntity CreateInstance(string[] list)
         {
+            (UInt64 ID, string Name, string Code,Single Longitude,Single Latitude, Single AMSL,string Country)=AirportParser.AirportParserString(list);
+            return new Airport(ID, Name, Code, Longitude, Latitude, AMSL, Country);
+        }
+        public IEntity CreateInstance(byte[] bytes)
+        {  
+            
+            MemoryStream stream = new MemoryStream(bytes);
+            BinaryReader reader= new BinaryReader(stream);
+            UInt64 ID = reader.ReadUInt64();
+            UInt16 NameLength=reader.ReadUInt16();
+            byte[] NameBytes = reader.ReadBytes(NameLength);
+            string Name = Encoding.UTF8.GetString(NameBytes);
+            int CodeLength = 3;
+            byte[] CodeBytes = reader.ReadBytes(CodeLength);
+            string Code= Encoding.UTF8.GetString(CodeBytes);
+            Single Longitude = reader.ReadSingle();
+            Single Latitude = reader.ReadSingle();
+            Single AMSL = reader.ReadSingle();
+            int CountryLength = 3;
+            byte[] CountryBytes= reader.ReadBytes(CountryLength);
+            string Country = Encoding.UTF8.GetString(CountryBytes);
+            return new Airport(ID, Name, Code, Longitude, Latitude, AMSL, Country);
+
+            
+        }
+    }
+    
+    public static class AirportParser
+    {
+        public static (UInt64, string, string, Single, Single, Single, string) AirportParserString(string[] list)
+        {
             UInt64 ID = UInt64.Parse(list[0]);
             string Name = list[1];
             string Code = list[2];
@@ -39,7 +70,33 @@ namespace PROJOBJ1
             Single Latitude = Single.Parse(list[4], CultureInfo.InvariantCulture);
             Single AMSL = Single.Parse(list[5], CultureInfo.InvariantCulture);
             string Country = list[6];
-            return new Airport(ID, Name, Code, Longitude, Latitude, AMSL, Country);
+            return (ID, Name, Code, Longitude, Latitude, AMSL, Country);
+        }
+        public static (UInt64, string, string, Single, Single, Single, string) AirportParserByte(byte[] bytes)
+        {
+            UInt64 ID;
+            Single Longitude, Latitude, AMSL;
+            string Name, Code, Country;
+            using (MemoryStream stream = new MemoryStream(bytes))
+            {
+                using (BinaryReader reader = new BinaryReader(stream))
+                {
+                    ID = reader.ReadUInt64();
+                    UInt16 NameLength = reader.ReadUInt16();
+                    byte[] NameBytes = reader.ReadBytes(NameLength);
+                    Name = Encoding.UTF8.GetString(NameBytes);
+                    int CodeLength = 3;
+                    byte[] CodeBytes = reader.ReadBytes(CodeLength);
+                    Code = Encoding.UTF8.GetString(CodeBytes);
+                    Longitude = reader.ReadSingle();
+                    Latitude = reader.ReadSingle();
+                    AMSL = reader.ReadSingle();
+                    int CountryLength = 3;
+                    byte[] CountryBytes = reader.ReadBytes(CountryLength);
+                    Country = Encoding.UTF8.GetString(CountryBytes);
+                }
+            }
+            return (ID, Name, Code, Longitude, Latitude, AMSL, Country);
         }
     }
 }
