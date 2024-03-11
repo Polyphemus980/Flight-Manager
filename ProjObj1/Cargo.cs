@@ -57,13 +57,14 @@ namespace PROJOBJ1
                 using (BinaryReader reader=new BinaryReader(stream))
                 {
                     ID = reader.ReadUInt64();
-                    Weigth = reader.ReadUInt64();
+                    Weigth = reader.ReadSingle();
                     int CodeLength = 6;
                     byte[] CodeBytes = reader.ReadBytes(CodeLength);
-                    Code = Encoding.UTF8.GetString(CodeBytes);
-                    int DescriptionLength = 2;
+                    Code = Encoding.ASCII.GetString(CodeBytes);
+
+                    UInt16 DescriptionLength = reader.ReadUInt16();
                     byte[] DescriptionBytes=reader.ReadBytes(DescriptionLength);
-                    Description= Encoding.UTF8.GetString(DescriptionBytes);
+                    Description= Encoding.ASCII.GetString(DescriptionBytes);
                 }
             }
             return (ID, Weigth, Code,Description);

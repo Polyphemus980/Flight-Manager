@@ -58,18 +58,18 @@ namespace PROJOBJ1
                     ID = reader.ReadUInt64();
                     UInt16 NameLength=reader.ReadUInt16();
                     byte[] NameBytes = reader.ReadBytes(NameLength);
-                    Name = Encoding.UTF8.GetString(NameBytes);
+                    Name = Encoding.ASCII.GetString(NameBytes);
                     Age = reader.ReadUInt16();
                     int PhoneLength = 12;
                     byte[] PhoneBytes = reader.ReadBytes(PhoneLength);
-                    Phone = Encoding.UTF8.GetString(PhoneBytes);
+                    Phone = Encoding.ASCII.GetString(PhoneBytes);
                     UInt16 EmailLength=reader.ReadUInt16();
                     byte[] EmailBytes=reader.ReadBytes(EmailLength);
-                    Email = Encoding.UTF8.GetString(EmailBytes);
+                    Email = Encoding.ASCII.GetString(EmailBytes);
                     Practice = reader.ReadUInt16();
                     UInt16 RoleLength = 1;
                     byte[] RoleByte = reader.ReadBytes(RoleLength);
-                    Role = Encoding.UTF8.GetString(RoleByte);
+                    Role = Encoding.ASCII.GetString(RoleByte);
                 }
 
             }

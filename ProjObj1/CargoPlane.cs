@@ -54,13 +54,13 @@ namespace PROJOBJ1
 
                     int SerialLength = 10;
                     byte[] SerialBytes=reader.ReadBytes(SerialLength);
-                    Serial=Encoding.UTF8.GetString(SerialBytes);
+                    Serial=Encoding.ASCII.GetString(SerialBytes).Trim('\0');
                     int CountryLength = 3;
                     byte[] CountryBytes = reader.ReadBytes(CountryLength);
-                    Country=Encoding.UTF8.GetString(CountryBytes);
+                    Country=Encoding.ASCII.GetString(CountryBytes);
                     UInt16 ModelLength=reader.ReadUInt16();
                     byte[] ModelBytes = reader.ReadBytes(ModelLength);
-                    Model=Encoding.UTF8.GetString(ModelBytes);
+                    Model=Encoding.ASCII.GetString(ModelBytes);
                     MaxLoad= reader.ReadSingle();
                 }
             }

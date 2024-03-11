@@ -96,17 +96,25 @@ namespace PROJOBJ1
                     ID = reader.ReadUInt64();
                     Origin= reader.ReadUInt64();
                     Target= reader.ReadUInt64();
+
                     Int64 TakeoffTimeS = reader.ReadInt64();
-                    TakeoffTime = TakeoffTimeS.ToString();
+                    
+                    DateTimeOffset TakeOffDate= DateTimeOffset.FromUnixTimeMilliseconds(TakeoffTimeS);
+                    TakeoffTime = TakeOffDate.ToString("HH:mm");
+
                     Int64 LandingTimeS = reader.ReadInt64();
-                    LandingTime=LandingTimeS.ToString();
-                    PlaneID=reader.ReadUInt64();
+                    DateTimeOffset LandingDate = DateTimeOffset.FromUnixTimeMilliseconds(LandingTimeS);
+                    LandingTime = LandingDate.ToString("HH:mm");
+
+                    PlaneID =reader.ReadUInt64();
+
                     UInt16 CrewCount=reader.ReadUInt16();
                     Crew = new UInt64[CrewCount];
                     for (int i=0;i<CrewCount; i++)
                     {
                         Crew[i]=reader.ReadUInt64();
                     }
+
                     UInt16 LoadCount=reader.ReadUInt16();
                     Load=new UInt64[LoadCount];
                     for (int i=0;i<LoadCount;i++)

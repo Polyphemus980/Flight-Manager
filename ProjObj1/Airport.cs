@@ -69,16 +69,16 @@ namespace PROJOBJ1
                     ID = reader.ReadUInt64();
                     UInt16 NameLength = reader.ReadUInt16();
                     byte[] NameBytes = reader.ReadBytes(NameLength);
-                    Name = Encoding.UTF8.GetString(NameBytes);
+                    Name = Encoding.ASCII.GetString(NameBytes);
                     int CodeLength = 3;
                     byte[] CodeBytes = reader.ReadBytes(CodeLength);
-                    Code = Encoding.UTF8.GetString(CodeBytes);
+                    Code = Encoding.ASCII.GetString(CodeBytes);
                     Longitude = reader.ReadSingle();
                     Latitude = reader.ReadSingle();
                     AMSL = reader.ReadSingle();
                     int CountryLength = 3;
                     byte[] CountryBytes = reader.ReadBytes(CountryLength);
-                    Country = Encoding.UTF8.GetString(CountryBytes);
+                    Country = Encoding.ASCII.GetString(CountryBytes);
                 }
             }
             return (ID, Name, Code, Longitude, Latitude, AMSL, Country);
