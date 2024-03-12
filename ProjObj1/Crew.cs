@@ -29,7 +29,7 @@ namespace PROJOBJ1
 
         public IEntity CreateInstance(byte[] bytes)
         {
-            (UInt64 ID, string Name, UInt64 Age, string Phone, string Email, UInt16 Practice, string Role) = CrewParser.CrewParserBytes(bytes);
+            (UInt64 ID, string Name, UInt64 Age, string Phone, string Email, UInt16 Practice, string Role) = CrewParser.ByteParser(bytes);
             return new Crew(ID, Name, Age, Phone, Email, Practice, Role);
         }
     }
@@ -46,30 +46,26 @@ namespace PROJOBJ1
             string Role = list[6];
             return (ID, Name, Age, Phone, Email, Practice, Role);
         }
-        public static (UInt64, string,UInt64, string, string, UInt16,string) CrewParserBytes(Byte[] bytes)
+        public static (UInt64, string,UInt64, string, string, UInt16,string) ByteParser(Byte[] bytes)
         {
             UInt64 ID;
             UInt16 Age, Practice;
             string Name,Phone,Email, Role;
             using (MemoryStream stream = new MemoryStream(bytes))
             {
-                using (BinaryReader reader = new BinaryReader(stream))
+                using (BinaryReader reader = new BinaryReader(stream,new System.Text.ASCIIEncoding()))
                 {
                     ID = reader.ReadUInt64();
                     UInt16 NameLength=reader.ReadUInt16();
-                    byte[] NameBytes = reader.ReadBytes(NameLength);
-                    Name = Encoding.ASCII.GetString(NameBytes);
+                    Name = new string(reader.ReadChars(NameLength)); 
                     Age = reader.ReadUInt16();
                     int PhoneLength = 12;
-                    byte[] PhoneBytes = reader.ReadBytes(PhoneLength);
-                    Phone = Encoding.ASCII.GetString(PhoneBytes);
+                    Phone=new string(reader.ReadChars(PhoneLength));
                     UInt16 EmailLength=reader.ReadUInt16();
-                    byte[] EmailBytes=reader.ReadBytes(EmailLength);
-                    Email = Encoding.ASCII.GetString(EmailBytes);
+                    Email = new string(reader.ReadChars(EmailLength));
                     Practice = reader.ReadUInt16();
                     UInt16 RoleLength = 1;
-                    byte[] RoleByte = reader.ReadBytes(RoleLength);
-                    Role = Encoding.ASCII.GetString(RoleByte);
+                    Role=new string(reader.ReadChars(RoleLength));
                 }
 
             }

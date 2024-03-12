@@ -32,21 +32,21 @@ namespace PROJOBJ1
     {
         public IEntity CreateInstance(string[] list)
         {
-            (UInt64 ID, string Name, string Code,Single Longitude,Single Latitude, Single AMSL,string Country)=AirportParser.AirportParserString(list);
+            (UInt64 ID, string Name, string Code,Single Longitude,Single Latitude, Single AMSL,string Country)=AirportParser.StringParser(list);
             return new Airport(ID, Name, Code, Longitude, Latitude, AMSL, Country);
         }
         public IEntity CreateInstance(byte[] bytes)
         {
-            (UInt64 ID, string Name, string Code, Single Longitude, Single Latitude, Single AMSL, string Country) = AirportParser.AirportParserByte(bytes);
+            (UInt64 ID, string Name, string Code, Single Longitude, Single Latitude, Single AMSL, string Country) = AirportParser.ByteParser(bytes);
             return new Airport(ID, Name, Code, Longitude, Latitude, AMSL, Country);
 
             
         }
     }
     
-    public static class AirportParser
+    public class AirportParser
     {
-        public static (UInt64, string, string, Single, Single, Single, string) AirportParserString(string[] list)
+        public static (UInt64, string, string, Single, Single, Single, string) StringParser(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
             string Name = list[1];
@@ -57,28 +57,25 @@ namespace PROJOBJ1
             string Country = list[6];
             return (ID, Name, Code, Longitude, Latitude, AMSL, Country);
         }
-        public static (UInt64, string, string, Single, Single, Single, string) AirportParserByte(byte[] bytes)
+        public static (UInt64, string, string, Single, Single, Single, string) ByteParser(byte[] bytes)
         {
             UInt64 ID;
             Single Longitude, Latitude, AMSL;
             string Name, Code, Country;
             using (MemoryStream stream = new MemoryStream(bytes))
             {
-                using (BinaryReader reader = new BinaryReader(stream))
+                using (BinaryReader reader = new BinaryReader(stream,new System.Text.ASCIIEncoding()))
                 {
                     ID = reader.ReadUInt64();
                     UInt16 NameLength = reader.ReadUInt16();
-                    byte[] NameBytes = reader.ReadBytes(NameLength);
-                    Name = Encoding.ASCII.GetString(NameBytes);
+                    Name = new string(reader.ReadChars(NameLength));
                     int CodeLength = 3;
-                    byte[] CodeBytes = reader.ReadBytes(CodeLength);
-                    Code = Encoding.ASCII.GetString(CodeBytes);
+                    Code = new string(reader.ReadChars(CodeLength));
                     Longitude = reader.ReadSingle();
                     Latitude = reader.ReadSingle();
                     AMSL = reader.ReadSingle();
                     int CountryLength = 3;
-                    byte[] CountryBytes = reader.ReadBytes(CountryLength);
-                    Country = Encoding.ASCII.GetString(CountryBytes);
+                    Country=new string(reader.ReadChars(CountryLength));
                 }
             }
             return (ID, Name, Code, Longitude, Latitude, AMSL, Country);

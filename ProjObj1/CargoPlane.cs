@@ -20,19 +20,19 @@ namespace PROJOBJ1
         public IEntity CreateInstance(string[] list)
         {
 
-            (UInt64 ID, string Serial, string Country, string Model, Single MaxLoad) = CargoPlaneParser.CargoPlaneParserString(list);         
+            (UInt64 ID, string Serial, string Country, string Model, Single MaxLoad) = CargoPlaneParser.StringParser(list);         
             return new CargoPlane(ID, Serial, Country, Model, MaxLoad);
         }
 
         public IEntity CreateInstance(byte[] bytes)
         {
-            (UInt64 ID, string Serial, string Country, string Model, Single MaxLoad) = CargoPlaneParser.CargoPlaneParserBytes(bytes);
+            (UInt64 ID, string Serial, string Country, string Model, Single MaxLoad) = CargoPlaneParser.ByteParser(bytes);
             return new CargoPlane(ID, Serial, Country, Model, MaxLoad);
         }
     }
     public static class CargoPlaneParser
     {
-        public static (UInt64,string,string,string,Single) CargoPlaneParserString(string[] list)
+        public static (UInt64,string,string,string,Single) StringParser(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
             string Serial = list[1];
@@ -41,26 +41,23 @@ namespace PROJOBJ1
             Single MaxLoad = Single.Parse(list[4], CultureInfo.InvariantCulture);
             return (ID,Serial, Country, Model, MaxLoad);
         }
-        public static (UInt64, string, string, string,Single) CargoPlaneParserBytes(Byte[] bytes)
+        public static (UInt64, string, string, string,Single) ByteParser(Byte[] bytes)
         {
             UInt64 ID;
             Single MaxLoad;
             string Serial,Country,Model;
             using (MemoryStream stream = new MemoryStream(bytes))
             {
-                using (BinaryReader reader = new BinaryReader(stream))
+                using (BinaryReader reader = new BinaryReader(stream,new System.Text.ASCIIEncoding()))
                 {
                     ID = reader.ReadUInt64();
 
                     int SerialLength = 10;
-                    byte[] SerialBytes=reader.ReadBytes(SerialLength);
-                    Serial=Encoding.ASCII.GetString(SerialBytes).Trim('\0');
+                    Serial=new string(reader.ReadChars(SerialLength)).Trim('\0');
                     int CountryLength = 3;
-                    byte[] CountryBytes = reader.ReadBytes(CountryLength);
-                    Country=Encoding.ASCII.GetString(CountryBytes);
+                    Country=new string(reader.ReadChars(CountryLength)).Trim('\0');
                     UInt16 ModelLength=reader.ReadUInt16();
-                    byte[] ModelBytes = reader.ReadBytes(ModelLength);
-                    Model=Encoding.ASCII.GetString(ModelBytes);
+                    Model = new string(reader.ReadChars(ModelLength));
                     MaxLoad= reader.ReadSingle();
                 }
             }

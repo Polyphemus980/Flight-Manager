@@ -10,37 +10,33 @@ public class Program
     public static int Main(string[] args)
     {
         string inPath = "example_data.ftr";
-        string outPath = "kokoksdafdsadsasf.json";
-        if (args.Length != 2)
+        string? Command;
+        int min=1, max=1;
+        if (args.Length != 3)
         {
-            Console.WriteLine("Usage: [string] input file path, [string] output file path");
-            //return 1;
+            Console.WriteLine("Usage: [string] input file path, [int] min message time, [int] max message time");
+            return 1;
         }
         else
         {
-            inPath= args[0];
-            outPath= args[1];
+            inPath = args[0];
+            min = int.Parse(args[1]);
+            max = int.Parse(args[2]);
         }
-        DataHandler dataHandler = new DataHandler();
-        string command;
-        string serializePath;
-        NetworkSourceSimulator.NetworkSourceSimulator s = new NetworkSourceSimulator.NetworkSourceSimulator(inPath, 1, 2);
-        Task.Run(s.Run);
-        s.OnNewDataReady += dataHandler.EventHandler;
-        while ((command=Console.ReadLine())!= "exit")
+
+        Server Server = new Server(inPath, min, max);
+        Server.StartServer();
+        while ((Command = Console.ReadLine()) != null)
         {
-            if (command=="print")
+            if (Command == "exit")
             {
-                DateTime t= DateTime.Now;
-                serializePath = "snapshot_" + t.Hour + "_" + t.Minute + "_" + t.Second + ".json";
-                lock (dataHandler.objects)
-                {
-                    dataHandler.SaveToPath(serializePath);
-                }
-                serializePath = "";
+                break;
+            }
+            if (Command == "print")
+            {
+                Server.MakeSnapshot();
             }
         }
         return 0;
-
     }
 }

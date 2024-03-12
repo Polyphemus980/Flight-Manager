@@ -48,7 +48,7 @@ namespace PROJOBJ1
         }
         public IEntity CreateInstance(byte[] bytes)
         {
-            (UInt64 ID, UInt64 Origin, UInt64 Target, string TakeoffTime, string LandingTime, Single? Longitude, Single? Latitude, Single? AMSL, UInt64 PlaneID, UInt64[] Crew, UInt64[] Load) = FlightParser.FlightParserBytes(bytes);
+            (UInt64 ID, UInt64 Origin, UInt64 Target, string TakeoffTime, string LandingTime, Single? Longitude, Single? Latitude, Single? AMSL, UInt64 PlaneID, UInt64[] Crew, UInt64[] Load) = FlightParser.ByteParser(bytes);
             return new Flight(ID, Origin, Target, TakeoffTime, LandingTime, Longitude, Latitude, AMSL, PlaneID, Crew, Load);
 
         }
@@ -83,7 +83,7 @@ namespace PROJOBJ1
             }
             return (ID, Origin, Target, TakeoffTime, LandingTime, Longitude, Latitude, AMSL, PlaneID, Crew, Load);
         }
-        public static (UInt64, UInt64, UInt64, string, string, Single?, Single?, Single?, UInt64, UInt64[], UInt64[]) FlightParserBytes(Byte[] bytes)
+        public static (UInt64, UInt64, UInt64, string, string, Single?, Single?, Single?, UInt64, UInt64[], UInt64[]) ByteParser(Byte[] bytes)
         {
             UInt64 ID, Origin, Target, PlaneID;
             UInt64[] Crew;
@@ -91,7 +91,7 @@ namespace PROJOBJ1
             string TakeoffTime, LandingTime;
             using (MemoryStream stream = new MemoryStream(bytes))
             {
-                using (BinaryReader reader = new BinaryReader(stream))
+                using (BinaryReader reader = new BinaryReader(stream,new System.Text.ASCIIEncoding()))
                 {
                     ID = reader.ReadUInt64();
                     Origin= reader.ReadUInt64();

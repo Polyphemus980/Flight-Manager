@@ -11,53 +11,12 @@ using System.Text.Json.Serialization;
 
 namespace PROJOBJ1
 {
-    public class DataHandler
+    public static class DataHandler
     {
-        public List<IEntity> objects = new List<IEntity>();
         
-        private readonly Dictionary<string, IFactory> Factories = new Dictionary<string, IFactory>();
+        public static readonly Dictionary<string, IFactory> Factories = new Dictionary<string, IFactory>();
 
-        public void EventHandler(object sender, NewDataReadyArgs args)
-        {
-            Int32 length;
-            string nm;
-            byte[] restofmessage;
-            NetworkSourceSimulator.NetworkSourceSimulator server = sender as NetworkSourceSimulator.NetworkSourceSimulator;
-            Message msg=server.GetMessageAt(args.MessageIndex);
-            using (MemoryStream memoryStream = new MemoryStream(msg.MessageBytes))
-            {
-                using (BinaryReader read=new BinaryReader(memoryStream))
-                {
-                    byte[] s = read.ReadBytes(3);
-                    string name=Encoding.UTF8.GetString(s);
-                    nm = CodeParser(name);
-                    length = read.ReadInt32();
-                    restofmessage = read.ReadBytes(length);
-                }
-            }
-            lock (objects)
-            {
-                objects.Add(Factories[nm].CreateInstance(restofmessage));
-            }
-            return;
-
-        }
-        public static string CodeParser(string s)
-        {
-            switch (s)
-            {
-                case "NCR":return "C";
-                case "NPA":return "P";
-                case "NCA":return "CA";
-                case "NCP":return "CP";
-                case "NPP":return "PP";
-                case "NAI":return "AI";
-                case "NFL":return "FL";
-                default: return "";
-            }
-        }
-
-        public DataHandler()
+        static DataHandler()
         {
             Factories = new Dictionary<string, IFactory>
             {
@@ -69,28 +28,8 @@ namespace PROJOBJ1
                 { "AI", new AirportFactory() },
                 { "FL", new FlightFactory() }
             };
-            objects = new List<IEntity>();
         }
-
-        public DataHandler(Dictionary<string, IFactory> factories)
-        {
-
-            objects = new List<IEntity>();
-            Factories = factories;
-        }
-
-        public void LoadObjects(string path)
-        {
-            List<string[]> propertiesList = ParseFromFile(path);
-            foreach (string[] properties in propertiesList)
-            {
-                string name = properties[0];
-                IEntity objectInstance = Factories[name].CreateInstance(properties[1..properties.Length]);
-                objects.Add(objectInstance);
-            }
-        }
-
-        private List<string> SerializeObjects()
+        private static List<string> SerializeObjects(List<IEntity> objects)
         {
             List<string> serializedObjects = new List<string>();
             foreach (IEntity objectInstance in objects)
@@ -99,9 +38,9 @@ namespace PROJOBJ1
             }
             return serializedObjects;
         }
-        public void SaveToPath(string path)
+        public static void SaveToPath(string path, List<IEntity> objects)
         {
-            List<string> serializedObjects = SerializeObjects();
+            List<string> serializedObjects = SerializeObjects(objects);
             using (StreamWriter writer = new StreamWriter(path))
             {
                 foreach (string objectInstance in serializedObjects)
@@ -110,20 +49,7 @@ namespace PROJOBJ1
                 }
             }
         }
-
-
-        public List<string[]> ParseFromFile(string path)
-        {
-                List<string[]> parsedLines = new List<string[]>();
-                List<string> lines = ReadFromFile(path);
-                foreach (string line in lines)
-                {
-                    parsedLines.Add(line.Split(','));
-                }
-                return parsedLines;
-        }
-
-        private List<string> ReadFromFile(string path)
+        public static List<string> ReadFromFile(string path)
         {
                List<string> lineList = new List<string>();
                 if (!File.Exists(path))
@@ -141,6 +67,10 @@ namespace PROJOBJ1
                 return lineList;
         }
 
+        
+        
 
-        }
-    } 
+        
+    }
+    
+} 

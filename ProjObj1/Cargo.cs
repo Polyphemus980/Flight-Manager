@@ -27,19 +27,19 @@ namespace PROJOBJ1
     {
         public IEntity CreateInstance(string[] list)
         {
-            (UInt64 ID,Single Weigth,string Code,string Description)=CargoParser.CargoParserString(list);
+            (UInt64 ID,Single Weigth,string Code,string Description)=CargoParser.StringParser(list);
             return new Cargo(ID, Weigth, Code, Description);
         }
 
         public IEntity CreateInstance(byte[] bytes)
         {
-            (UInt64 ID, Single Weigth, string Code, string Description) = CargoParser.CargoParserBytes(bytes);
+            (UInt64 ID, Single Weigth, string Code, string Description) = CargoParser.ByteParser(bytes);
             return new Cargo(ID , Weigth, Code, Description);
         }
     }
     public static class CargoParser
     {
-        public static (UInt64, Single, string, string) CargoParserString(string[] list)
+        public static (UInt64, Single, string, string) StringParser(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
             Single Weigth = Single.Parse(list[1], CultureInfo.InvariantCulture);
@@ -47,24 +47,21 @@ namespace PROJOBJ1
             string Description = list[3];
             return (ID, Weigth, Code, Description);
         }
-        public static (UInt64, Single, string, string) CargoParserBytes(Byte[] bytes)
+        public static (UInt64, Single, string, string) ByteParser(Byte[] bytes)
         {
             UInt64 ID;
             Single Weigth;
             string Code,Description;
             using (MemoryStream stream= new MemoryStream(bytes))
             {
-                using (BinaryReader reader=new BinaryReader(stream))
+                using (BinaryReader reader=new BinaryReader(stream,new System.Text.ASCIIEncoding()))
                 {
                     ID = reader.ReadUInt64();
                     Weigth = reader.ReadSingle();
                     int CodeLength = 6;
-                    byte[] CodeBytes = reader.ReadBytes(CodeLength);
-                    Code = Encoding.ASCII.GetString(CodeBytes);
-
+                    Code = new string(reader.ReadChars(CodeLength));
                     UInt16 DescriptionLength = reader.ReadUInt16();
-                    byte[] DescriptionBytes=reader.ReadBytes(DescriptionLength);
-                    Description= Encoding.ASCII.GetString(DescriptionBytes);
+                    Description= new string(reader.ReadChars(DescriptionLength));
                 }
             }
             return (ID, Weigth, Code,Description);
