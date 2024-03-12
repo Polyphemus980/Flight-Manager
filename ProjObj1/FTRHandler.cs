@@ -19,7 +19,7 @@ namespace PROJOBJ1
                 objects.Add(objectInstance);
             }
         }
-        public List<string[]> ParseFromFile(string path)
+        private List<string[]> ParseFromFile(string path)
         {
             List<string[]> parsedLines = new List<string[]>();
             List<string> lines = DataHandler.ReadFromFile(path);

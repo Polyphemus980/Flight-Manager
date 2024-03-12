@@ -29,7 +29,7 @@ namespace PROJOBJ1
                 { "FL", new FlightFactory() }
             };
         }
-        private static List<string> SerializeObjects(List<IEntity> objects)
+        public static List<string> SerializeObjects(List<IEntity> objects)
         {
             List<string> serializedObjects = new List<string>();
             foreach (IEntity objectInstance in objects)
