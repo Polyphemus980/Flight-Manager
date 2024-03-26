@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,20 +9,62 @@ namespace PROJOBJ1
 {
     public class ServerHandler
     {
-        public List<IEntity> Objects;
-        
-        public ServerHandler() 
+        private NetworkSourceSimulator.NetworkSourceSimulator NetworkSource;
+        public List<IEntity> objects;
+        public Visitor visitor;
+        public ServerHandler(string inPath, int minTime, int maxTime)
         {
-            Objects=new List<IEntity>();
+
+            objects=new List<IEntity>();
+            visitor=new Visitor();
+            NetworkSource = new NetworkSourceSimulator.NetworkSourceSimulator(inPath, minTime, maxTime);
+            NetworkSource.OnNewDataReady += EventHandler;
+        }
+        public void StartServer()
+        {
+            Task.Run(NetworkSource.Run);
+            Task.Run(()=>ConsoleReact());
+        }
+        
+        public void ConsoleReact()
+        {
+            string Command = "";
+            while ((Command = Console.ReadLine()) != null)
+            {
+                if (Command == "exit")
+                {
+                    Environment.Exit(0);
+                }
+                if (Command == "print")
+                {
+                    MakeSnapshot();
+                }
+            }
+        }
+        public void MakeSnapshot()
+        {
+
+            lock (objects) 
+            {
+                DataHandler.SaveToPath(SnapshotName(), objects);
+            }
+        }
+        public static string SnapshotName()
+        {
+            DateTime CurrentTime = DateTime.Now;
+            string SnapshotName = "snapshot_" + CurrentTime.Hour + "_" + CurrentTime.Minute + "_" + CurrentTime.Second + ".json";
+            return SnapshotName;
         }
         public void EventHandler(object sender, NewDataReadyArgs args)
         {
-            NetworkSourceSimulator.NetworkSourceSimulator server = (NetworkSourceSimulator.NetworkSourceSimulator) sender;
+            NetworkSourceSimulator.NetworkSourceSimulator server = (NetworkSourceSimulator.NetworkSourceSimulator)sender;
             Message msg = server.GetMessageAt(args.MessageIndex);
-            (string Code, Byte[] InstanceData)= GetMessageInfo(msg);
-            lock (Objects)
+            (string Code, Byte[] instanceData) = GetMessageInfo(msg);
+            lock (objects)
             {
-                Objects.Add(DataHandler.Factories[Code].CreateInstance(InstanceData));
+                IEntity instance = DataHandler.Factories[Code].CreateInstance(instanceData);
+                instance.accept(visitor);
+                objects.Add(instance);
             }
             return;
         }
@@ -38,7 +79,7 @@ namespace PROJOBJ1
                 {
                     byte[] CodeBytes = read.ReadBytes(3);
                     Code = Encoding.ASCII.GetString(CodeBytes);
-                    Code=CodeParser(Code);
+                    Code = CodeParser(Code);
                     Length = read.ReadInt32();
                     InstanceData = read.ReadBytes(Length);
                 }

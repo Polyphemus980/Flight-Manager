@@ -18,25 +18,28 @@ namespace PROJOBJ1
             this.Class = Class;
             this.Miles = Miles ;
         }
+
+        public void accept(Visitor visitor)
+        {
+            visitor.visitPassenger(this);
+        }
     }
 
     public class PassengerFactory : IFactory
     {
         public IEntity CreateInstance(string[] list)
         {
-            (UInt64 ID, string Name, UInt64 Age, string Phone, string Email, string Class, UInt64 Role) = PassengerParser.StringParser(list);
-            return new Passenger(ID, Name, Age, Phone, Email, Class, Role);
+            return PassengerParser.StringParser(list);
         }
 
         public IEntity CreateInstance(byte[] bytes)
         {
-            (UInt64 ID, string Name, UInt64 Age, string Phone, string Email, string Class, UInt64 Role) = PassengerParser.ByteParser(bytes);
-            return new Passenger(ID, Name, Age, Phone, Email, Class, Role);
+            return PassengerParser.ByteParser(bytes);
         }
     }
     public static class PassengerParser
     {
-        public static (UInt64,string,UInt64,string,string,string,UInt64) StringParser(string[] list)
+        public static Passenger StringParser(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
             string Name = list[1];
@@ -45,9 +48,9 @@ namespace PROJOBJ1
             string Email = list[4];
             string Class = list[5];
             UInt64 Miles = UInt64.Parse(list[6]);
-            return (ID, Name, Age, Phone, Email, Class, Miles);
+            return new Passenger(ID, Name, Age, Phone, Email, Class, Miles);
         }
-        public static (UInt64, string, UInt64, string, string,string, UInt64) ByteParser(Byte[] bytes)
+        public static Passenger ByteParser(Byte[] bytes)
         {
             UInt64 ID, Miles;
             UInt16 Age;
@@ -71,7 +74,7 @@ namespace PROJOBJ1
                 }
 
             }
-            return (ID, Name, Age, Phone, Email, Class, Miles);
+            return new Passenger(ID, Name, Age, Phone, Email, Class, Miles);
         }
     }
 }

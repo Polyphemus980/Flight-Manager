@@ -17,6 +17,8 @@ namespace PROJOBJ1
     public interface IEntity
     {
         public UInt64 ID { get; set; }
+
+        public void accept(Visitor visitor);
     }
 
 }

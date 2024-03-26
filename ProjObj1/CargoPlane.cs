@@ -7,12 +7,17 @@ using System.Threading.Tasks;
 
 namespace PROJOBJ1
 {
-    public class CargoPlane : Airplane,IEntity
+    public class CargoPlane : Airplane, IEntity
     {
         public Single MaxLoad { get; set; }
         public CargoPlane(UInt64 ID, string Serial, string Country, string Model, Single MaxLoad):base(ID,Serial,Country,Model)
         {
             this.MaxLoad = MaxLoad;
+        }
+
+        public void accept(Visitor visitor)
+        {
+            visitor.visitCargoPlane(this);
         }
     }
     public class CargoPlaneFactory : IFactory
@@ -20,28 +25,26 @@ namespace PROJOBJ1
         public IEntity CreateInstance(string[] list)
         {
 
-            (UInt64 ID, string Serial, string Country, string Model, Single MaxLoad) = CargoPlaneParser.StringParser(list);         
-            return new CargoPlane(ID, Serial, Country, Model, MaxLoad);
+            return CargoPlaneParser.StringParser(list);
         }
 
         public IEntity CreateInstance(byte[] bytes)
         {
-            (UInt64 ID, string Serial, string Country, string Model, Single MaxLoad) = CargoPlaneParser.ByteParser(bytes);
-            return new CargoPlane(ID, Serial, Country, Model, MaxLoad);
+            return CargoPlaneParser.ByteParser(bytes);
         }
     }
     public static class CargoPlaneParser
     {
-        public static (UInt64,string,string,string,Single) StringParser(string[] list)
+        public static CargoPlane StringParser(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
             string Serial = list[1];
             string Country = list[2];
             string Model = list[3];
             Single MaxLoad = Single.Parse(list[4], CultureInfo.InvariantCulture);
-            return (ID,Serial, Country, Model, MaxLoad);
+            return new CargoPlane(ID,Serial, Country, Model, MaxLoad);
         }
-        public static (UInt64, string, string, string,Single) ByteParser(Byte[] bytes)
+        public static CargoPlane ByteParser(Byte[] bytes)
         {
             UInt64 ID;
             Single MaxLoad;
@@ -61,7 +64,7 @@ namespace PROJOBJ1
                     MaxLoad= reader.ReadSingle();
                 }
             }
-            return (ID, Serial,Country,Model,MaxLoad);
+            return new CargoPlane(ID, Serial,Country,Model,MaxLoad);
         }
     }
 }

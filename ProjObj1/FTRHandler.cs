@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DynamicData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace PROJOBJ1
     public class FTRHandler
     {
         public List<IEntity> objects=new List<IEntity>();
+        public Visitor visitor = new Visitor();
         public void LoadObjects(string path)
         {
             List<string[]> propertiesList = ParseFromFile(path);
@@ -16,8 +18,30 @@ namespace PROJOBJ1
             {
                 string name = properties[0];
                 IEntity objectInstance = DataHandler.Factories[name].CreateInstance(properties[1..properties.Length]);
+                objectInstance.accept(visitor);
                 objects.Add(objectInstance);
             }
+        }
+       
+        public (List<Airport> ,List<Flight>) Get(string path)
+        {
+            List<string[]> propertiesList = ParseFromFile(path);
+            List<Airport> airports = new List<Airport>();
+            List<Flight> flights = new List<Flight>();
+            foreach (string[] properties in propertiesList)
+            {
+                string name = properties[0];
+                if (name=="AI")
+                {
+                    airports.Add((Airport) DataHandler.Factories[name].CreateInstance(properties[1..properties.Length]));
+                }
+                else if (name=="FL")
+                {
+                    flights.Add((Flight)DataHandler.Factories[name].CreateInstance(properties[1..properties.Length]));
+                }
+            }
+            return (airports, flights);
+
         }
         private List<string[]> ParseFromFile(string path)
         {
@@ -29,5 +53,6 @@ namespace PROJOBJ1
             }
             return parsedLines;
         }
+
     }
 }

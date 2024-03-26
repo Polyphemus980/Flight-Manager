@@ -27,18 +27,21 @@ namespace PROJOBJ1
             this.AMSL = AMSL;
             this.Country = Country;
         }
+
+        public void accept(Visitor visitor)
+        {
+            visitor.visitAirport(this);
+        }
     }
     public class AirportFactory : IFactory
     {
         public IEntity CreateInstance(string[] list)
         {
-            (UInt64 ID, string Name, string Code,Single Longitude,Single Latitude, Single AMSL,string Country)=AirportParser.StringParser(list);
-            return new Airport(ID, Name, Code, Longitude, Latitude, AMSL, Country);
+            return AirportParser.StringParser(list);
         }
         public IEntity CreateInstance(byte[] bytes)
         {
-            (UInt64 ID, string Name, string Code, Single Longitude, Single Latitude, Single AMSL, string Country) = AirportParser.ByteParser(bytes);
-            return new Airport(ID, Name, Code, Longitude, Latitude, AMSL, Country);
+            return AirportParser.ByteParser(bytes);
 
             
         }
@@ -46,7 +49,7 @@ namespace PROJOBJ1
     
     public class AirportParser
     {
-        public static (UInt64, string, string, Single, Single, Single, string) StringParser(string[] list)
+        public static Airport StringParser(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
             string Name = list[1];
@@ -55,9 +58,9 @@ namespace PROJOBJ1
             Single Latitude = Single.Parse(list[4], CultureInfo.InvariantCulture);
             Single AMSL = Single.Parse(list[5], CultureInfo.InvariantCulture);
             string Country = list[6];
-            return (ID, Name, Code, Longitude, Latitude, AMSL, Country);
+            return new Airport(ID, Name, Code, Longitude, Latitude, AMSL, Country);
         }
-        public static (UInt64, string, string, Single, Single, Single, string) ByteParser(byte[] bytes)
+        public static Airport ByteParser(byte[] bytes)
         {
             UInt64 ID;
             Single Longitude, Latitude, AMSL;
@@ -78,7 +81,7 @@ namespace PROJOBJ1
                     Country=new string(reader.ReadChars(CountryLength));
                 }
             }
-            return (ID, Name, Code, Longitude, Latitude, AMSL, Country);
+            return new Airport(ID, Name, Code, Longitude, Latitude, AMSL, Country);
         }
     }
 }

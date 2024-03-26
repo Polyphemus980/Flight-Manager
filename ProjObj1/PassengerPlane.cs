@@ -19,25 +19,28 @@ namespace PROJOBJ1
             this.EconomicClassSize = EconomicClassSize; 
             this.BusinessClassSize = BusinessClassSize;
         }
+
+        public void accept(Visitor visitor)
+        {
+            visitor.visitPassengerPlane(this);
+        }
     }
     public class PassengerPlaneFactory : IFactory
     {
         public IEntity CreateInstance(string[] list)
         {
-            (UInt64 ID, string Serial, string Country, string Model, UInt16 FirstClassSize, UInt16 EconomicClassSize, UInt16 BusinessClassSize) = PassengerPlaneParser.StringParser(list);
-            return new PassengerPlane(ID, Serial, Country, Model, FirstClassSize, EconomicClassSize, BusinessClassSize);
+            return PassengerPlaneParser.StringParser(list);
         }
 
         public IEntity CreateInstance(byte[] bytes)
         {
 
-            (UInt64 ID, string Serial, string Country, string Model, UInt16 FirstClassSize, UInt16 EconomicClassSize, UInt16 BusinessClassSize) = PassengerPlaneParser.ByteParser(bytes);
-            return new PassengerPlane(ID, Serial, Country, Model, FirstClassSize, EconomicClassSize, BusinessClassSize);
+            return PassengerPlaneParser.ByteParser(bytes);
         }
     }
     public static class PassengerPlaneParser
     {
-        public static (UInt64,string,string,string,UInt16,UInt16,UInt16) StringParser(string[] list)
+        public static PassengerPlane StringParser(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
             string Serial = list[1];
@@ -46,9 +49,9 @@ namespace PROJOBJ1
             UInt16 FirstClassSize = UInt16.Parse(list[4]);
             UInt16 EconomicClassSize = UInt16.Parse(list[5]);
             UInt16 BusinessClassSize = UInt16.Parse(list[6]);
-            return (ID, Serial, Country, Model, FirstClassSize, EconomicClassSize, BusinessClassSize);
+            return new PassengerPlane(ID, Serial, Country, Model, FirstClassSize, EconomicClassSize, BusinessClassSize);
         }
-        public static (UInt64, string, string, string, UInt16,UInt16,UInt16) ByteParser(Byte[] bytes)
+        public static PassengerPlane ByteParser(Byte[] bytes)
         {
             UInt64 ID;
             UInt16 FirstClassSize,EconomicClassSize,BusinessClassSize;
@@ -71,7 +74,7 @@ namespace PROJOBJ1
 
                 }
             }
-            return (ID, Serial, Country, Model, FirstClassSize, EconomicClassSize, BusinessClassSize);
+            return new PassengerPlane(ID, Serial, Country, Model, FirstClassSize, EconomicClassSize, BusinessClassSize);
         }
     }
 }

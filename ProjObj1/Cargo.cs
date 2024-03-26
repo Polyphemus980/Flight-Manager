@@ -22,32 +22,35 @@ namespace PROJOBJ1
             this.Code = Code;
             this.Description = Description;
         }
+
+        public void accept(Visitor visitor)
+        {
+            visitor.visitCargo(this);
+        }
     }
     public class CargoFactory : IFactory
     {
         public IEntity CreateInstance(string[] list)
         {
-            (UInt64 ID,Single Weigth,string Code,string Description)=CargoParser.StringParser(list);
-            return new Cargo(ID, Weigth, Code, Description);
+            return CargoParser.StringParser(list);
         }
 
         public IEntity CreateInstance(byte[] bytes)
         {
-            (UInt64 ID, Single Weigth, string Code, string Description) = CargoParser.ByteParser(bytes);
-            return new Cargo(ID , Weigth, Code, Description);
+           return CargoParser.ByteParser(bytes);
         }
     }
     public static class CargoParser
     {
-        public static (UInt64, Single, string, string) StringParser(string[] list)
+        public static Cargo StringParser(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
             Single Weigth = Single.Parse(list[1], CultureInfo.InvariantCulture);
             string Code = list[2];
             string Description = list[3];
-            return (ID, Weigth, Code, Description);
+            return new Cargo(ID, Weigth, Code, Description);
         }
-        public static (UInt64, Single, string, string) ByteParser(Byte[] bytes)
+        public static Cargo ByteParser(Byte[] bytes)
         {
             UInt64 ID;
             Single Weigth;
@@ -64,7 +67,7 @@ namespace PROJOBJ1
                     Description= new string(reader.ReadChars(DescriptionLength));
                 }
             }
-            return (ID, Weigth, Code,Description);
+            return new Cargo(ID, Weigth, Code,Description);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tmds.DBus.Protocol;
 
 namespace PROJOBJ1
 {
@@ -18,24 +19,26 @@ namespace PROJOBJ1
             this.Role = Role;
         }
 
+        public void accept(Visitor visitor)
+        {
+            visitor.visitCrew(this);
+        }
     }
     public class CrewFactory : IFactory
     {
         public IEntity CreateInstance(string[] list)
         {
-            (UInt64 ID, string Name, UInt64 Age,string Phone,string Email, UInt16 Practice, string Role)=CrewParser.StringParser(list);
-            return new Crew(ID, Name, Age, Phone, Email, Practice, Role);
+            return CrewParser.StringParser(list);
         }
 
         public IEntity CreateInstance(byte[] bytes)
         {
-            (UInt64 ID, string Name, UInt64 Age, string Phone, string Email, UInt16 Practice, string Role) = CrewParser.ByteParser(bytes);
-            return new Crew(ID, Name, Age, Phone, Email, Practice, Role);
+            return CrewParser.ByteParser(bytes);
         }
     }
     public static class CrewParser
     {
-        public static (UInt64,string,UInt64,string,string,UInt16,string) StringParser(string[] list)
+        public static Crew StringParser(string[] list)
         {
             UInt64 ID = UInt64.Parse(list[0]);
             string Name = list[1];
@@ -44,9 +47,9 @@ namespace PROJOBJ1
             string Email = list[4];
             UInt16 Practice = UInt16.Parse(list[5]);
             string Role = list[6];
-            return (ID, Name, Age, Phone, Email, Practice, Role);
+            return new Crew(ID, Name, Age, Phone, Email, Practice, Role);
         }
-        public static (UInt64, string,UInt64, string, string, UInt16,string) ByteParser(Byte[] bytes)
+        public static Crew ByteParser(Byte[] bytes)
         {
             UInt64 ID;
             UInt16 Age, Practice;
@@ -69,7 +72,7 @@ namespace PROJOBJ1
                 }
 
             }
-            return (ID, Name,Age,Phone,Email,Practice,Role);
+            return new Crew(ID, Name,Age,Phone,Email,Practice,Role);
         }
     }
 }
