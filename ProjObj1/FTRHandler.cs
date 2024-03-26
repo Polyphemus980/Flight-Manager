@@ -23,26 +23,6 @@ namespace PROJOBJ1
             }
         }
        
-        public (List<Airport> ,List<Flight>) Get(string path)
-        {
-            List<string[]> propertiesList = ParseFromFile(path);
-            List<Airport> airports = new List<Airport>();
-            List<Flight> flights = new List<Flight>();
-            foreach (string[] properties in propertiesList)
-            {
-                string name = properties[0];
-                if (name=="AI")
-                {
-                    airports.Add((Airport) DataHandler.Factories[name].CreateInstance(properties[1..properties.Length]));
-                }
-                else if (name=="FL")
-                {
-                    flights.Add((Flight)DataHandler.Factories[name].CreateInstance(properties[1..properties.Length]));
-                }
-            }
-            return (airports, flights);
-
-        }
         private List<string[]> ParseFromFile(string path)
         {
             List<string[]> parsedLines = new List<string[]>();

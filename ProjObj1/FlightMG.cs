@@ -15,10 +15,6 @@ namespace PROJOBJ1
         
         public FlightMG(List<Flight> flights,Dictionary<ulong,Airport> airports)
         {
-            //foreach (Airport airport in airports)
-            //{
-            //    this.airports.Add(airport.ID, airport);
-            //}
             this.airports = airports;
             List<FlightGUI> flGUIs = new List<FlightGUI>();
             this.flights = flights;
