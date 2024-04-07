@@ -10,7 +10,7 @@ namespace PROJOBJ1
     {
         private IDataSource dataSource;
         private FlightMG flightManager;
-
+        NewsGenerator NewsGenerator;
         public Runner(IDataSource dataSource)
         {
             this.dataSource = dataSource;

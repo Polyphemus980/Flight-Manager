@@ -10,18 +10,34 @@ namespace PROJOBJ1
     {
         private List<IReportable> subjects;
         private List<IReporter> reporters;
-        public NewsGenerator(List<IReporter> reporters,List<IReportable> subjects)
+        public static List<IReporter> usual_reporters = new List<IReporter>
+        {
+            new Television("Telewizja Abelowa"),
+            new Television("Kanał TV-tensor"),
+            new Radio("Radio Kwantyfikator"),
+            new Radio("Radio Shmem"),
+            new Newspaper("Gazeta Kategoryczna"),
+            new Newspaper("Dziennik Politechniczny")
+        };
+
+    public NewsGenerator(List<IReporter> reporters,List<IReportable> subjects)
         {
             this.reporters = reporters;
             this.subjects = subjects;
         }
         public IEnumerable<string> GenerateNextNews()
         {
-            foreach (IReporter reporter in reporters)
+            lock (reporters)
             {
-                foreach (IReportable subject in subjects)
+                lock (subjects)
                 {
-                    yield return subject.acceptReport(reporter);
+                    foreach (IReporter reporter in reporters)
+                    {
+                        foreach (IReportable subject in subjects)
+                        {
+                            yield return subject.acceptReport(reporter);
+                        }
+                    }
                 }
             }
 

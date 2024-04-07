@@ -21,38 +21,10 @@ namespace PROJOBJ1
         public void Start()
         {
             Task.Run(NetworkSource.Run);
-            Task.Run(ConsoleReact);
+            Task.Run(()=>DataHandler.ConsoleReact(this));
         }
         
-        public void ConsoleReact()
-        {
-            string Command = "";
-            while ((Command = Console.ReadLine()) != null)
-            {
-                if (Command == "exit")
-                {
-                    Environment.Exit(0);
-                }
-                if (Command == "print")
-                {
-                    MakeSnapshot();
-                }
-            }
-        }
-        public void MakeSnapshot()
-        {
-
-            lock (objects) 
-            {
-                DataHandler.SaveToPath(SnapshotName(), objects);
-            }
-        }
-        public static string SnapshotName()
-        {
-            DateTime CurrentTime = DateTime.Now;
-            string SnapshotName = "snapshot_" + CurrentTime.Hour + "_" + CurrentTime.Minute + "_" + CurrentTime.Second + ".json";
-            return SnapshotName;
-        }
+       
         public void EventHandler(object sender, NewDataReadyArgs args)
         {
             NetworkSourceSimulator.NetworkSourceSimulator server = (NetworkSourceSimulator.NetworkSourceSimulator)sender;

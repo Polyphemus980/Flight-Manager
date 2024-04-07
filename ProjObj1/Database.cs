@@ -15,12 +15,16 @@ namespace PROJOBJ1
         public static List<CargoPlane> cargoPlanes = new List<CargoPlane>();
         public static List<Passenger> passengers = new List<Passenger>();
         public static List<PassengerPlane> passengerPlanes = new List<PassengerPlane>();
-
+        public static List<IReportable> subjects= new List<IReportable>();
         public static void AddAirport(Airport airport)
         {
             lock (airports)
             {
                 airports.Add(airport.ID, airport);
+            }
+            lock (airports) 
+            {
+                subjects.Add(airport);
             }
         }
 
@@ -54,6 +58,10 @@ namespace PROJOBJ1
             {
                 cargoPlanes.Add(cargoPlane);
             }
+            lock (subjects)
+            {
+                subjects.Add(cargoPlane);
+            }
         }
 
         public static void AddPassenger(Passenger passenger)
@@ -69,6 +77,10 @@ namespace PROJOBJ1
             lock (passengerPlanes)
             {
                 passengerPlanes.Add(passengerPlane);
+            }
+            lock (subjects)
+            {
+                subjects.Add(passengerPlane);
             }
         }
     }

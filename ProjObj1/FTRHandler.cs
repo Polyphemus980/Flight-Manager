@@ -26,6 +26,7 @@ namespace PROJOBJ1
                 objectInstance.accept();
                 objects.Add(objectInstance);
             }
+            Task.Run(() => DataHandler.ConsoleReact(this));
         }
        
         private List<string[]> ParseFromFile(string path)
