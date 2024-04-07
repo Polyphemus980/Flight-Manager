@@ -7,12 +7,18 @@ using System.Threading.Tasks;
 
 namespace PROJOBJ1
 {
-    public class FTRHandler
+    public class FTRHandler:IDataSource
     {
-        public List<IEntity> objects=new List<IEntity>();
-        public void LoadObjects(string path)
+        public List<IEntity> objects { get; set; }
+        public string inPath { get; set; }
+        public FTRHandler(string inPath)
         {
-            List<string[]> propertiesList = ParseFromFile(path);
+            this.inPath = inPath;
+            objects= new List<IEntity>();
+        }
+        public void Start()
+        {
+            List<string[]> propertiesList = ParseFromFile(inPath);
             foreach (string[] properties in propertiesList)
             {
                 string name = properties[0];

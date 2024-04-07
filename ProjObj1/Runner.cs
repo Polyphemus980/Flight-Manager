@@ -8,19 +8,18 @@ namespace PROJOBJ1
 {
     internal class Runner
     {
-        private ServerHandler server;
+        private IDataSource dataSource;
         private FlightMG flightManager;
-        List<IEntity> objects;
-        public Runner(ServerHandler server)
+
+        public Runner(IDataSource dataSource)
         {
-            this.server = server;
-            flightManager = new FlightMG();
-            objects = new List<IEntity>();
+            this.dataSource = dataSource;
+            this.flightManager = new FlightMG();
         }
 
         public void Run()
         {
-            server.StartServer();
+            dataSource.Start();
             Task.Run(() => FlightTrackerGUI.Runner.Run());
             while (true)
             {

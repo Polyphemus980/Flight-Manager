@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace PROJOBJ1
 {
-    internal interface IDataSource
+    public interface IDataSource
     {
+        List<IEntity> objects {  get;set;}
+        public void Start();
     }
 }

@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace PROJOBJ1
 {
-    public class ServerHandler
+    public class ServerHandler:IDataSource
     {
         private NetworkSourceSimulator.NetworkSourceSimulator NetworkSource;
-        public List<IEntity> objects;
+        public List<IEntity> objects { get; set; }
         public ServerHandler(string inPath, int minTime, int maxTime)
         {
 
@@ -18,7 +18,7 @@ namespace PROJOBJ1
             NetworkSource = new NetworkSourceSimulator.NetworkSourceSimulator(inPath, minTime, maxTime);
             NetworkSource.OnNewDataReady += EventHandler;
         }
-        public void StartServer()
+        public void Start()
         {
             Task.Run(NetworkSource.Run);
             Task.Run(ConsoleReact);
