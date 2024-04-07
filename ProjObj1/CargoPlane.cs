@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PROJOBJ1
 {
-    public class CargoPlane : Airplane, IEntity
+    public class CargoPlane : Airplane, IEntity,IReportable
     {
         public Single MaxLoad { get; set; }
         public CargoPlane(UInt64 ID, string Serial, string Country, string Model, Single MaxLoad):base(ID,Serial,Country,Model)
@@ -15,9 +15,14 @@ namespace PROJOBJ1
             this.MaxLoad = MaxLoad;
         }
 
-        public void accept(Visitor visitor)
+        public void accept()
         {
-            visitor.visitCargoPlane(this);
+            Database.AddCargoPlane(this);
+        }
+
+        public string acceptReport(IReporter reporter)
+        {
+           return reporter.Report(this);
         }
     }
     public class CargoPlaneFactory : IFactory

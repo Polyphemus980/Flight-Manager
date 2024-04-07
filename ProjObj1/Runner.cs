@@ -24,34 +24,11 @@ namespace PROJOBJ1
             Task.Run(() => FlightTrackerGUI.Runner.Run());
             while (true)
             {
-                Refresh();
                 flightManager.UpdateFlights();
                 FlightTrackerGUI.Runner.UpdateGUI(flightManager.flightData);
                 Thread.Sleep(1000);
             }
         }
         
-        private void Refresh()
-        {
-            List<Flight> currentFlights;
-            Dictionary<ulong, Airport> currentAirports;
-            lock (server.visitor.flights)
-            {
-                currentFlights = new List<Flight>(server.visitor.flights);
-            }
-            lock (server.visitor.airports)
-            {
-               currentAirports = new Dictionary<ulong, Airport>(server.visitor.airports);
-            }
-
-            lock (flightManager.flights)
-            {
-                flightManager.flights = currentFlights;
-            }
-            lock (flightManager.airports)
-            {
-                flightManager.airports = currentAirports;
-            }
-        }
     }
 }

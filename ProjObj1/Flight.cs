@@ -39,9 +39,9 @@ namespace PROJOBJ1
             this.LoadIDs = LoadIDs;
         }
 
-        public void accept(Visitor visitor)
+        public void accept()
         {
-            visitor.visitFlight(this);
+            Database.AddFlight(this);
         }
     }
     public class FlightFactory : IFactory

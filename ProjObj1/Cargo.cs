@@ -23,9 +23,9 @@ namespace PROJOBJ1
             this.Description = Description;
         }
 
-        public void accept(Visitor visitor)
+        public void accept()
         {
-            visitor.visitCargo(this);
+            Database.AddCargo(this);
         }
     }
     public class CargoFactory : IFactory

@@ -19,9 +19,9 @@ namespace PROJOBJ1
             this.Role = Role;
         }
 
-        public void accept(Visitor visitor)
+        public void accept()
         {
-            visitor.visitCrew(this);
+            Database.AddCrew(this);
         }
     }
     public class CrewFactory : IFactory

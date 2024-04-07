@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PROJOBJ1
 {
-    public class PassengerPlane : Airplane,IEntity
+    public class PassengerPlane : Airplane,IEntity,IReportable
     {
         public UInt16 FirstClassSize { get; set; }
         public UInt16 EconomicClassSize { get; set; }
@@ -20,9 +20,14 @@ namespace PROJOBJ1
             this.BusinessClassSize = BusinessClassSize;
         }
 
-        public void accept(Visitor visitor)
+        public void accept()
         {
-            visitor.visitPassengerPlane(this);
+            Database.AddPassengerPlane(this);
+        }
+
+        public string acceptReport(IReporter reporter)
+        {
+            return reporter.Report(this);
         }
     }
     public class PassengerPlaneFactory : IFactory

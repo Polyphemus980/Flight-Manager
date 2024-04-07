@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PROJOBJ1
 {
-    public class Airport : IEntity
+    public class Airport : IEntity,IReportable
     {
         public UInt64 ID { get; set; }
         public string Name { get; set; }
@@ -28,9 +28,14 @@ namespace PROJOBJ1
             this.Country = Country;
         }
 
-        public void accept(Visitor visitor)
+        public void accept()
         {
-            visitor.visitAirport(this);
+            Database.AddAirport(this);
+        }
+
+        public string acceptReport(IReporter reporter)
+        {
+            return reporter.Report(this);
         }
     }
     public class AirportFactory : IFactory

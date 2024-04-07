@@ -11,19 +11,17 @@ namespace PROJOBJ1
     {
         private NetworkSourceSimulator.NetworkSourceSimulator NetworkSource;
         public List<IEntity> objects;
-        public Visitor visitor;
         public ServerHandler(string inPath, int minTime, int maxTime)
         {
 
             objects=new List<IEntity>();
-            visitor=new Visitor();
             NetworkSource = new NetworkSourceSimulator.NetworkSourceSimulator(inPath, minTime, maxTime);
             NetworkSource.OnNewDataReady += EventHandler;
         }
         public void StartServer()
         {
             Task.Run(NetworkSource.Run);
-            Task.Run(()=>ConsoleReact());
+            Task.Run(ConsoleReact);
         }
         
         public void ConsoleReact()
@@ -63,7 +61,7 @@ namespace PROJOBJ1
             lock (objects)
             {
                 IEntity instance = DataHandler.Factories[Code].CreateInstance(instanceData);
-                instance.accept(visitor);
+                instance.accept();
                 objects.Add(instance);
             }
             return;

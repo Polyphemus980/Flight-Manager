@@ -9,30 +9,24 @@ namespace PROJOBJ1
 {
     public class FlightMG
     { 
-        public List<Flight> flights = new List<Flight>();
-        public Dictionary<ulong, Airport> airports=new Dictionary<ulong, Airport>();
+
         public FlightsGUIData flightData = new FlightsGUIData();
         
-        public FlightMG(List<Flight> flights,Dictionary<ulong,Airport> airports)
-        {
-            this.airports = airports;
-            List<FlightGUI> flGUIs = new List<FlightGUI>();
-            this.flights = flights;
-        }
+
         public FlightMG()
         {
-            flights = new List<Flight>();
+            flightData=new FlightsGUIData();
         }
         public void UpdateFlights()
         {
             List<FlightGUI> updatedList = new List<FlightGUI>();
-            lock (flights)
+            lock (Database.flights)
             {
-                lock (airports)
+                lock (Database.airports)
                 {
-                    foreach (Flight flight in flights)
+                    foreach (Flight flight in Database.flights)
                     {
-                        FlightGUI data = new FlightGUIAdapter(flight, airports[flight.Origin], airports[flight.Target]);
+                        FlightGUI data = new FlightGUIAdapter(flight, Database.airports[flight.Origin],Database.airports[flight.Target]);
                         updatedList.Add(data);
                     }
                 }

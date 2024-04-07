@@ -19,9 +19,9 @@ namespace PROJOBJ1
             this.Miles = Miles ;
         }
 
-        public void accept(Visitor visitor)
+        public void accept()
         {
-            visitor.visitPassenger(this);
+            Database.AddPassenger(this);
         }
     }
 
