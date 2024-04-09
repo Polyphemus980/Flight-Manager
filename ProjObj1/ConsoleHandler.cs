@@ -32,13 +32,18 @@ namespace PROJOBJ1
                 }
                 if (Command == "report")
                 {
-                    NewsGenerator generator = new NewsGenerator(usual_reporters, Database.subjects);
-                    string? report;
-                    while ((report = generator.GenerateNextNews()) != null )
-                    {
-                        Console.WriteLine(report);
-                    }
+                    Report(usual_reporters, Database.subjects);
                 }
+            }
+        }
+
+        public static void Report(List<IReporter> reporters,List<IReportable> subjects)
+        {
+            NewsGenerator generator = new NewsGenerator(usual_reporters, Database.subjects);
+            string? report;
+            while ((report = generator.GenerateNextNews()) != null)
+            {
+                Console.WriteLine(report);
             }
         }
     }

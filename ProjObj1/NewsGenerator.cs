@@ -22,7 +22,7 @@ namespace PROJOBJ1
             new Newspaper("Dziennik Politechniczny")
         };
 
-    public NewsGenerator(List<IReporter> reporters,List<IReportable> subjects)
+        public NewsGenerator(List<IReporter> reporters,List<IReportable> subjects)
         {
             this.reporters = reporters;
             this.subjects = subjects;
