@@ -28,7 +28,7 @@ namespace PROJOBJ1
                 }
                 if (Command == "print")
                 {
-                    MakeSnapshot(source);
+                    DataHandler.MakeSnapshot(source);
                 }
                 if (Command == "report")
                 {
@@ -40,21 +40,6 @@ namespace PROJOBJ1
                     }
                 }
             }
-        }
-        public static void MakeSnapshot(IDataSource source)
-        {
-
-            lock (source.objects)
-            {
-                DataHandler.SaveToPath(SnapshotName(), source.objects);
-            }
-        }
-
-        public static string SnapshotName()
-        {
-            DateTime CurrentTime = DateTime.Now;
-            string SnapshotName = "snapshot_" + CurrentTime.Hour + "_" + CurrentTime.Minute + "_" + CurrentTime.Second + ".json";
-            return SnapshotName;
         }
     }
 }

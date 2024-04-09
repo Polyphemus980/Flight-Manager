@@ -65,9 +65,24 @@ namespace PROJOBJ1
                 }
                 return lineList;
         }
-        
+        public static void MakeSnapshot(IDataSource source)
+        {
 
+            lock (source.objects)
+            {
+                DataHandler.SaveToPath(SnapshotName(), source.objects);
+            }
+        }
 
+        public static string SnapshotName()
+        {
+            DateTime CurrentTime = DateTime.Now;
+            string SnapshotName = "snapshot_" + CurrentTime.Hour + "_" + CurrentTime.Minute + "_" + CurrentTime.Second + ".json";
+            return SnapshotName;
+        }
     }
+
+
+}
     
-} 
+ 
