@@ -10,6 +10,8 @@ namespace PROJOBJ1
     {
         private List<IReportable> subjects;
         private List<IReporter> reporters;
+        private int subject_index;
+        private int report_index;
         public static List<IReporter> usual_reporters = new List<IReporter>
         {
             new Television("Telewizja Abelowa"),
@@ -24,23 +26,25 @@ namespace PROJOBJ1
         {
             this.reporters = reporters;
             this.subjects = subjects;
+            subject_index = report_index = 0;
         }
-        public IEnumerable<string> GenerateNextNews()
+        public string? GenerateNextNews()
         {
-            lock (reporters)
+            if (subject_index >= subjects.Count || report_index >= reporters.Count) 
             {
-                lock (subjects)
-                {
-                    foreach (IReporter reporter in reporters)
-                    {
-                        foreach (IReportable subject in subjects)
-                        {
-                            yield return subject.acceptReport(reporter);
-                        }
-                    }
-                }
+                return null;
             }
-
+            string report= subjects[subject_index].acceptReport(reporters[report_index]);
+            if (subject_index == subjects.Count - 1)
+            {
+                subject_index = 0;
+                report_index++;
+            }
+            else
+            {
+                subject_index++;
+            }
+            return report;
         }
     }
 }

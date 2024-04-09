@@ -22,7 +22,7 @@ namespace PROJOBJ1
             {
                 airports.Add(airport.ID, airport);
             }
-            lock (airports) 
+            lock (subjects) 
             {
                 subjects.Add(airport);
             }

@@ -28,7 +28,7 @@ namespace PROJOBJ1
 
         public string Report(PassengerPlane passengerPlane)
         {
-            return $"{name} - Breaking news! {passengerPlane.Model} aircraft loses EASA fails certification after inspection of {passengerPlane.Serial}";
+            return $"{name} - Breaking news! {passengerPlane.Model} aircraft loses EASA fails certification after inspection of {passengerPlane.Serial}.";
         }
     }
 }
