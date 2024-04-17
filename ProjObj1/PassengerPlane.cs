@@ -20,6 +20,11 @@ namespace PROJOBJ1
             this.BusinessClassSize = BusinessClassSize;
         }
 
+        public override string ToString()
+        {
+            return "PP";
+        }
+
         public void accept()
         {
             Database.AddPassengerPlane(this);

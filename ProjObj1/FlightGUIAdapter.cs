@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NetTopologySuite.Geometries;
 
 namespace PROJOBJ1
 {
@@ -40,17 +41,37 @@ namespace PROJOBJ1
             {
                 return new WorldPosition(originAirport.Latitude, originAirport.Longitude);
             }
-            double whole_seconds = (lTime - TTime).TotalSeconds;
+
+            double LatSpeed, LonSpeed;
             double seconds = (cur - TTime).TotalSeconds;
-            (double LatSpeed,double LonSpeed)=GetSpeed(flight,originAirport,targetAirport);
-            WorldPosition position = new WorldPosition(originAirport.Latitude + seconds * LatSpeed,originAirport.Longitude + seconds * LonSpeed);
-            return position;
+            if (flight.Latitude == null || flight.Longitude == null)
+            {
+                (LatSpeed, LonSpeed) = GetSpeed(flight, originAirport, targetAirport);
+                flight.Latitude = originAirport.Latitude + (float) (seconds * LatSpeed);
+                flight.Longitude = originAirport.Latitude + (float)(seconds * LonSpeed);
+                return new WorldPosition(originAirport.Latitude + seconds * LatSpeed,
+                    originAirport.Longitude + seconds * LonSpeed);
+            }
+            (LatSpeed, LonSpeed) = GetSpeed(flight,targetAirport);
+            flight.Latitude += (float) LatSpeed;
+            flight.Longitude += (float) LonSpeed;
+            return new WorldPosition(flight.Latitude!.Value+LatSpeed,flight.Longitude!.Value+LonSpeed);
         }
         private (double, double) GetSpeed(Flight flight,Airport originAirport, Airport targetAirport)
         {
             double seconds = CalculateSeconds(flight.TakeoffTime, flight.LandingTime);
             double LaSpeed = (targetAirport.Latitude -originAirport.Latitude) / seconds;
             double LoSpeed = (targetAirport.Longitude - originAirport.Longitude) / seconds;
+            return (LaSpeed, LoSpeed);
+        }
+
+        private (double, double) GetSpeed(Flight flight, Airport targetAirport)
+        {
+            double seconds = CalculateSeconds(flight.TakeoffTime, flight.LandingTime);
+            double Lat = flight.Latitude!.Value;
+            double Lon = flight.Longitude!.Value;
+            double LaSpeed = (targetAirport.Latitude - Lat) / seconds;
+            double LoSpeed = (targetAirport.Longitude - Lon) / seconds;
             return (LaSpeed, LoSpeed);
         }
         public static double CalculateSeconds(string startTime, string endTime)

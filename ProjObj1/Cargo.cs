@@ -23,6 +23,11 @@ namespace PROJOBJ1
             this.Description = Description;
         }
 
+        public override string ToString()
+        {
+            return "CA";
+        }
+
         public void accept()
         {
             Database.AddCargo(this);

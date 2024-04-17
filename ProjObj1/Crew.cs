@@ -23,6 +23,11 @@ namespace PROJOBJ1
         {
             Database.AddCrew(this);
         }
+
+        public override string ToString()
+        {
+            return "C";
+        }
     }
     public class CrewFactory : IFactory
     {

@@ -23,6 +23,12 @@ namespace PROJOBJ1
         {
             Database.AddPassenger(this);
         }
+
+        public override string ToString()
+        {
+            return "P";
+        }
+        
     }
 
     public class PassengerFactory : IFactory

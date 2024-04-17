@@ -28,6 +28,11 @@ namespace PROJOBJ1
             this.Country = Country;
         }
 
+        public override string ToString()
+        {
+            return "AI";
+        }
+
         public void accept()
         {
             Database.AddAirport(this);

@@ -24,7 +24,7 @@ public class Program
             max = int.Parse(args[2]);
         }
 
-        Runner runner = new Runner(new FTRHandler(inPath));
+        Runner runner = new Runner(new FTRHandler(inPath),"example.ftre");
         runner.Run();
         return 1;
     }

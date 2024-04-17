@@ -12,8 +12,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Includes\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="NetworkSourceSimulator">
-      <HintPath>Includes\NetworkSourceSimulator.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\NetworkSourceSimulator.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="NetworkSourceSimulator">
+      <HintPath>..\..\..\..\Desktop\NetworkSourceSimulator.dll</HintPath>
     </Reference>
   </ItemGroup>
 

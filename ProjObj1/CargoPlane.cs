@@ -20,6 +20,11 @@ namespace PROJOBJ1
             Database.AddCargoPlane(this);
         }
 
+        public override string ToString()
+        {
+            return "CP";
+        }
+
         public string acceptReport(IReporter reporter)
         {
            return reporter.Report(this);

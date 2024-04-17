@@ -43,6 +43,11 @@ namespace PROJOBJ1
         {
             Database.AddFlight(this);
         }
+
+        public override string ToString()
+        {
+            return "FL";
+        }
     }
     public class FlightFactory : IFactory
     {
@@ -67,8 +72,8 @@ namespace PROJOBJ1
             UInt64 Target = UInt64.Parse(list[2]);
             string TakeoffTime = list[3];
             string LandingTime = list[4];
-            Single Longitude = Single.Parse(list[5], CultureInfo.InvariantCulture);
-            Single Latitude = Single.Parse(list[6], CultureInfo.InvariantCulture);
+            Single? Longitude = null; //Single.Parse(list[5], CultureInfo.InvariantCulture);
+            Single? Latitude = null;//Single.Parse(list[6], CultureInfo.InvariantCulture);
             Single AMSL = Single.Parse(list[7], CultureInfo.InvariantCulture);
             UInt64 PlaneID = UInt64.Parse(list[8]);
 

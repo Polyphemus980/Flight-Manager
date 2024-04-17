@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace PROJOBJ1
 {
     public class FlightMG
-    { 
+    {
 
-        public FlightsGUIData flightData = new FlightsGUIData();
+        public FlightsGUIData flightData;
         
 
         public FlightMG()
@@ -20,17 +20,17 @@ namespace PROJOBJ1
         public void UpdateFlights()
         {
             List<FlightGUI> updatedList = new List<FlightGUI>();
-            lock (Database.flights)
+
+            lock (Database.Flights)
             {
-                lock (Database.airports)
+                foreach ((_, Flight flight) in Database.Flights)
                 {
-                    foreach (Flight flight in Database.flights)
-                    {
-                        FlightGUI data = new FlightGUIAdapter(flight, Database.airports[flight.Origin],Database.airports[flight.Target]);
-                        updatedList.Add(data);
-                    }
+                    FlightGUI data = new FlightGUIAdapter(flight, Database.Airports[flight.Origin],
+                        Database.Airports[flight.Target]);
+                    updatedList.Add(data);
                 }
             }
+
             flightData.UpdateFlights(updatedList);
         }
         

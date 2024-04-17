@@ -19,18 +19,18 @@ namespace PROJOBJ1
         };
         public static void ConsoleReact(IDataSource source)
         {
-            string? Command = "";
-            while ((Command = Console.ReadLine()) != null)
+            string? command = "";
+            while ((command = Console.ReadLine()) != null)
             {
-                if (Command == "exit")
+                if (command == "exit")
                 {
                     Environment.Exit(0);
                 }
-                if (Command == "print")
+                if (command == "print")
                 {
                     DataHandler.MakeSnapshot(source);
                 }
-                if (Command == "report")
+                if (command == "report")
                 {
                     Report(usual_reporters, Database.subjects);
                 }
