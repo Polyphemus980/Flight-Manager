@@ -25,9 +25,14 @@ namespace PROJOBJ1
             return "PP";
         }
 
-        public void accept()
+        public void addToDatabase()
         {
             Database.AddPassengerPlane(this);
+        }
+
+        public void changeID(ulong prevID, ulong newID)
+        {
+            Database.UpdatePassengerPlaneId(prevID,newID);
         }
 
         public string acceptReport(IReporter reporter)

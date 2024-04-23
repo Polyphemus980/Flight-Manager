@@ -21,6 +21,7 @@ namespace PROJOBJ1
         public static IReadOnlyDictionary<ulong, CargoPlane> CargoPlanes => cargoPlanes.AsReadOnly();
         public static IReadOnlyDictionary<ulong, Passenger> Passengers => passengers.AsReadOnly();
         public static IReadOnlyDictionary<ulong, PassengerPlane> PassengerPlanes => passengerPlanes.AsReadOnly();
+        public static IReadOnlyDictionary<ulong, IEntity> Objects => objects.AsReadOnly();
         public static void AddAirport(Airport airport)
         {
             airports.TryAdd(airport.ID, airport);
@@ -81,11 +82,8 @@ namespace PROJOBJ1
 
         public static void UpdateContactInfo(ulong Id, string emailAddres, string phoneNumber)
         {
-            if (!objects.ContainsKey(Id))
-            {
-                UpdateLogs($"ContactInfo Update - No object with ID: {Id}");
+            if (!CheckID(Id))
                 return;
-            }
         }
 
         public static void UpdateFlightPosition(ulong Id, float Latitude, float Longitude, float AMSL)
@@ -95,7 +93,7 @@ namespace PROJOBJ1
                 UpdateLogs($"FlightPosition Update - No object with ID: {Id}");
                 return;
             }
-            UpdateLogs($"FlightPosition Update - Previous position: ({flights[Id].Latitude},{flights[Id].Longitude} , " +
+            UpdateLogs($"FlightPosition Update - Previous position: ({flights[Id].Latitude},{flights[Id].Longitude}) , " +
                        $"New position: ({Latitude},{Longitude})");
 
             flights[Id].Longitude = Longitude;
@@ -103,41 +101,132 @@ namespace PROJOBJ1
             flights[Id].AMSL = AMSL;
             
         }
-        
-        public static void UpdateId(ulong previousId,ulong newId)
+
+        private static bool CheckID(ulong ID)
         {
-            if (!objects.ContainsKey(previousId))
+            if (!objects.ContainsKey(ID))
             {
-                UpdateLogs($"ID Update - No object with ID: {previousId}");
-                return;
+                UpdateLogs($"Cannot Update - No object with ID: {ID}");
+                return false;
             }
-            switch (objects[previousId].ToString())
-            {
-                case "AI":
-                    airports.ChangeKey(previousId, newId); 
-                    break;
-                case "C":
-                    crews.ChangeKey(previousId,newId);
-                    break;
-                case "P":
-                    passengers.ChangeKey(previousId,newId);
-                    break;
-                case "CA":
-                    cargos.ChangeKey(previousId,newId);
-                    break;
-                case "CP":
-                    cargoPlanes.ChangeKey(previousId,newId);
-                    break;
-                case "PP":
-                    passengerPlanes.ChangeKey(previousId,newId);
-                    break;
-                case "FL":
-                    flights.ChangeKey(previousId,newId);
-                    break;
-            }
-            UpdateLogs($"ID Update - Previous ID: {previousId}, New ID: {newId}");
-            
+            return true;
         }
+
+        public static void UpdateID(ulong previousId, ulong newId)
+        {
+            if (!CheckID(previousId))
+                return;
+            objects[previousId].changeID(previousId,newId);
+        }
+
+        public static void UpdateAirportId(ulong previousId, ulong newId)
+        {
+            if (!CheckID(previousId))
+                return;
+            objects.ChangeKey(previousId,newId);
+            airports[previousId].ID = newId;
+            airports.ChangeKey(previousId,newId);
+            for (ulong i = 0;i<(ulong) flights.Count;i++)
+            {
+                if (flights[i].Origin == previousId)
+                    flights[i].Origin = newId;
+                if (flights[i].Target == previousId)
+                    flights[i].Target = newId;
+            }
+            UpdateLogs($"Airport ID Update - Previous ID: {previousId}, New ID: {newId}");
+        }
+        public static void UpdateCrewId(ulong previousId, ulong newId)
+        {
+            if (!CheckID(previousId))
+                return;
+            objects.ChangeKey(previousId,newId);
+            crews[previousId].ID = newId;
+            crews.ChangeKey(previousId, newId);
+            for (ulong i = 0;i<(ulong) flights.Count;i++)
+            {
+                for (int j = 0; j < flights[i].CrewIDs.Length; j++)
+                {
+                    if (flights[i].CrewIDs[j] == previousId)
+                        flights[i].CrewIDs[j] = newId;
+                }
+            }
+            UpdateLogs($"Crew ID Update - Previous ID: {previousId}, New ID: {newId}");
+        }
+        public static void UpdatePassengerId(ulong previousId, ulong newId)
+        {
+            if (!CheckID(previousId))
+                return;
+            objects.ChangeKey(previousId,newId);
+            passengers[previousId].ID = newId;
+            passengers.ChangeKey(previousId,newId);
+            for (ulong i = 0;i<(ulong) flights.Count;i++)
+            {
+                for (int j = 0; j < flights[i].LoadIDs.Length; j++)
+                {
+                    if (flights[i].LoadIDs[j] == previousId)
+                        flights[i].LoadIDs[j] = newId;
+                }
+            }
+            UpdateLogs($"Passenger ID Update - Previous ID: {previousId}, New ID: {newId}");
+        }
+        public static void UpdateCargoId(ulong previousId, ulong newId)
+        {
+            if (!CheckID(previousId))
+                return;
+            objects.ChangeKey(previousId,newId);
+            cargos[previousId].ID = newId;
+            cargos.ChangeKey(previousId,newId);
+            for (ulong i = 0;i<(ulong) flights.Count;i++)
+            {
+                for (int j = 0; j < flights[i].LoadIDs.Length; j++)
+                {
+                    if (flights[i].LoadIDs[j] == previousId)
+                        flights[i].LoadIDs[j] = newId;
+                }
+            }
+            UpdateLogs($"Cargo ID Update - Previous ID: {previousId}, New ID: {newId}");
+        }
+        public static void UpdateCargoPlaneId(ulong previousId, ulong newId)
+        {
+            if (!CheckID(previousId))
+                return;
+            objects.ChangeKey(previousId,newId);
+            cargoPlanes[previousId].ID = newId;
+            cargoPlanes.ChangeKey(previousId,newId);
+            for (ulong i = 0;i<(ulong) flights.Count;i++)
+            {
+                if (flights[i].PlaneID == previousId)
+                    flights[i].PlaneID = newId;
+            }
+            UpdateLogs($"Cargo Plane ID Update - Previous ID: {previousId}, New ID: {newId}");
+        }
+        public static void UpdatePassengerPlaneId(ulong previousId, ulong newId)
+        {
+            if (!CheckID(previousId))
+                return;
+            objects.ChangeKey(previousId,newId);
+            passengerPlanes[previousId].ID = newId;
+            passengerPlanes.ChangeKey(previousId,newId);
+            for (ulong i = 0;i<(ulong) flights.Count;i++)
+            {
+                if (flights[i].PlaneID == previousId)
+                    flights[i].PlaneID = newId;
+            }
+            UpdateLogs($"Passenger Plane ID Update - Previous ID: {previousId}, New ID: {newId}");
+        }
+        public static void UpdateFlightId(ulong previousId, ulong newId)
+        {
+            if (!CheckID(previousId))
+                return;
+            objects.ChangeKey(previousId,newId);
+            flights[previousId].ID = newId;
+            flights.ChangeKey(previousId,newId);
+            UpdateLogs($"Flight ID Update - Previous ID: {previousId}, New ID: {newId}");
+        }
+        
+
+            
+        
         private static void ChangeKey<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
             TKey previousKey, TKey newKey)
         {
@@ -149,10 +238,6 @@ namespace PROJOBJ1
         private static void UpdateLogs(string newLog)
         {
             string path = DateTime.Now.ToString("yy-MM-dd")+".txt";
-            if (!File.Exists(path))
-            {
-                File.Create(path);
-            }
             using (StreamWriter writer = File.AppendText(path))
             {
                 if (LogUsage == 0)

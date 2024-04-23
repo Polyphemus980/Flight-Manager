@@ -18,7 +18,9 @@ namespace PROJOBJ1
     {
         public UInt64 ID { get; set; }
 
-        public void accept();
+        public void addToDatabase();
+
+        public void changeID(UInt64 prevID, UInt64 newID);
     }
 
 }

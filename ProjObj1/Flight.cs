@@ -39,9 +39,14 @@ namespace PROJOBJ1
             this.LoadIDs = LoadIDs;
         }
 
-        public void accept()
+        public void addToDatabase()
         {
             Database.AddFlight(this);
+        }
+
+        public void changeID(ulong prevID, ulong newID)
+        {
+            Database.UpdateFlightId(prevID,newID);
         }
 
         public override string ToString()

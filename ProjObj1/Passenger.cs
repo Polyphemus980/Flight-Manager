@@ -19,9 +19,14 @@ namespace PROJOBJ1
             this.Miles = Miles ;
         }
 
-        public void accept()
+        public void addToDatabase()
         {
             Database.AddPassenger(this);
+        }
+
+        public void changeID(ulong prevID, ulong newID)
+        {
+            Database.UpdatePassengerId(prevID,newID);
         }
 
         public override string ToString()

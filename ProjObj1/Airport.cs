@@ -33,9 +33,14 @@ namespace PROJOBJ1
             return "AI";
         }
 
-        public void accept()
+        public void addToDatabase()
         {
             Database.AddAirport(this);
+        }
+
+        public void changeID(ulong prevID, ulong newID)
+        {
+            Database.UpdateAirportId(prevID,newID);
         }
 
         public string acceptReport(IReporter reporter)

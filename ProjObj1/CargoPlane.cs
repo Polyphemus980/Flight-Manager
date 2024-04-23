@@ -15,9 +15,14 @@ namespace PROJOBJ1
             this.MaxLoad = MaxLoad;
         }
 
-        public void accept()
+        public void addToDatabase()
         {
             Database.AddCargoPlane(this);
+        }
+
+        public void changeID(ulong prevID, ulong newID)
+        {
+            Database.UpdateCargoPlaneId(prevID,newID);
         }
 
         public override string ToString()

@@ -19,9 +19,14 @@ namespace PROJOBJ1
             this.Role = Role;
         }
 
-        public void accept()
+        public void addToDatabase()
         {
             Database.AddCrew(this);
+        }
+
+        public void changeID(ulong prevID, ulong newID)
+        {
+            Database.UpdateCrewId(prevID,newID);
         }
 
         public override string ToString()

@@ -29,7 +29,7 @@ namespace PROJOBJ1
             lock (objects)
             {
                 IEntity instance = DataHandler.Factories[code].CreateInstance(instanceData);
-                instance.accept();
+                instance.addToDatabase();
                 objects.Add(instance);
             }
             return;
@@ -37,7 +37,7 @@ namespace PROJOBJ1
 
         private void IdUpdateHandler(object sender,IDUpdateArgs args)
         {
-            Database.UpdateId(args.ObjectID,args.NewObjectID);
+            Database.UpdateID(args.ObjectID,args.NewObjectID);
         }
 
         private void ContactInfoUpdateHandler(object sender, ContactInfoUpdateArgs args)

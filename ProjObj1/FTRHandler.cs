@@ -1,10 +1,4 @@
-﻿using DynamicData;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace PROJOBJ1
 {
     public class FTRHandler:IDataSource
@@ -23,7 +17,7 @@ namespace PROJOBJ1
             {
                 string name = properties[0];
                 IEntity objectInstance = DataHandler.Factories[name].CreateInstance(properties[1..properties.Length]);
-                objectInstance.accept();
+                objectInstance.addToDatabase();
                 objects.Add(objectInstance);
             }
         }

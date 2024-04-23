@@ -28,9 +28,14 @@ namespace PROJOBJ1
             return "CA";
         }
 
-        public void accept()
+        public void addToDatabase()
         {
             Database.AddCargo(this);
+        }
+
+        public void changeID(ulong prevID, ulong newID)
+        {
+            Database.UpdateCargoId(prevID,newID);
         }
     }
     public class CargoFactory : IFactory
