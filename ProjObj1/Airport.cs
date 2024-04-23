@@ -43,6 +43,11 @@ namespace PROJOBJ1
             Database.UpdateAirportId(prevID,newID);
         }
 
+        public void changeContactInfo(ulong ID, string emailAddress, string phoneNumber)
+        {
+            Database.NoContactInfo(ID);
+        }
+
         public string acceptReport(IReporter reporter)
         {
             return reporter.Report(this);

@@ -13,6 +13,7 @@ namespace PROJOBJ1
             NetworkSource = new NetworkSourceSimulator.NetworkSourceSimulator(inPath, minTime, maxTime);
             NetworkSource.OnNewDataReady += NewMessageHandler;
             NetworkSource.OnIDUpdate += IdUpdateHandler;
+            NetworkSource.OnContactInfoUpdate += ContactInfoUpdateHandler;
             NetworkSource.OnPositionUpdate += FlightPositionUpdateHandler;
         }
         public void Start()

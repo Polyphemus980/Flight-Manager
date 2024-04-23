@@ -21,6 +21,7 @@ namespace PROJOBJ1
         public void addToDatabase();
 
         public void changeID(UInt64 prevID, UInt64 newID);
+        public void changeContactInfo(UInt64 ID, string emailAddress, string phoneNumber);
     }
 
 }

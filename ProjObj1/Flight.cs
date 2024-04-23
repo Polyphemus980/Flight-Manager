@@ -48,6 +48,10 @@ namespace PROJOBJ1
         {
             Database.UpdateFlightId(prevID,newID);
         }
+        public void changeContactInfo(ulong ID, string emailAddress, string phoneNumber)
+        {
+            Database.NoContactInfo(ID);
+        }
 
         public override string ToString()
         {

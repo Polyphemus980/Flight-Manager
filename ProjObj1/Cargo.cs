@@ -32,7 +32,10 @@ namespace PROJOBJ1
         {
             Database.AddCargo(this);
         }
-
+        public void changeContactInfo(ulong ID, string emailAddress, string phoneNumber)
+        {
+            Database.NoContactInfo(ID);
+        }
         public void changeID(ulong prevID, ulong newID)
         {
             Database.UpdateCargoId(prevID,newID);

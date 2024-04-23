@@ -29,6 +29,12 @@ namespace PROJOBJ1
             Database.UpdatePassengerId(prevID,newID);
         }
 
+        public void changeContactInfo(ulong ID, string emailAddress, string phoneNumber)
+        {
+            Database.UpdatePassengerContactInfo(ID,emailAddress,phoneNumber);
+        }
+
+
         public override string ToString()
         {
             return "P";

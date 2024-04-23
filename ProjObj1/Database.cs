@@ -80,21 +80,43 @@ namespace PROJOBJ1
 
         public static int LogUsage = 0;
 
-        public static void UpdateContactInfo(ulong Id, string emailAddres, string phoneNumber)
+        public static void UpdateContactInfo(ulong Id, string emailAddress, string phoneNumber)
         {
             if (!CheckID(Id))
                 return;
+            objects[Id].changeContactInfo(Id,emailAddress,phoneNumber);
+        }
+        public static void NoContactInfo(ulong ID)
+        {
+            UpdateLogs("Cannot Update - Object without contact info");
         }
 
+        public static void UpdatePassengerContactInfo(ulong Id, string emailAddress, string phoneNumber)
+        {
+            UpdateLogs($"Passenger Contact Info Update - ID : {Id} , Previous email : {passengers[Id].Email} , Previous " +
+                       $"phone number : {passengers[Id].Phone} , New email : {emailAddress} , New phone number : {phoneNumber}");
+            passengers[Id].Phone = phoneNumber;
+            passengers[Id].Email = emailAddress;
+        }
+        public static void UpdateCrewContactInfo(ulong Id, string emailAddress, string phoneNumber)
+        {
+            UpdateLogs($"Crew Contact Info Update - ID : {Id} , Previous email : {crews[Id].Email} , Previous " +
+                       $"phone number : {crews[Id].Phone} , New email : {emailAddress} , New phone number : {phoneNumber}");
+            crews[Id].Phone = phoneNumber;
+            crews[Id].Email = emailAddress;
+        }
         public static void UpdateFlightPosition(ulong Id, float Latitude, float Longitude, float AMSL)
         {
+            if (!CheckID(Id))
+                return;
             if (!flights.ContainsKey(Id))
             {
-                UpdateLogs($"FlightPosition Update - No object with ID: {Id}");
+                UpdateLogs($"Object with ID : {Id} is not a flight");
                 return;
             }
-            UpdateLogs($"FlightPosition Update - Previous position: ({flights[Id].Latitude},{flights[Id].Longitude}) , " +
-                       $"New position: ({Latitude},{Longitude})");
+            UpdateLogs($"Flight Position Update - ID : {Id} , Previous position : " +
+                       $"({flights[Id].Latitude},{flights[Id].Longitude}) , " +
+                       $"New position : ({Latitude},{Longitude})");
 
             flights[Id].Longitude = Longitude;
             flights[Id].Latitude = Latitude;
@@ -106,7 +128,7 @@ namespace PROJOBJ1
         {
             if (!objects.ContainsKey(ID))
             {
-                UpdateLogs($"Cannot Update - No object with ID: {ID}");
+                UpdateLogs($"Cannot Update - No object with ID : {ID}");
                 return false;
             }
             return true;
@@ -126,12 +148,12 @@ namespace PROJOBJ1
             objects.ChangeKey(previousId,newId);
             airports[previousId].ID = newId;
             airports.ChangeKey(previousId,newId);
-            for (ulong i = 0;i<(ulong) flights.Count;i++)
+            foreach (Flight flight in flights.Values)
             {
-                if (flights[i].Origin == previousId)
-                    flights[i].Origin = newId;
-                if (flights[i].Target == previousId)
-                    flights[i].Target = newId;
+                if (flight.Origin == previousId)
+                    flight.Origin = newId;
+                if (flight.Target == previousId)
+                    flight.Target = newId;
             }
             UpdateLogs($"Airport ID Update - Previous ID: {previousId}, New ID: {newId}");
         }
@@ -142,12 +164,12 @@ namespace PROJOBJ1
             objects.ChangeKey(previousId,newId);
             crews[previousId].ID = newId;
             crews.ChangeKey(previousId, newId);
-            for (ulong i = 0;i<(ulong) flights.Count;i++)
+            foreach (Flight flight in flights.Values)
             {
-                for (int j = 0; j < flights[i].CrewIDs.Length; j++)
+                for (int j = 0; j < flight.CrewIDs.Length; j++)
                 {
-                    if (flights[i].CrewIDs[j] == previousId)
-                        flights[i].CrewIDs[j] = newId;
+                    if (flight.CrewIDs[j] == previousId)
+                        flight.CrewIDs[j] = newId;
                 }
             }
             UpdateLogs($"Crew ID Update - Previous ID: {previousId}, New ID: {newId}");
@@ -159,12 +181,12 @@ namespace PROJOBJ1
             objects.ChangeKey(previousId,newId);
             passengers[previousId].ID = newId;
             passengers.ChangeKey(previousId,newId);
-            for (ulong i = 0;i<(ulong) flights.Count;i++)
+            foreach (Flight flight in flights.Values)
             {
-                for (int j = 0; j < flights[i].LoadIDs.Length; j++)
+                for (int j = 0; j < flight.LoadIDs.Length; j++)
                 {
-                    if (flights[i].LoadIDs[j] == previousId)
-                        flights[i].LoadIDs[j] = newId;
+                    if (flight.LoadIDs[j] == previousId)
+                        flight.LoadIDs[j] = newId;
                 }
             }
             UpdateLogs($"Passenger ID Update - Previous ID: {previousId}, New ID: {newId}");
@@ -176,12 +198,12 @@ namespace PROJOBJ1
             objects.ChangeKey(previousId,newId);
             cargos[previousId].ID = newId;
             cargos.ChangeKey(previousId,newId);
-            for (ulong i = 0;i<(ulong) flights.Count;i++)
+            foreach (Flight flight in flights.Values)
             {
-                for (int j = 0; j < flights[i].LoadIDs.Length; j++)
+                for (int j = 0; j < flight.LoadIDs.Length; j++)
                 {
-                    if (flights[i].LoadIDs[j] == previousId)
-                        flights[i].LoadIDs[j] = newId;
+                    if (flight.LoadIDs[j] == previousId)
+                        flight.LoadIDs[j] = newId;
                 }
             }
             UpdateLogs($"Cargo ID Update - Previous ID: {previousId}, New ID: {newId}");
@@ -193,10 +215,10 @@ namespace PROJOBJ1
             objects.ChangeKey(previousId,newId);
             cargoPlanes[previousId].ID = newId;
             cargoPlanes.ChangeKey(previousId,newId);
-            for (ulong i = 0;i<(ulong) flights.Count;i++)
+            foreach (Flight flight in flights.Values)
             {
-                if (flights[i].PlaneID == previousId)
-                    flights[i].PlaneID = newId;
+                if (flight.PlaneID == previousId)
+                    flight.PlaneID = newId;
             }
             UpdateLogs($"Cargo Plane ID Update - Previous ID: {previousId}, New ID: {newId}");
         }
@@ -207,10 +229,10 @@ namespace PROJOBJ1
             objects.ChangeKey(previousId,newId);
             passengerPlanes[previousId].ID = newId;
             passengerPlanes.ChangeKey(previousId,newId);
-            for (ulong i = 0;i<(ulong) flights.Count;i++)
+            foreach (Flight flight in flights.Values)
             {
-                if (flights[i].PlaneID == previousId)
-                    flights[i].PlaneID = newId;
+                if (flight.PlaneID == previousId)
+                    flight.PlaneID = newId;
             }
             UpdateLogs($"Passenger Plane ID Update - Previous ID: {previousId}, New ID: {newId}");
         }

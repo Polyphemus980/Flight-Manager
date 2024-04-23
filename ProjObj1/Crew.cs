@@ -29,6 +29,11 @@ namespace PROJOBJ1
             Database.UpdateCrewId(prevID,newID);
         }
 
+        public void changeContactInfo(ulong ID, string emailAddress, string phoneNumber)
+        {
+            Database.UpdateCrewContactInfo(ID,emailAddress,phoneNumber);
+        }
+
         public override string ToString()
         {
             return "C";
