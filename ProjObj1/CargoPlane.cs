@@ -13,7 +13,17 @@ namespace PROJOBJ1
         public CargoPlane(UInt64 ID, string Serial, string Country, string Model, Single MaxLoad):base(ID,Serial,Country,Model)
         {
             this.MaxLoad = MaxLoad;
+            values = new Dictionary<string, Func<IComparable>>()
+            {
+                { "ID", () => ID },
+                { "Serial", () => Serial },
+                { "Country", () => Country },
+                { "Model", () => Model },
+                { "MaxLoad",()=>MaxLoad}
+            };
         }
+
+        public Dictionary<string, Func<IComparable>> values { get; set; }
 
         public void addToDatabase()
         {

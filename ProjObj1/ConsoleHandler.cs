@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,20 +20,32 @@ namespace PROJOBJ1
         };
         public static void ConsoleReact(IDataSource source)
         {
-            string? command = "";
+            string? command;
             while ((command = Console.ReadLine()) != null)
             {
                 if (command == "exit")
                 {
                     Environment.Exit(0);
                 }
-                if (command == "print")
+                else if (command == "print")
                 {
                     DataHandler.MakeSnapshot(source);
                 }
-                if (command == "report")
+                else if (command == "report")
                 {
                     Report(usual_reporters, Database.subjects);
+                }
+                else
+                {
+                    string[] query = command.Split(" ");
+                    if (query[0] == "display" || query[0] == "update" || query[0] == "delete" || query[0] == "add")
+                    {
+                        QueryManager queryManager = new QueryManager(query);
+                        if (!(queryManager.concreteQuery is null))
+                            queryManager.concreteQuery.Execute();
+                    }
+                    else
+                        Console.WriteLine($"Command '{command}' doesn't exist");
                 }
             }
         }

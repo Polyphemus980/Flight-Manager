@@ -8,6 +8,7 @@ namespace PROJOBJ1
 {
     public abstract class Airplane
     {
+        
         public UInt64 ID { get; set; }
         public string Serial { get; set; }
         public string Country { get; set; }

@@ -32,6 +32,41 @@ namespace PROJOBJ1
             }
         }
 
+        public static ConcurrentDictionary<ulong, Flight> GetAllFlights()
+        {
+            return flights;
+        }
+
+        public static ConcurrentDictionary<ulong, Airport> GetAllAirports()
+        {
+            return airports;
+        }
+
+        public static ConcurrentDictionary<ulong, Crew> GetAllCrews()
+        {
+            return crews;
+        }
+
+        public static ConcurrentDictionary<ulong, Cargo> GetAllCargos()
+        {
+            return cargos;
+        }
+
+        public static ConcurrentDictionary<ulong, CargoPlane> GetAllCargoPlanes()
+        {
+            return cargoPlanes;
+        }
+
+        public static ConcurrentDictionary<ulong, Passenger> GetAllPassengers()
+        {
+            return passengers;
+        }
+
+        public static ConcurrentDictionary<ulong, PassengerPlane> GetAllPassengerPlanes()
+        {
+            return passengerPlanes;
+        }
+
         public static void AddFlight(Flight flight)
         {
 
@@ -123,7 +158,7 @@ namespace PROJOBJ1
             flights[Id].AMSL = AMSL;
             
         }
-
+        
         private static bool CheckID(ulong ID)
         {
             if (!objects.ContainsKey(ID))
@@ -143,8 +178,6 @@ namespace PROJOBJ1
 
         public static void UpdateAirportId(ulong previousId, ulong newId)
         {
-            if (!CheckID(previousId))
-                return;
             objects.ChangeKey(previousId,newId);
             airports[previousId].ID = newId;
             airports.ChangeKey(previousId,newId);
@@ -159,8 +192,6 @@ namespace PROJOBJ1
         }
         public static void UpdateCrewId(ulong previousId, ulong newId)
         {
-            if (!CheckID(previousId))
-                return;
             objects.ChangeKey(previousId,newId);
             crews[previousId].ID = newId;
             crews.ChangeKey(previousId, newId);
@@ -176,8 +207,6 @@ namespace PROJOBJ1
         }
         public static void UpdatePassengerId(ulong previousId, ulong newId)
         {
-            if (!CheckID(previousId))
-                return;
             objects.ChangeKey(previousId,newId);
             passengers[previousId].ID = newId;
             passengers.ChangeKey(previousId,newId);
@@ -193,8 +222,6 @@ namespace PROJOBJ1
         }
         public static void UpdateCargoId(ulong previousId, ulong newId)
         {
-            if (!CheckID(previousId))
-                return;
             objects.ChangeKey(previousId,newId);
             cargos[previousId].ID = newId;
             cargos.ChangeKey(previousId,newId);
@@ -210,8 +237,6 @@ namespace PROJOBJ1
         }
         public static void UpdateCargoPlaneId(ulong previousId, ulong newId)
         {
-            if (!CheckID(previousId))
-                return;
             objects.ChangeKey(previousId,newId);
             cargoPlanes[previousId].ID = newId;
             cargoPlanes.ChangeKey(previousId,newId);
@@ -224,8 +249,7 @@ namespace PROJOBJ1
         }
         public static void UpdatePassengerPlaneId(ulong previousId, ulong newId)
         {
-            if (!CheckID(previousId))
-                return;
+            
             objects.ChangeKey(previousId,newId);
             passengerPlanes[previousId].ID = newId;
             passengerPlanes.ChangeKey(previousId,newId);
@@ -238,8 +262,6 @@ namespace PROJOBJ1
         }
         public static void UpdateFlightId(ulong previousId, ulong newId)
         {
-            if (!CheckID(previousId))
-                return;
             objects.ChangeKey(previousId,newId);
             flights[previousId].ID = newId;
             flights.ChangeKey(previousId,newId);

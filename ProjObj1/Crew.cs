@@ -17,7 +17,19 @@ namespace PROJOBJ1
         {
             this.Practice = Practice;
             this.Role = Role;
+            values = new Dictionary<string, Func<IComparable>>
+            {
+                { "ID", () => ID },
+                { "Name", () => Name },
+                { "Age", () => Age },
+                { "Phone", () => Phone },
+                { "Email", () => Email },
+                { "Practice", () => Practice },
+                { "Role", () => Role }
+            };
         }
+
+        public Dictionary<string, Func<IComparable>> values { get; set; }
 
         public void addToDatabase()
         {

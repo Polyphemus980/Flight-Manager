@@ -1,15 +1,20 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using ExCSS;
 
 namespace PROJOBJ1
 {
     public class Cargo : IEntity
     {
+        public Dictionary<string, Func<IComparable>> values { get; set; }
+        public Dictionary<string, Func<string,IComparable>> parsers { get; set; }
         public UInt64 ID { get; set; }
         public float Weight { get; set; }
         public string Code { get; set; }
@@ -21,11 +26,39 @@ namespace PROJOBJ1
             this.Weight = Weight;
             this.Code = Code;
             this.Description = Description;
+            values = new Dictionary<string, Func<IComparable>>();
+            values.Add("ID",GetID);
+            values.Add("Weight",GetWeight);
+            values.Add("Code",GetCode);
+            values.Add("Description",GetDescription);
+            parsers = new Dictionary<string, Func<string,IComparable>>();
+            parsers.Add("ID",DataHandler.ParseUInt64);
+            parsers.Add("Weight",DataHandler.ParseFloat);
+            parsers.Add("Code",DataHandler.ParseString);
+            parsers.Add("Description",DataHandler.ParseString);
         }
 
-        public override string ToString()
+        public static List<string> GetPropertyNames()
         {
-            return "CA";
+            return new List<string> { "ID", "Weight", "Code", "Description" };
+        }
+        public  IComparable GetID()
+        {
+            return ID;
+        }
+        public  IComparable GetWeight()
+        {
+            return Weight;
+        }
+
+        public IComparable GetCode()
+        {
+            return Code;
+        }
+
+        public IComparable GetDescription()
+        {
+            return Description;
         }
 
         public void addToDatabase()
@@ -40,6 +73,9 @@ namespace PROJOBJ1
         {
             Database.UpdateCargoId(prevID,newID);
         }
+
+
+        
     }
     public class CargoFactory : IFactory
     {

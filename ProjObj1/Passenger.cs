@@ -8,16 +8,30 @@ using System.Threading.Tasks;
 
 namespace PROJOBJ1
 {
-    public class Passenger :Person,IEntity
+    public class Passenger : Person, IEntity
     {
         public string Class { get; set; }
         public UInt64 Miles { get; set; }
 
-        public Passenger(UInt64 ID, string Name, UInt64 Age, string Phone, string Email, string Class, UInt64 Miles):base(ID,Name,Age,Phone,Email)
+        public Passenger(UInt64 ID, string Name, UInt64 Age, string Phone, string Email, string Class, UInt64 Miles) :
+            base(ID, Name, Age, Phone, Email)
         {
             this.Class = Class;
-            this.Miles = Miles ;
+            this.Miles = Miles;
+            values = new Dictionary<string, Func<IComparable>>
+            {
+                { "ID", () => ID },
+                { "Name", () => Name },
+                { "Age", () => Age },
+                { "Phone", () => Phone },
+                { "Email", () => Email },
+                { "Class", () => Class },
+                { "Miles", () => Miles }
+            };
         }
+    
+
+    public Dictionary<string, Func<IComparable>> values { get; set; }
 
         public void addToDatabase()
         {

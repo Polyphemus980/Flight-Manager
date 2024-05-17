@@ -18,12 +18,24 @@ namespace PROJOBJ1
             this.FirstClassSize = FirstClassSize; 
             this.EconomicClassSize = EconomicClassSize; 
             this.BusinessClassSize = BusinessClassSize;
+            values = new Dictionary<string, Func<IComparable>>()
+            {
+                { "ID", () => ID },
+                { "Serial", () => Serial },
+                { "Country", () => Country },
+                { "Model", () => Model },
+                { "FirstClassSize", () => FirstClassSize },
+                { "EconomicClassSize", () => EconomicClassSize },
+                { "BusinessClassSize", () => BusinessClassSize },
+            };
         }
 
         public override string ToString()
         {
             return "PP";
         }
+
+        public Dictionary<string, Func<IComparable>> values { get; set; }
 
         public void addToDatabase()
         {

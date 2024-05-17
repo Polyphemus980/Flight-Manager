@@ -12,6 +12,7 @@ namespace PROJOBJ1
     public class Flight : IEntity
     {
         public UInt64 ID { get; set; }
+        public Dictionary<string, Func<IComparable>> values { get; set; }
         public UInt64 Origin { get; set; }
         public UInt64 Target { get; set; }
         public string TakeoffTime { get; set; }
@@ -37,6 +38,18 @@ namespace PROJOBJ1
             this.PlaneID = PlaneID; 
             this.CrewIDs = CrewIDs;
             this.LoadIDs = LoadIDs;
+            values = new Dictionary<string, Func<IComparable>>
+            {
+                { "ID", () => ID },
+                { "Origin", () => Origin },
+                { "Target", () => Target },
+                { "TakeoffTime", () => TakeoffTime },
+                { "LandingTime", () => LandingTime },
+                { "Longitude", () => Longitude },
+                { "Latitude", () => Latitude },
+                { "AMSL", () => AMSL },
+                { "PlaneID", () => PlaneID },
+            };
         }
 
         public void addToDatabase()
