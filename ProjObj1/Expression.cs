@@ -21,7 +21,7 @@ public class Expression(string Operator, IComparable value)
                 case "!=":
                     return Value.CompareTo(val) != 0;
                 default:
-                    return true;
+                    throw new Exception($"Incorrect operator '{Operator}'");
             }
     }
 }

@@ -41,8 +41,8 @@ namespace PROJOBJ1
                     if (query[0] == "display" || query[0] == "update" || query[0] == "delete" || query[0] == "add")
                     {
                         QueryManager queryManager = new QueryManager(query);
-                        if (!(queryManager.concreteQuery is null))
-                            queryManager.concreteQuery.Execute();
+                        //if (!(queryManager.concreteQuery is null))
+                        //    queryManager.concreteQuery.Execute();
                     }
                     else
                         Console.WriteLine($"Command '{command}' doesn't exist");

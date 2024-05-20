@@ -29,53 +29,14 @@ namespace PROJOBJ1
             this.AMSL = AMSL;
             this.Country = Country;
             values = new Dictionary<string, Func<IComparable>>();
-            values.Add("ID",GetID);
-            values.Add("Country",GetCountry);
-            values.Add("Code",GetCode);
-            values.Add("AMSL",GetAMSL);
-            values.Add("Latitude",GetLatitude);
-            values.Add("Longitude",GetLongitude);
-            values.Add("Name",GetName);
-            parsers = new Dictionary<string, Func<string,IComparable>>();
-            parsers .Add("ID",DataHandler.ParseUInt64);
-            parsers .Add("Country",DataHandler.ParseString);
-            parsers .Add("Code",DataHandler.ParseString);
-            parsers .Add("AMSL",DataHandler.ParseFloat);
-            parsers .Add("Latitude",DataHandler.ParseFloat);
-            parsers .Add("Longitude",DataHandler.ParseFloat);
-            parsers .Add("Name",DataHandler.ParseString);
+            values.Add("ID",()=>ID);
+            values.Add("Country",()=>Country);
+            values.Add("Code",()=>Code);
+            values.Add("AMSL",()=>AMSL);
+            values.Add("WorldPosition.Lat",()=>Latitude);
+            values.Add("WorldPosition.Long", ()=>Longitude);
+            values.Add("Name", ()=>Name);
         }
-        public IComparable GetCountry()
-        {
-            return Country;
-        }
-        public  IComparable GetID()
-        {
-            return ID;
-        }
-        public  IComparable GetName()
-        {
-            return Name;
-        }
-
-        public IComparable GetCode()
-        {
-            return Code;
-        }
-
-        public IComparable GetLongitude()
-        {
-            return Longitude;
-        }
-        public IComparable GetLatitude()
-        {
-            return Latitude;
-        }
-        public IComparable GetAMSL()
-        {
-            return AMSL;
-        }
-
         public override string ToString()
         {
             return "AI";

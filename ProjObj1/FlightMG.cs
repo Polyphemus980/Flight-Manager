@@ -21,15 +21,13 @@ namespace PROJOBJ1
         {
             List<FlightGUI> updatedList = new List<FlightGUI>();
 
-            lock (Database.Flights)
-            {
-                foreach ((_, Flight flight) in Database.Flights)
-                {
-                    FlightGUI data = new FlightGUIAdapter(flight, Database.Airports[flight.Origin],
-                        Database.Airports[flight.Target]);
-                    updatedList.Add(data);
-                }
+
+            foreach (Flight flight in Database.GetAllFlights()) 
+            { 
+                FlightGUI data = new FlightGUIAdapter(flight, Database.Airports[flight.Origin], Database.Airports[flight.Target]); 
+                updatedList.Add(data);
             }
+
 
             flightData.UpdateFlights(updatedList);
         }

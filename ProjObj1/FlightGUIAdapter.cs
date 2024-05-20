@@ -16,11 +16,12 @@ namespace PROJOBJ1
         {
            
             WorldPosition position = GetInterpolatedPosition(flight,origin,target);
-            if (flight.Longitude == null || flight.Latitude==null)
-            {
-                flight.Longitude = (float) position.Longitude;
-                flight.Latitude = (float) position.Latitude;
-            }
+            //if (flight.Longitude == null || flight.Latitude==null)
+            //{
+                //flight.Longitude = (float) position.Longitude;
+                //.Latitude = (float) position.Latitude;
+            //}
+            
             double angle = GetRotationAngle((double) flight.Longitude,(double) flight.Latitude, position.Longitude, position.Latitude);
             flight.Latitude =(float) position.Latitude;
             flight.Longitude =(float) position.Longitude;
@@ -55,6 +56,7 @@ namespace PROJOBJ1
             (LatSpeed, LonSpeed) = GetSpeed(flight,targetAirport);
             flight.Latitude += (float) LatSpeed;
             flight.Longitude += (float) LonSpeed;
+            return new WorldPosition(flight.Latitude!.Value, flight.Longitude!.Value);
             return new WorldPosition(flight.Latitude!.Value+LatSpeed,flight.Longitude!.Value+LonSpeed);
         }
         private (double, double) GetSpeed(Flight flight,Airport originAirport, Airport targetAirport)

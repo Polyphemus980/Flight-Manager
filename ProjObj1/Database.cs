@@ -5,6 +5,17 @@ namespace PROJOBJ1
 {
     public static class Database
     {
+        public static readonly Dictionary<string, Action<ulong>> deleteFunctions = new()
+        {
+            { "Flights", DeleteFlight },
+            { "Airports", DeleteAirport },
+            { "Crews", DeleteCrew },
+            { "Cargos", DeleteCargo },
+            { "CargoPlanes", DeleteCargoPlane },
+            { "Passengers", DeletePassenger },
+            { "PassengerPlanes", DeletePassengerPlane }
+        };
+
         private static ConcurrentDictionary<ulong, Flight> flights = new ConcurrentDictionary<ulong, Flight>();
         private static  ConcurrentDictionary<ulong, Airport> airports = new ConcurrentDictionary<ulong, Airport>();
         private static  ConcurrentDictionary<ulong, Crew> crews = new ConcurrentDictionary<ulong, Crew>();
@@ -30,41 +41,132 @@ namespace PROJOBJ1
             {
                 subjects.Add(airport);
             }
+        } 
+        public static void DeleteFlight(ulong ID)
+        {
+            if (!flights.TryRemove(ID, out _))
+            {
+                throw new Exception($"Cannot remove flight with ID = {ID} from flights dictionary");
+            }
+
+            if (!objects.TryRemove(ID, out _))
+            {
+                throw new Exception($"Cannot remove flight with ID = {ID} from objects dictionary");
+            }
         }
 
-        public static ConcurrentDictionary<ulong, Flight> GetAllFlights()
+        public static void DeleteAirport(ulong ID)
         {
-            return flights;
+            if (!airports.TryRemove(ID, out _))
+            {
+                throw new Exception($"Cannot remove airport with ID = {ID} from airports dictionary");
+            }
+
+            if (!objects.TryRemove(ID, out _))
+            {
+                throw new Exception($"Cannot remove airport with ID = {ID} from objects dictionary");
+            }
         }
 
-        public static ConcurrentDictionary<ulong, Airport> GetAllAirports()
+        public static void DeleteCrew(ulong ID)
         {
-            return airports;
+            if (!crews.TryRemove(ID, out _))
+            {
+                throw new Exception($"Cannot remove crew with ID = {ID} from crews dictionary");
+            }
+
+            if (!objects.TryRemove(ID, out _))
+            {
+                throw new Exception($"Cannot remove crew with ID = {ID} from objects dictionary");
+            }
         }
 
-        public static ConcurrentDictionary<ulong, Crew> GetAllCrews()
+        public static void DeleteCargo(ulong ID)
         {
-            return crews;
+            if (!cargos.TryRemove(ID, out _))
+            {
+                Console.WriteLine(cargos.Count);
+                throw new Exception($"Cannot remove cargo with ID = {ID} from cargos dictionary");
+            }
+
+            if (!objects.TryRemove(ID, out _))
+            {
+                throw new Exception($"Cannot remove cargo with ID = {ID} from objects dictionary");
+            }
         }
 
-        public static ConcurrentDictionary<ulong, Cargo> GetAllCargos()
+        public static void DeleteCargoPlane(ulong ID)
         {
-            return cargos;
+            if (!cargoPlanes.TryRemove(ID, out _))
+            {
+                throw new Exception($"Cannot remove cargo plane with ID = {ID} from cargo planes dictionary");
+            }
+
+            if (!objects.TryRemove(ID, out _))
+            {
+                throw new Exception($"Cannot remove cargo plane with ID = {ID} from objects dictionary");
+            }
         }
 
-        public static ConcurrentDictionary<ulong, CargoPlane> GetAllCargoPlanes()
+        public static void DeletePassenger(ulong ID)
         {
-            return cargoPlanes;
+            if (!passengers.TryRemove(ID, out _))
+            {
+                throw new Exception($"Cannot remove passenger with ID = {ID} from passengers dictionary");
+            }
+
+            if (!objects.TryRemove(ID, out _))
+            {
+                throw new Exception($"Cannot remove passenger with ID = {ID} from objects dictionary");
+            }
         }
 
-        public static ConcurrentDictionary<ulong, Passenger> GetAllPassengers()
+        public static void DeletePassengerPlane(ulong ID)
         {
-            return passengers;
+            if (!passengerPlanes.TryRemove(ID, out _))
+            {
+                throw new Exception($"Cannot remove passenger plane with ID = {ID} from passenger planes dictionary");
+            }
+
+            if (!objects.TryRemove(ID, out _))
+            {
+                throw new Exception($"Cannot remove passenger plane with ID = {ID} from objects dictionary");
+            }
         }
 
-        public static ConcurrentDictionary<ulong, PassengerPlane> GetAllPassengerPlanes()
+        public static List<Flight> GetAllFlights()
         {
-            return passengerPlanes;
+            return flights.Values.ToList();
+        }
+
+        public static List<Airport> GetAllAirports()
+        {
+            return airports.Values.ToList();
+        }
+
+        public static List<Crew> GetAllCrews()
+        {
+            return crews.Values.ToList();
+        }
+
+        public static List<Cargo> GetAllCargos()
+        {
+            return cargos.Values.ToList();
+        }
+
+        public static List<CargoPlane> GetAllCargoPlanes()
+        {
+            return cargoPlanes.Values.ToList();
+        }
+
+        public static List<Passenger> GetAllPassengers()
+        {
+            return passengers.Values.ToList();
+        }
+
+        public static List<PassengerPlane> GetAllPassengerPlanes()
+        {
+            return passengerPlanes.Values.ToList();
         }
 
         public static void AddFlight(Flight flight)

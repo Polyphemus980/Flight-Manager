@@ -12,8 +12,50 @@ public class QueryManager
         switch (args[0])
         {
             case "display":
-                concreteQuery = new DisplayQuery(parsingArgs);
+            {
+                DisplayParser parser = new DisplayParser(args[1..]);
+                try
+                {
+                    ParsedQuery pQ = parser.ParseQuery();
+                    concreteQuery = new DisplayQuery(pQ);
+                    concreteQuery.Execute();
+                }
+                catch (Exception ex)
+                { 
+                    Console.WriteLine(ex.Message);
+                }
                 break;
+            }
+            case "delete":
+            {
+                DeleteParser parser = new DeleteParser(args[1..]);
+                try
+                {
+                    ParsedQuery pQ = parser.ParseQuery();
+                    concreteQuery = new DeleteQuery(pQ);
+                    concreteQuery.Execute();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                break;
+            }
+            case "add":
+            {
+                AddParser parser = new AddParser(args[1..]);
+                try
+                {
+                    ParsedQuery pQ = parser.ParseQuery();
+                    concreteQuery = new AddQuery(pQ);
+                    concreteQuery.Execute();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                break;
+            }
         }
         
     }
