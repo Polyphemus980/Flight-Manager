@@ -16,6 +16,28 @@ namespace PROJOBJ1
             { "PassengerPlanes", DeletePassengerPlane }
         };
 
+        public static readonly Dictionary<string, Dictionary<string, Action<ulong,IComparable>>> updateFunctions = new()
+        {
+            { "Airports", new Dictionary<string, Action<ulong, IComparable>> { { "ID", UpdateAirportId } } },
+            { "Crews", new Dictionary<string, Action<ulong, IComparable>> { { "ID", UpdateCrewId } } },
+            { "Passengers", new Dictionary<string, Action<ulong, IComparable>> { { "ID", UpdatePassengerId } } },
+            { "Cargos", new Dictionary<string, Action<ulong, IComparable>> { { "ID", UpdateCargoId } } },
+            { "CargoPlanes", new Dictionary<string, Action<ulong, IComparable>> { { "ID", UpdateCargoPlaneId } } },
+            { "PassengerPlanes", new Dictionary<string, Action<ulong, IComparable>> { { "ID", UpdatePassengerPlaneId } } },
+            { "Flights", new Dictionary<string, Action<ulong, IComparable>> 
+                {
+                    { "ID", UpdateFlightId },
+                    { "Origin", UpdateFlightOrigin },
+                    { "Target", UpdateFlightTarget },
+                    { "TakeoffTime", UpdateFlightTakeoffTime },
+                    { "LandingTime", UpdateFlightLandingTime },
+                    { "WorldPosition.Long", UpdateFlightLongitude },
+                    { "WorldPosition.Lat", UpdateFlightLatitude },
+                    { "AMSL", UpdateFlightAMSL },
+                    { "PlaneID", UpdateFlightPlaneID }
+                } 
+            }
+        };
         private static ConcurrentDictionary<ulong, Flight> flights = new ConcurrentDictionary<ulong, Flight>();
         private static  ConcurrentDictionary<ulong, Airport> airports = new ConcurrentDictionary<ulong, Airport>();
         private static  ConcurrentDictionary<ulong, Crew> crews = new ConcurrentDictionary<ulong, Crew>();
@@ -41,7 +63,12 @@ namespace PROJOBJ1
             {
                 subjects.Add(airport);
             }
-        } 
+        }
+
+        public static void UpdateAirportID(IComparable prevID,IComparable ID)
+        {
+            airports[(ulong)prevID].ID = (ulong)ID;
+        }
         public static void DeleteFlight(ulong ID)
         {
             if (!flights.TryRemove(ID, out _))
@@ -133,41 +160,7 @@ namespace PROJOBJ1
                 throw new Exception($"Cannot remove passenger plane with ID = {ID} from objects dictionary");
             }
         }
-
-        public static List<Flight> GetAllFlights()
-        {
-            return flights.Values.ToList();
-        }
-
-        public static List<Airport> GetAllAirports()
-        {
-            return airports.Values.ToList();
-        }
-
-        public static List<Crew> GetAllCrews()
-        {
-            return crews.Values.ToList();
-        }
-
-        public static List<Cargo> GetAllCargos()
-        {
-            return cargos.Values.ToList();
-        }
-
-        public static List<CargoPlane> GetAllCargoPlanes()
-        {
-            return cargoPlanes.Values.ToList();
-        }
-
-        public static List<Passenger> GetAllPassengers()
-        {
-            return passengers.Values.ToList();
-        }
-
-        public static List<PassengerPlane> GetAllPassengerPlanes()
-        {
-            return passengerPlanes.Values.ToList();
-        }
+        
 
         public static void AddFlight(Flight flight)
         {
@@ -277,100 +270,164 @@ namespace PROJOBJ1
                 return;
             objects[previousId].changeID(previousId,newId);
         }
-
-        public static void UpdateAirportId(ulong previousId, ulong newId)
+        public static void UpdateAirportId(ulong previousId, IComparable newId)
         {
-            objects.ChangeKey(previousId,newId);
-            airports[previousId].ID = newId;
-            airports.ChangeKey(previousId,newId);
-            foreach (Flight flight in flights.Values)
-            {
-                if (flight.Origin == previousId)
-                    flight.Origin = newId;
-                if (flight.Target == previousId)
-                    flight.Target = newId;
-            }
-            UpdateLogs($"Airport ID Update - Previous ID: {previousId}, New ID: {newId}");
+        ulong newIdValue = (ulong)newId;
+        objects.ChangeKey(previousId, newIdValue);
+        airports[previousId].ID = newIdValue;
+        airports.ChangeKey(previousId, newIdValue);
+        foreach (Flight flight in flights.Values)
+        {
+            if (flight.Origin == previousId)
+                flight.Origin = newIdValue;
+            if (flight.Target == previousId)
+                flight.Target = newIdValue;
         }
-        public static void UpdateCrewId(ulong previousId, ulong newId)
+        UpdateLogs($"Airport ID Update - Previous ID: {previousId}, New ID: {newId}");
+        }
+
+        public static void UpdateCrewId(ulong previousId, IComparable newId)
         {
-            objects.ChangeKey(previousId,newId);
-            crews[previousId].ID = newId;
-            crews.ChangeKey(previousId, newId);
+            ulong newIdValue = (ulong)newId;
+            objects.ChangeKey(previousId, newIdValue);
+            crews[previousId].ID = newIdValue;
+            crews.ChangeKey(previousId, newIdValue);
             foreach (Flight flight in flights.Values)
             {
                 for (int j = 0; j < flight.CrewIDs.Length; j++)
                 {
                     if (flight.CrewIDs[j] == previousId)
-                        flight.CrewIDs[j] = newId;
+                        flight.CrewIDs[j] = newIdValue;
                 }
             }
             UpdateLogs($"Crew ID Update - Previous ID: {previousId}, New ID: {newId}");
         }
-        public static void UpdatePassengerId(ulong previousId, ulong newId)
+
+        public static void UpdatePassengerId(ulong previousId, IComparable newId)
         {
-            objects.ChangeKey(previousId,newId);
-            passengers[previousId].ID = newId;
-            passengers.ChangeKey(previousId,newId);
+            ulong newIdValue = (ulong)newId;
+            objects.ChangeKey(previousId, newIdValue);
+            passengers[previousId].ID = newIdValue;
+            passengers.ChangeKey(previousId, newIdValue);
             foreach (Flight flight in flights.Values)
             {
                 for (int j = 0; j < flight.LoadIDs.Length; j++)
                 {
                     if (flight.LoadIDs[j] == previousId)
-                        flight.LoadIDs[j] = newId;
+                        flight.LoadIDs[j] = newIdValue;
                 }
             }
             UpdateLogs($"Passenger ID Update - Previous ID: {previousId}, New ID: {newId}");
         }
-        public static void UpdateCargoId(ulong previousId, ulong newId)
+
+        public static void UpdateCargoId(ulong previousId, IComparable newId)
         {
-            objects.ChangeKey(previousId,newId);
-            cargos[previousId].ID = newId;
-            cargos.ChangeKey(previousId,newId);
+            ulong newIdValue = (ulong)newId;
+            objects.ChangeKey(previousId, newIdValue);
+            cargos[previousId].ID = newIdValue;
+            cargos.ChangeKey(previousId, newIdValue);
             foreach (Flight flight in flights.Values)
             {
                 for (int j = 0; j < flight.LoadIDs.Length; j++)
                 {
                     if (flight.LoadIDs[j] == previousId)
-                        flight.LoadIDs[j] = newId;
+                        flight.LoadIDs[j] = newIdValue;
                 }
             }
             UpdateLogs($"Cargo ID Update - Previous ID: {previousId}, New ID: {newId}");
         }
-        public static void UpdateCargoPlaneId(ulong previousId, ulong newId)
+
+        public static void UpdateCargoPlaneId(ulong previousId, IComparable newId)
         {
-            objects.ChangeKey(previousId,newId);
-            cargoPlanes[previousId].ID = newId;
-            cargoPlanes.ChangeKey(previousId,newId);
+            ulong newIdValue = (ulong)newId;
+            objects.ChangeKey(previousId, newIdValue);
+            cargoPlanes[previousId].ID = newIdValue;
+            cargoPlanes.ChangeKey(previousId, newIdValue);
             foreach (Flight flight in flights.Values)
             {
                 if (flight.PlaneID == previousId)
-                    flight.PlaneID = newId;
+                    flight.PlaneID = newIdValue;
             }
             UpdateLogs($"Cargo Plane ID Update - Previous ID: {previousId}, New ID: {newId}");
         }
-        public static void UpdatePassengerPlaneId(ulong previousId, ulong newId)
+
+        public static void UpdatePassengerPlaneId(ulong previousId, IComparable newId)
         {
-            
-            objects.ChangeKey(previousId,newId);
-            passengerPlanes[previousId].ID = newId;
-            passengerPlanes.ChangeKey(previousId,newId);
+            ulong newIdValue = (ulong)newId;
+            objects.ChangeKey(previousId, newIdValue);
+            passengerPlanes[previousId].ID = newIdValue;
+            passengerPlanes.ChangeKey(previousId, newIdValue);
             foreach (Flight flight in flights.Values)
             {
                 if (flight.PlaneID == previousId)
-                    flight.PlaneID = newId;
+                    flight.PlaneID = newIdValue;
             }
             UpdateLogs($"Passenger Plane ID Update - Previous ID: {previousId}, New ID: {newId}");
-        }
-        public static void UpdateFlightId(ulong previousId, ulong newId)
+            }
+
+        public static void UpdateFlightId(ulong previousId, IComparable newId)
         {
-            objects.ChangeKey(previousId,newId);
-            flights[previousId].ID = newId;
-            flights.ChangeKey(previousId,newId);
+            ulong newIdValue = (ulong)newId;
+            objects.ChangeKey(previousId, newIdValue);
+            flights[previousId].ID = newIdValue;
+            flights.ChangeKey(previousId, newIdValue);
             UpdateLogs($"Flight ID Update - Previous ID: {previousId}, New ID: {newId}");
         }
-        
+        public static void UpdateFlightOrigin(ulong flightId, IComparable newValue)
+        {
+            ulong newOrigin = (ulong)newValue;
+            flights[flightId].Origin = newOrigin;
+            UpdateLogs($"Flight Origin Update - Flight ID: {flightId}, New Origin: {newOrigin}");
+        }
 
+        public static void UpdateFlightTarget(ulong flightId, IComparable newValue)
+        {
+            ulong newTarget = (ulong)newValue;
+            flights[flightId].Target = newTarget;
+            UpdateLogs($"Flight Target Update - Flight ID: {flightId}, New Target: {newTarget}");
+        }
+
+        public static void UpdateFlightTakeoffTime(ulong flightId, IComparable newValue)
+        {
+            string newTakeoffTime = (string)newValue;
+            flights[flightId].TakeoffTime = newTakeoffTime;
+            UpdateLogs($"Flight Takeoff Time Update - Flight ID: {flightId}, New Takeoff Time: {newTakeoffTime}");
+        }
+
+        public static void UpdateFlightLandingTime(ulong flightId, IComparable newValue)
+        {
+            string newLandingTime = (string)newValue;
+            flights[flightId].LandingTime = newLandingTime;
+            UpdateLogs($"Flight Landing Time Update - Flight ID: {flightId}, New Landing Time: {newLandingTime}");
+        }
+
+        public static void UpdateFlightLongitude(ulong flightId, IComparable newValue)
+        {
+            float newLongitude = (float)newValue;
+            flights[flightId].Longitude = newLongitude;
+            UpdateLogs($"Flight Longitude Update - Flight ID: {flightId}, New Longitude: {newLongitude}");
+        }
+
+        public static void UpdateFlightLatitude(ulong flightId, IComparable newValue)
+        {
+            float newLatitude = (float)newValue;
+            flights[flightId].Latitude = newLatitude;
+            UpdateLogs($"Flight Latitude Update - Flight ID: {flightId}, New Latitude: {newLatitude}");
+        }
+
+        public static void UpdateFlightAMSL(ulong flightId, IComparable newValue)
+        {
+            float newAMSL = (float)newValue;
+            flights[flightId].AMSL = newAMSL;
+            UpdateLogs($"Flight AMSL Update - Flight ID: {flightId}, New AMSL: {newAMSL}");
+        }
+
+        public static void UpdateFlightPlaneID(ulong flightId, IComparable newValue)
+        {
+            ulong newPlaneID = (ulong)newValue;
+            flights[flightId].PlaneID = newPlaneID;
+            UpdateLogs($"Flight Plane ID Update - Flight ID: {flightId}, New Plane ID: {newPlaneID}");
+        }
             
         
         private static void ChangeKey<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,

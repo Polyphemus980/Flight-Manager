@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BruTile.Wmts.Generated;
 
 namespace PROJOBJ1
 {
@@ -11,6 +12,7 @@ namespace PROJOBJ1
         public List<string> properties { get; set; }
         public List<string>? operators { get; set; }
         public Dictionary<string, List<Expression>>? conditions { get; set; }
+        public Dictionary<string, IComparable>? propertyValues;
         public string source { get; set; }
         
 

@@ -56,6 +56,21 @@ public class QueryManager
                 }
                 break;
             }
+            case "update":
+            {
+                UpdateParser parser = new UpdateParser(args[1..]);
+                try
+                {
+                    ParsedQuery pQ = parser.ParseQuery();
+                    concreteQuery = new UpdateQuery(pQ);
+                    concreteQuery.Execute();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                break;
+            }
         }
         
     }

@@ -49,11 +49,6 @@ public class DisplayQuery:IQuery
         {
             foreach (var property in parsedQuery.properties)
             {
-                if (entry.values[property]() is null)
-                {
-                    Console.Write("Null".PadLeft(maxWidths[property]) + " | ");
-                    continue;
-                }
                 Console.Write(entry.values[property]().ToString().PadLeft(maxWidths[property]) + " | ");
             }
             Console.WriteLine();

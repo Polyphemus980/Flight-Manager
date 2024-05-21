@@ -27,39 +27,17 @@ namespace PROJOBJ1
             this.Code = Code;
             this.Description = Description;
             values = new Dictionary<string, Func<IComparable>>();
-            values.Add("ID",GetID);
-            values.Add("Weight",GetWeight);
-            values.Add("Code",GetCode);
-            values.Add("Description",GetDescription);
+            values.Add("ID", ()=>this.ID);
+            values.Add("Weight",()=>this.Weight);
+            values.Add("Code",()=>this.Code);
+            values.Add("Description",()=>this.Description);
             parsers = new Dictionary<string, Func<string,IComparable>>();
             parsers.Add("ID",DataHandler.ParseUInt64);
             parsers.Add("Weight",DataHandler.ParseFloat);
             parsers.Add("Code",DataHandler.ParseString);
             parsers.Add("Description",DataHandler.ParseString);
         }
-
-        public static List<string> GetPropertyNames()
-        {
-            return new List<string> { "ID", "Weight", "Code", "Description" };
-        }
-        public  IComparable GetID()
-        {
-            return ID;
-        }
-        public  IComparable GetWeight()
-        {
-            return Weight;
-        }
-
-        public IComparable GetCode()
-        {
-            return Code;
-        }
-
-        public IComparable GetDescription()
-        {
-            return Description;
-        }
+        
 
         public void addToDatabase()
         {

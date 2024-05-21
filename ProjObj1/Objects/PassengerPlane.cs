@@ -20,13 +20,13 @@ namespace PROJOBJ1
             this.BusinessClassSize = BusinessClassSize;
             values = new Dictionary<string, Func<IComparable>>()
             {
-                { "ID", () => ID },
-                { "Serial", () => Serial },
-                { "Country", () => Country },
-                { "Model", () => Model },
-                { "FirstClassSize", () => FirstClassSize },
-                { "EconomicClassSize", () => EconomicClassSize },
-                { "BusinessClassSize", () => BusinessClassSize },
+                { "ID", () => this.ID },
+                { "Serial", () => this.Serial },
+                { "Country", () => this.Country },
+                { "Model", () => this.Model },
+                { "FirstClassSize", () => this.FirstClassSize },
+                { "EconomicClassSize", () => this.EconomicClassSize },
+                { "BusinessClassSize", () => this.BusinessClassSize },
             };
         }
 

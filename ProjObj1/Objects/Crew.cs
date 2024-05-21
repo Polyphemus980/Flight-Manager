@@ -19,13 +19,13 @@ namespace PROJOBJ1
             this.Role = Role;
             values = new Dictionary<string, Func<IComparable>>
             {
-                { "ID", () => ID },
-                { "Name", () => Name },
-                { "Age", () => Age },
-                { "Phone", () => Phone },
-                { "Email", () => Email },
-                { "Practice", () => Practice },
-                { "Role", () => Role }
+                { "ID", () => this.ID },
+                { "Name", () => this.Name },
+                { "Age", () => this.Age },
+                { "Phone", () => this.Phone },
+                { "Email", () => this.Email },
+                { "Practice", () => this.Practice },
+                { "Role", () => this.Role }
             };
         }
 

@@ -15,11 +15,11 @@ namespace PROJOBJ1
             this.MaxLoad = MaxLoad;
             values = new Dictionary<string, Func<IComparable>>()
             {
-                { "ID", () => ID },
-                { "Serial", () => Serial },
-                { "Country", () => Country },
-                { "Model", () => Model },
-                { "MaxLoad",()=>MaxLoad}
+                { "ID", () => this.ID },
+                { "Serial", () => this.Serial },
+                { "Country", () => this.Country },
+                { "Model", () => this.Model },
+                { "MaxLoad",()=>this.MaxLoad}
             };
         }
 

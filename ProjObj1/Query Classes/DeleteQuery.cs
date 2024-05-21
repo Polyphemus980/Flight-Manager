@@ -2,8 +2,8 @@ namespace PROJOBJ1;
 
 public class DeleteQuery : IQuery
 {
-    public ParsedQuery parsedQuery { get; set; }
-    public List<IEntity> matching { get; set; }
+    private ParsedQuery parsedQuery { get; set; }
+    private List<IEntity> matching { get; set; }
 
     public DeleteQuery(ParsedQuery parsedQuery)
     {

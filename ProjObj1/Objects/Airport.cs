@@ -29,13 +29,13 @@ namespace PROJOBJ1
             this.AMSL = AMSL;
             this.Country = Country;
             values = new Dictionary<string, Func<IComparable>>();
-            values.Add("ID",()=>ID);
-            values.Add("Country",()=>Country);
-            values.Add("Code",()=>Code);
-            values.Add("AMSL",()=>AMSL);
-            values.Add("WorldPosition.Lat",()=>Latitude);
-            values.Add("WorldPosition.Long", ()=>Longitude);
-            values.Add("Name", ()=>Name);
+            values.Add("ID",()=>this.ID);
+            values.Add("Country",()=>this.Country);
+            values.Add("Code",()=>this.Code);
+            values.Add("AMSL",()=>this.AMSL);
+            values.Add("WorldPosition.Lat",()=>this.Latitude);
+            values.Add("WorldPosition.Long", ()=>this.Longitude);
+            values.Add("Name", ()=>this.Name);
         }
         public override string ToString()
         {

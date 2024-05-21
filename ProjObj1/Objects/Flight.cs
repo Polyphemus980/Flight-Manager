@@ -40,15 +40,15 @@ namespace PROJOBJ1
             this.LoadIDs = LoadIDs;
             values = new Dictionary<string, Func<IComparable>>
             {
-                { "ID", () => ID },
-                { "Origin", () => Origin },
-                { "Target", () => Target },
-                { "TakeoffTime", () => TakeoffTime },
-                { "LandingTime", () => LandingTime },
-                { "WorldPosition.Long", () => Longitude },
-                { "WorldPosition.Lat", () => Latitude },
-                { "AMSL", () => AMSL },
-                { "PlaneID", () => PlaneID },
+                { "ID", () => this.ID },
+                { "Origin", () => this.Origin },
+                { "Target", () => this.Target },
+                { "TakeoffTime", () => this.TakeoffTime },
+                { "LandingTime", () => this.LandingTime },
+                { "WorldPosition.Long", () => this.Longitude },
+                { "WorldPosition.Lat", () => this.Latitude },
+                { "AMSL", () => this.AMSL },
+                { "PlaneID", () => this.PlaneID },
             };
         }
 
@@ -56,7 +56,7 @@ namespace PROJOBJ1
         {
             Database.AddFlight(this);
         }
-
+        
         public void changeID(ulong prevID, ulong newID)
         {
             Database.UpdateFlightId(prevID,newID);
