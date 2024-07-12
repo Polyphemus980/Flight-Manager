@@ -2,13 +2,7 @@ namespace PROJOBJ1;
 
 public class DeleteParser
 {
-    private string[] args;
-    public DeleteParser(string[] args)
-    {
-        this.args = args;
-    }
-
-    public ParsedQuery ParseQuery()
+    public static ParsedDeleteQuery ParseQuery(string[] args)
     {
         List<string> operators = new List<string>();
         Dictionary<string, List<Expression>> conditions = new Dictionary<string, List<Expression>>();
@@ -18,6 +12,6 @@ public class DeleteParser
         {
             QueryUtility.ParseConditions(args[(conditionIndex + 1)..],operators,conditions,source);
         }
-        return new ParsedQuery(null, operators, conditions, source);
+        return new ParsedDeleteQuery(operators, conditions, source);
     }
 }

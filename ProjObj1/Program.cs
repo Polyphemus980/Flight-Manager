@@ -1,4 +1,5 @@
 ﻿
+using System.Globalization;
 using DynamicData.Aggregation;
 using NetworkSourceSimulator;
 using PROJOBJ1;
@@ -23,7 +24,6 @@ public class Program
             min = int.Parse(args[1]);
             max = int.Parse(args[2]);
         }
-
         Runner runner = new Runner(new FTRHandler(inPath),"example.ftre");
         runner.Run();
         return 1;

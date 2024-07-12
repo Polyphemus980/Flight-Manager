@@ -14,7 +14,6 @@ namespace PROJOBJ1
     public class Cargo : IEntity
     {
         public Dictionary<string, Func<IComparable>> values { get; set; }
-        public Dictionary<string, Func<string,IComparable>> parsers { get; set; }
         public UInt64 ID { get; set; }
         public float Weight { get; set; }
         public string Code { get; set; }
@@ -31,11 +30,6 @@ namespace PROJOBJ1
             values.Add("Weight",()=>this.Weight);
             values.Add("Code",()=>this.Code);
             values.Add("Description",()=>this.Description);
-            parsers = new Dictionary<string, Func<string,IComparable>>();
-            parsers.Add("ID",DataHandler.ParseUInt64);
-            parsers.Add("Weight",DataHandler.ParseFloat);
-            parsers.Add("Code",DataHandler.ParseString);
-            parsers.Add("Description",DataHandler.ParseString);
         }
         
 

@@ -92,7 +92,7 @@ namespace PROJOBJ1
 
         public static IComparable ParseFloat(string parsedObject)
         {
-            return float.Parse(parsedObject);
+            return float.Parse(parsedObject,CultureInfo.InvariantCulture);
         }
 
         public static IComparable ParseString(string parsedObject)

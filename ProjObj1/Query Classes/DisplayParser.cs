@@ -4,18 +4,12 @@ namespace PROJOBJ1;
 
 public class DisplayParser 
 {
-    private string[] args;
-    public DisplayParser(string[] args)
-    {
-        this.args = args;
-    }
     
-    public ParsedQuery ParseQuery()
+    public static ParsedDisplayQuery ParseQuery(string[] args)
     {
             List<string> properties = new List<string>();
             List<string> operators = new List<string>();
             Dictionary<string, List<Expression>> conditions = new Dictionary<string, List<Expression>>();
-
             int fromIndex = Array.IndexOf(args, "from");
             string source = args[fromIndex + 1];
             if (!QueryUtility.propertyLists.ContainsKey(source))
@@ -29,9 +23,10 @@ public class DisplayParser
             }
             else
             {
-                for (int i = 0; i < fromIndex; i++)
+                string[] pr = args[0].Split(',');
+                foreach (string prop in pr)
                 {
-                    properties.Add(args[i]);
+                    properties.Add(prop);
                 }
             }
 
@@ -50,7 +45,6 @@ public class DisplayParser
                 properties.Add("WorldPosition.Lat");
             }
 
-
-        return new ParsedQuery(properties,operators,conditions,source);
+            return new ParsedDisplayQuery(properties, operators, conditions,source);
     }
 }

@@ -4,12 +4,7 @@ namespace PROJOBJ1;
 
 public class UpdateParser
 {
-    private string[] args;
-    public UpdateParser(string[] args)
-    {
-        this.args = args;
-    }
-    public ParsedQuery ParseQuery() 
+    public static ParsedUpdateQuery ParseQuery(string[] args) 
     {
         List<string> operators = new List<string>();
         Dictionary<string, List<Expression>> conditions = new Dictionary<string, List<Expression>>();
@@ -19,7 +14,6 @@ public class UpdateParser
         if (setIndex == -1)
             throw new Exception("Incorrect synthax - need 'set' ");
         string[] keyValues = args[setIndex + 1].Trim('{', '(','}',')').Split(['=',',']);
-        
         List<string> values = new List<string>();
         for (int i = 0; i < keyValues.Length; i += 2)
         {
@@ -30,9 +24,8 @@ public class UpdateParser
         {
             QueryUtility.ParseConditions(args[(conditionIndex + 1)..],operators,conditions,source);
         }
-        ParsedQuery p = new ParsedQuery(null, operators,conditions , source);
-        p.propertyValues = propertyValues;
-        return p;
-       
+
+        return new ParsedUpdateQuery(propertyValues, operators, conditions, source);
+
     }
 }

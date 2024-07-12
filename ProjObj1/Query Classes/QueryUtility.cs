@@ -165,17 +165,17 @@ public class QueryUtility
         }
     }
 
-    public static List<IEntity> GetMatching(ParsedQuery parsedQuery)
+    public static List<IEntity> GetMatching(string source,Dictionary<string, List<Expression>> conditions,List<string> operators)
     {
-    return GetMatching(QueryUtility.databaseValues[parsedQuery.source](), parsedQuery);
+        return GetMatching(QueryUtility.databaseValues[source](), conditions,operators);
     }
 
-    public static List<IEntity> GetMatching(List<IEntity> source,ParsedQuery parsedQuery)
+    public static List<IEntity> GetMatching(List<IEntity> source,Dictionary<string, List<Expression>> conditions,List<string> operators)
     {
 
             var results = new List<IEntity>();
             List<bool> logic = new List<bool>();
-            if (parsedQuery.conditions.Count == 0)
+            if (conditions.Count == 0)
             {
                 foreach (var entity in source)
                 {
@@ -186,7 +186,7 @@ public class QueryUtility
             {
                 foreach (var entity in source)
                 {
-                    foreach (var exprList in parsedQuery.conditions)
+                    foreach (var exprList in conditions)
                     {
                         foreach (var expr in exprList.Value)
                         {
@@ -194,13 +194,13 @@ public class QueryUtility
                         }
                     }
 
-                    if (Test(logic, parsedQuery.operators))
+                    if (Test(logic, operators))
                         results.Add(entity);
                     logic.Clear();
                 }
             }
 
-        return results;//results;
+        return results;
     }
     public static bool Test(List<bool> bools, List<string> operators)
     {

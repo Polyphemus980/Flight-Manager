@@ -2,13 +2,13 @@ namespace PROJOBJ1;
 
 public class UpdateQuery:IQuery
 {
-    private ParsedQuery parsedQuery { get; set; }
+    private ParsedUpdateQuery parsedQuery { get; set; }
     private List<IEntity> matching { get; set; }
     
-    public UpdateQuery(ParsedQuery parsedQuery)
+    public UpdateQuery(ParsedUpdateQuery parsedQuery)
     {
         this.parsedQuery=parsedQuery;
-        matching = QueryUtility.GetMatching(parsedQuery);
+        matching = QueryUtility.GetMatching(parsedQuery.source,parsedQuery.conditions,parsedQuery.operators);
     }
 
     public void Execute()

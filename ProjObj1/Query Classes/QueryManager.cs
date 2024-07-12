@@ -4,74 +4,37 @@ namespace PROJOBJ1;
 
 public class QueryManager
 {
-    
-    public IQuery concreteQuery;
+    private Dictionary<string, IQueryFactory> queryFactories = new Dictionary<string, IQueryFactory>
+    {
+        { "display", new DisplayQueryFactory() },
+        { "add" , new AddQueryFactory()},
+        { "update",new UpdateQueryFactory()},
+        { "delete", new DeleteQueryFactory()}
+    };
+    public IQuery query;
     public QueryManager(string[] args)
     {
+        string source = args[0];
         string[] parsingArgs = args[1..args.Length];
-        switch (args[0])
+        try
         {
-            case "display":
-            {
-                DisplayParser parser = new DisplayParser(args[1..]);
-                try
-                {
-                    ParsedQuery pQ = parser.ParseQuery();
-                    concreteQuery = new DisplayQuery(pQ);
-                    concreteQuery.Execute();
-                }
-                catch (Exception ex)
-                { 
-                    Console.WriteLine(ex.Message);
-                }
-                break;
-            }
-            case "delete":
-            {
-                DeleteParser parser = new DeleteParser(args[1..]);
-                try
-                {
-                    ParsedQuery pQ = parser.ParseQuery();
-                    concreteQuery = new DeleteQuery(pQ);
-                    concreteQuery.Execute();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                break;
-            }
-            case "add":
-            {
-                AddParser parser = new AddParser(args[1..]);
-                try
-                {
-                    ParsedQuery pQ = parser.ParseQuery();
-                    concreteQuery = new AddQuery(pQ);
-                    concreteQuery.Execute();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                break;
-            }
-            case "update":
-            {
-                UpdateParser parser = new UpdateParser(args[1..]);
-                try
-                {
-                    ParsedQuery pQ = parser.ParseQuery();
-                    concreteQuery = new UpdateQuery(pQ);
-                    concreteQuery.Execute();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                break;
-            }
+            query = queryFactories[source].CreateInstance(parsingArgs);
         }
-        
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    public void ExecuteQuery()
+    {
+        try
+        {
+            query.Execute();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
 }

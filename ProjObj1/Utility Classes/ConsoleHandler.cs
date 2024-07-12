@@ -9,6 +9,13 @@ namespace PROJOBJ1
 {
     public class ConsoleHandler
     {
+        private Dictionary<string, IQueryFactory> queryFactories = new Dictionary<string, IQueryFactory>
+        {
+            { "display", new DisplayQueryFactory() },
+            { "add" , new AddQueryFactory()},
+            { "update",new UpdateQueryFactory()},
+            { "delete", new DeleteQueryFactory()}
+        };
         public static List<IReporter> usual_reporters = new List<IReporter>
         {
             new Television("Telewizja Abelowa"),
@@ -37,12 +44,11 @@ namespace PROJOBJ1
                 }
                 else
                 {
-                    string[] query = command.Split(" ");
+                    string[] query = command.Trim().Split(" ");
                     if (query[0] == "display" || query[0] == "update" || query[0] == "delete" || query[0] == "add")
                     {
                         QueryManager queryManager = new QueryManager(query);
-                        //if (!(queryManager.concreteQuery is null))
-                        //    queryManager.concreteQuery.Execute();
+                        queryManager.ExecuteQuery();
                     }
                     else
                         Console.WriteLine($"Command '{command}' doesn't exist");

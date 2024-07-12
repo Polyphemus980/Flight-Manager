@@ -4,9 +4,9 @@ namespace PROJOBJ1;
 
 public class AddQuery:IQuery
 {
-    private ParsedQuery parsedQuery { get; set; }
+    private ParsedAddQuery parsedQuery { get; set; }
     
-    public AddQuery(ParsedQuery parsedQuery)
+    public AddQuery(ParsedAddQuery parsedQuery)
     {
         this.parsedQuery=parsedQuery;
     }
@@ -14,7 +14,7 @@ public class AddQuery:IQuery
     public void Execute()
     {
         IEntity addedObject =
-            QueryUtility.factories[parsedQuery.source].CreateInstance(parsedQuery.properties.ToArray());
+            QueryUtility.factories[parsedQuery.source].CreateInstance(parsedQuery.values.ToArray());
         addedObject.addToDatabase();
     }
 }
